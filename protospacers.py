@@ -177,7 +177,7 @@ def dgnblnsc(dir, fileformat,
 
     blnsc(dir, fn_noext, blastdb_directory, blastdb_db, chunksize=1000,
           max_hsps=100,
-          reref_substrate_id=None, low=50, high=90, load_genome=False, howmany=24):
+          reref_substrate_id=None, low=50, high=90, load_genome=False, howmany=24)
 
 
 #########################################################
