@@ -1,1 +1,2 @@
-__all__ = ["protospacers", "specificity"]
+__all__ = ["analysis", "cutbedlines", "digest", "blast", "zhang", "score", "cluster", "main"]
+]
