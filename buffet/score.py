@@ -39,22 +39,22 @@ def score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize, nbrofchunk
         genomedict = {}
         for seq in genomeseq:
             genomedict[seq.id] = seq
-        print 'done'
+        print 'Done'
 
     with open(direct + fn_noext + '.fasta') as guidesfn:
         guides = list(seqio.parse(guidesfn, "fasta"))
 
     blastrecords = []
     for chunknbr in range(1,nbrofchunks+1):
-        fn_withext = fn_noext + str(chunksize)+ 'x' + str(chunknbr) + '.blast'
+        fn_withext = fn_noext + '.' + str(chunksize) + 'seqs.' + str(chunknbr) + '.blast'
         blastfn = direct + fn_withext
         try:
             with open(blastfn) as blasthndl:
-                print 'parsing', fn_withext,
+                print 'parsing chunk', chunknbr, fn_withext,
                 blastrecords.extend(list(NCBIXML.parse(blasthndl)))
-                print 'done'
+                print 'Done'
         except IOError as ioe:
-            print 'skipping ', fn_withext
+            print 'missing chunk', chunknbr,  fn_withext, 'Skipped'
 
         # print blastrecords
 

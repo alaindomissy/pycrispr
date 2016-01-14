@@ -72,7 +72,8 @@ def scorebedline(guide, reref_substrate_id,low, high):
     except:
         score ='0'
     # TODO use gradual shades reflecting scores
-    if int(score) < low:
+    # suddenly got this error invalid literal for int() with base 10:0.0 Now changed int() to float() But why ?
+    if float(score) < low:
         color = '255,0,0'       # red
     elif int(score) >= high:
         color = '0,255,0'       # green
@@ -96,7 +97,7 @@ def groupbedline(group, reref_substrate_id, howmany, index):
     score = group[4]
     # TODO use gradual shades reflecting toatl good guide yield
     if index < howmany:
-        color =  '0,255,0'      # green
+        color = '0,255,0'      # green
     else:
         color = '0,127,0'       # pale green
     cutinfo = [substrate_id, bedstart, bedend, 'group', score, '.', bedstart, bedend, color]
@@ -128,6 +129,8 @@ def regroup(substr_pos_score_tuples, high=90):
     groups=[]
     goodones = 0
     tryfrom = 0
+    end = 0
+    substr = 'none'
     for tuple in substr_pos_score_tuples:
         #print tuple
         if tuple[2]>=high:
@@ -143,10 +146,12 @@ def regroup(substr_pos_score_tuples, high=90):
         else:
             tryfrom = tuple[1] + 21
             # TODO fix with bedtools arithmetic, start with set of good guides not verlapping bad guides, and loop
-            end = min( end,  tuple[1])
+            end = min(end,  tuple[1])
             # if we were in a good stretch until now, reset goodones to 0 and save the just finished good interval
             if goodones>0:
-                groups.append((substr, begin, end, end-begin, goodones, 1000*goodones/(end-begin)))
+                # TODO why does end==begin happen ?
+                if end>begin:
+                    groups.append((substr, begin, end, end-begin, goodones, 1000*goodones/(end-begin)))
                 goodones = 0
 
     groups.sort(key=lambda x : -x[4])

@@ -38,6 +38,8 @@ def digest_file(direct, fn_noext, fileformat):
     :return:
     """
     cutbedlines = create_cutbedlines_from_seq_file(direct, fn_noext, fileformat)
+    # TODO move this to right spot so we know how many prsps we have ahead of blasting
+    print "digesting all done: %s protospacers found" % len(cutbedlines)
     cutbedlines_to_bedfile(cutbedlines, direct, fn_noext)
     bed_to_fasta(direct, fn_noext + '.'+ fileformat, fn_noext + '.prsp')
 
@@ -55,8 +57,8 @@ def digest_focused(direct, focusfn, wholefn, fileformat):
     focus_bedtool = pybedtools.BedTool(direct + focusfn +'.bed')
     whole_bedtool = pybedtools.BedTool(direct + wholefn + '.prsp.bed')
     whole_bedtool.intersect(focus_bedtool).moveto(direct + focusfn + ".prsp.bed")
-    bed_to_fasta(direct, wholefn +  '.' + fileformat, focusfn )
-    bed_to_fasta(direct, wholefn +  '.' + fileformat, focusfn+ '.prsp' )
+    bed_to_fasta(direct, wholefn + '.' + fileformat, focusfn )
+    bed_to_fasta(direct, wholefn + '.' + fileformat, focusfn+ '.prsp' )
 
 
 ################
@@ -70,7 +72,7 @@ def coord_to_bedtuple_filename(coord):
     # bed coords are zero-based
     start0 = str(int(start) - 1)
     length = str(int(end) - int(start) + 1)
-    filename =  '%s:%s-%s_%s' % (chrom, start, end, length)
+    filename = '%s:%s-%s_%s' % (chrom, start, end, length)
     return [(chrom, start0, end)], filename
 
 assert(coord_to_bedtuple_filename('chr6:136640001-136680000')
@@ -95,12 +97,16 @@ assert( stretch_to_bedtuple_filename('chr6:136640001_40000')
 
 def digest_coord(direct, coord, wholefn, fileformat):
     bedtuplelist, focusfn = coord_to_bedtuple_filename(coord)
+    print 'digesting ',  focusfn,
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     digest_focused(direct, focusfn, wholefn, fileformat)
+    print 'Done'
     return focusfn
 
 def digest_stretch(direct, stretch, wholefn, fileformat):
     bedtuplelist, focusfn = stretch_to_bedtuple_filename(stretch)
+    print 'digesting ',  focusfn,
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     digest_focused(direct, focusfn, wholefn, fileformat)
+    print 'Done'
     return focusfn
