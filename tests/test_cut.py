@@ -6,7 +6,7 @@ from buffet.cut import *
 # with recognition site C^TA_G at one-based coords: 21,22,23,24
 # GCGCTGGCCAGAACGTTCTC^TA_GGAATCGTGGAGAAGACATT
 
-cutbedlines42 = cut.create_cutbedlines_from_seq_file('buffet/test/data/', 'fourtytwobp', 'fasta')
+cutbedlines42 = cut.create_cutbedlines_from_seq_file('buffet/tests/data/', 'fourtytwobp', 'fasta')
 
 assert(
     cutbedlines42[0] == 'fourtytwobps\t0\t20\tBfaI\t1000\t+\n'
@@ -37,7 +37,7 @@ assert(
 #  ]
 
 
-cutbedlines1500 = create_cutbedlines_from_seq_file('buffet/test/data/', 'Scaffold102974:1-1500_1500' , fileformat='fasta')
+cutbedlines1500 = create_cutbedlines_from_seq_file('buffet/tests/data/', 'Scaffold102974:1-1500_1500' , fileformat='fasta')
 
 assert(
     cutbedlines1500
