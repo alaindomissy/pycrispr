@@ -1,0 +1,7 @@
+#!/bin/sh
+
+export BLASTDB="/data/blastdb/"
+
+#source activate buffet
+
+/root/anaconda3/envs/buffet/bin/python /root/nativeapp.py
