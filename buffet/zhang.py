@@ -102,7 +102,7 @@ def single_offtarget_score(mismatches):
     t2 = effect2(np_mismatches)
     t3 = effect3(np_mismatches)
     score = 100.0 * t1 * t2 * t3
-    # print 't1:%5.1f t2:%5.1f t3:%5.1f score:%5.1f' % (t1*100, t2*100, t3*100, score)
+    # print('t1:%5.1f t2:%5.1f t3:%5.1f score:%5.1f' % (t1*100, t2*100, t3*100, score))
     return 100.0 * t1 * t2 * t3
 
 

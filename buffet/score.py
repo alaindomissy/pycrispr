@@ -7,6 +7,7 @@
 ########################################################################################################################
 
 
+from __future__ import print_function
 import subprocess
 import cStringIO
 
@@ -34,12 +35,12 @@ def score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize, nbrofchunk
     # genomedict = a dict made from a FASTA file identical to the one used to make the BLAST DB.
     # dict keys should be BLAST db hit_def.
     if load_genome:
-        print 'reading genome',
+        print('reading genome', end='')
         genomeseq = seqio.parse(open(direct +'dict.fasta', 'rb'), "fasta", alphabet=IUPACAmbiguousDNA())
         genomedict = {}
         for seq in genomeseq:
             genomedict[seq.id] = seq
-        print 'Done'
+        print('Done')
 
     with open(direct + fn_noext + '.fasta') as guidesfn:
         guides = list(seqio.parse(guidesfn, "fasta"))
@@ -50,13 +51,13 @@ def score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize, nbrofchunk
         blastfn = direct + fn_withext
         try:
             with open(blastfn) as blasthndl:
-                print 'parsing chunk', chunknbr, fn_withext,
+                print('parsing chunk', chunknbr, fn_withext, end='')
                 blastrecords.extend(list(NCBIXML.parse(blasthndl)))
-                print 'Done'
+                print('Done')
         except IOError as ioe:
-            print 'missing chunk', chunknbr,  fn_withext, 'Skipped'
+            print('missing chunk', chunknbr,  fn_withext, 'Skipped')
 
-        # print blastrecords
+        # print(blastrecords)
 
     for blastindex, blastitem in enumerate(blastrecords):
 
@@ -85,11 +86,11 @@ def score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize, nbrofchunk
                 # TODO *** get the correct substrate id for subject (not same as hit!) - should be alignment.hit_def
                 # TODO *** use betools and fai instead of loading full genome
                 if load_genome:
-                    # print 'using the genome dict to lookup pam'
+                    # print('using the genome dict to lookup pam')
                     lookup_context = genomedict[reref_substrate_id]
                     pam = lookup_context[pam_zerobased_range[0]:pam_zerobased_range[1]]
                 else:
-                    # print 'using blastdbcmd to lookup pam'
+                    # print('using blastdbcmd to lookup pam')
                     context_lookup_command = "blastdbcmd -db " + blastdb_directory + blastdb_db \
                                              + " -dbtype nucl -entry " + alignment.accession \
                                              + " -range %s-%s" % pam_onebased_range
@@ -134,12 +135,12 @@ def score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize, nbrofchunk
         finalscore = int(10000.000 / (100.000 + float(sum(item["match_score"] for item in scorelist))))
         guides[blastindex].annotations['score'] = finalscore
         guides[blastindex].annotations["blastindex"] = blastindex
-        # print "seq: ", guides[blastindex].seq, "score: ", finalscore, "id: ", guides[blastindex].id
-        # print guides[blastindex].seq
-        # print alignment.hit_def
-        # print hsp.match
-        # print hsp.sbjct
-        # print pam.seq
+        # print("seq: ", guides[blastindex].seq, "score: ", finalscore, "id: ", guides[blastindex].id)
+        # print(guides[blastindex].seq)
+        # print(alignment.hit_def)
+        # print(hsp.match)
+        # print(hsp.sbjct)
+        # print(pam.seq)
 
     # TODO guides not getting a score, how does this happen ? fix it better
     # kind of fix guides without a score
@@ -147,11 +148,11 @@ def score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize, nbrofchunk
         try:
             guide.annotations['score']
         except:
-            # print 'guide %s does not have a score' % guide
+            # print('guide %s does not have a score' % guide)
             guide.annotations['score'] = 0.0
 
-    # print "HERE ARE THE GUIDES: "
-    # print [(guide.id, guide.seq, guide.annotations.get('score')) for guide in guides]
+    # print("HERE ARE THE GUIDES: ")
+    # print([(guide.id, guide.seq, guide.annotations.get('score')) for guide in guides])
 
     # sort guides by position, using the seqrecord id
     # guides.sort(key=lambda x: int(x.id.split(':')[2].split('-')[0]))

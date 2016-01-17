@@ -132,7 +132,7 @@ def regroup(substr_pos_score_tuples, high=90):
     end = 0
     substr = 'none'
     for tuple in substr_pos_score_tuples:
-        #print tuple
+        #print(tuple)
         if tuple[2]>=high:
             # only consider a good guide if it starts after the tryfrom poition
             if tuple[1] >= tryfrom:
@@ -162,9 +162,9 @@ def regroup(substr_pos_score_tuples, high=90):
 
 
 def print_scores_info(scores):
-    print
-    print 'distribution of scores among all', len(scores), 'guides (score, nb of guides with that score)'
-    print sorted(collections.Counter(scores).items())
+    print()
+    print('distribution of scores among all', len(scores), 'guides (score, nb of guides with that score)')
+    print(sorted(collections.Counter(scores).items()))
 
 # TODO add cumulative guide yield, cumulatibve bp length coverage for top n groups,
 # TODO create tabular data and export as CSV file

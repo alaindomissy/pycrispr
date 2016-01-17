@@ -7,61 +7,79 @@
 #
 ########################################################################################################################
 
-
+from __future__ import print_function
+from os.path import splitext
 import pybedtools
 
-
-from cut import create_cutbedlines_from_seq_file
-
-
-def cutbedlines_to_bedfile(cutbedlines, direct, fn_noext):
-    with open(direct + fn_noext + '.prsp.bed', 'w') as bedfn:
-       for cutbedline in cutbedlines:
-          bedfn.write(cutbedline)
+from cut import cut_file
 
 
-def bed_to_fasta(direct, fastaref, fn_noext):
-    fastarefbedtool = pybedtools.BedTool(direct + fastaref)
-    bedtoolin = pybedtools.BedTool(direct + fn_noext + '.bed')
-    bedtoolin.sequence(fi=fastarefbedtool, s=True).save_seqs(direct + fn_noext + '.fasta')
+def bedlines_save(cutbedlines, filepath):
+    """
+    saves a list of bed formatted strings as lines into a bed formatted file
+    :param cutbedlines: list of bed formatted strings
+    :param filepath: where to save bed file
+    :return:
+    """
+    with open(filepath, 'w') as handle:
+        for cutbedline in cutbedlines:
+            handle.write(cutbedline)
+
+
+def bed_to_fasta(filepath, reference):
+    """
+    given a bedfile, extrat corresponding sequence from a reference fasta file and save as fasta file
+    :param filepath: path to a bed file to be saved as fasta
+    :param reference: file path to a fasta file used as sequence reference
+    :return:
+    """
+    root, ext = splitext(filepath)
+    assert(ext=='.bed')
+    reference = pybedtools.BedTool(reference)
+    bedtool = pybedtools.BedTool(filepath)
+    bedtool.sequence(fi=reference, s=True).save_seqs(root + '.fasta')
 
 
 # INITIALIZATION FUNCTION
-# TODO check if still working conssitent with the focused version
-# TODO this one already has a fasta file! ok?
-# digest is the new name for the protospacers_bedfile_and_fastafile_from_directory function
-def digest_file(direct, fn_noext, fileformat):
+#########################
+
+def digest_file(filepath):
     """
-    Only needed for initialization, the frst time a genome is being worked on.... TBA
-    :param dir:
-    :param fileformat:
+    Only needed for initialization, the first time a genome is being worked on.... TBA
+    :param filepath:
     :return:
+
+    >>>digest_file('hg38.fa')
+    "1000000 protospacers saved as hg38.fasta.prsp.bed and hg38.fasta.prsp.fasta"
     """
-    cutbedlines = create_cutbedlines_from_seq_file(direct, fn_noext, fileformat)
+    cutbedlines = cut_file(filepath)
+    saveasbedpath = filepath + '.prsp.bed'
+    saveasfastapath = filepath + '.prsp.fasta'
     # TODO move this to right spot so we know how many prsps we have ahead of blasting
-    print "digesting all done: %s protospacers found" % len(cutbedlines)
-    cutbedlines_to_bedfile(cutbedlines, direct, fn_noext)
-    bed_to_fasta(direct, fn_noext + '.'+ fileformat, fn_noext + '.prsp')
+    print("%s protospacers saved as %s and %s" % (len(cutbedlines), saveasbedpath, saveasfastapath))
+    bedlines_save(cutbedlines, saveasbedpath)
+    bed_to_fasta(filepath, saveasfastapath )
 
 
 # THE WORKHORSE FUNCTION
-def digest_focused(direct, focusfn, wholefn, fileformat):
+########################
+
+def digest_focused(focusfn, reference):
     """
     The core inner function handling digest. Saves 4 files
-    :param direct:
     :param focusfn:
-    :param wholefn:
-    :param fileformat:
+    :param reference:
     :return:
     """
-    focus_bedtool = pybedtools.BedTool(direct + focusfn +'.bed')
-    whole_bedtool = pybedtools.BedTool(direct + wholefn + '.prsp.bed')
-    whole_bedtool.intersect(focus_bedtool).moveto(direct + focusfn + ".prsp.bed")
-    bed_to_fasta(direct, wholefn + '.' + fileformat, focusfn )
-    bed_to_fasta(direct, wholefn + '.' + fileformat, focusfn+ '.prsp' )
+    focus_bedtool = pybedtools.BedTool(focusfn +'.bed')
+
+    whole_bedtool = pybedtools.BedTool(reference + '.prsp.bed')
+    whole_bedtool.intersect(focus_bedtool).moveto(focusfn + ".prsp.bed")
+
+    bed_to_fasta(focusfn, reference)
+    bed_to_fasta(focusfn + '.prsp', reference)
 
 
-################
 # INPUT HANDLING
 ################
 
@@ -78,6 +96,7 @@ def coord_to_bedtuple_filename(coord):
 assert(coord_to_bedtuple_filename('chr6:136640001-136680000')
     == ([('chr6', '136640000', '136680000')], 'chr6:136640001-136680000_40000'))
 
+
 def stretch_to_bedtuple_filename(stretch):
     chrom = stretch.split(':')[0]
     start, length = stretch.split(':')[1].split('_')
@@ -87,26 +106,27 @@ def stretch_to_bedtuple_filename(stretch):
     filename =  '%s:%s-%s_%s' % (chrom, start, end, length)
     return [(chrom, start0, end)], filename
 
+
 assert( stretch_to_bedtuple_filename('chr6:136640001_40000')
     == ([('chr6', '136640000', '136680000')], 'chr6:136640001-136680000_40000'))
 
 
-####################
 # MAIN API FUNCTIONS
 ####################
 
-def digest_coord(direct, coord, wholefn, fileformat):
+def digest_coord(direct, coord, reference):
     bedtuplelist, focusfn = coord_to_bedtuple_filename(coord)
-    print 'digesting ',  focusfn,
+    print('digesting ',  focusfn, end='')
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
-    digest_focused(direct, focusfn, wholefn, fileformat)
-    print 'Done'
+    digest_focused(direct + '/' + focusfn, reference)
+    print('Done')
     return focusfn
 
-def digest_stretch(direct, stretch, wholefn, fileformat):
+
+def digest_stretch(direct, stretch, reference):
     bedtuplelist, focusfn = stretch_to_bedtuple_filename(stretch)
-    print 'digesting ',  focusfn,
+    print('digesting ',  focusfn, end='')
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
-    digest_focused(direct, focusfn, wholefn, fileformat)
-    print 'Done'
+    digest_focused(direct + '/' + focusfn, reference)
+    print('Done')
     return focusfn

@@ -5,6 +5,7 @@
 #
 ########################################################################################################################
 
+from __future__ import print_function
 import os
 from itertools import izip, izip_longest
 
@@ -30,18 +31,18 @@ def blast1(dir, fn_noext, blastdb_directory, blastdb_db, max_hsps=100):
         task="blastn-short",
         dust="no",
         )
-    # print 'blastn_cline:  ',
-    # print blastn_cline
+    # print('blastn_cline:  ', end='')
+    # print(blastn_cline)
     try:
         # blastn_cline()
         stdout, stderr = blastn_cline()
     except ApplicationError as err:
-        # print 'Bio:Application:ApplicationError number {0} : {1}'.format(err.errno, err.strerror),
-        # print 'Bio:Application:ApplicationError: ', err.args
-        print str(err).split('message ')[1].strip('\'')
-        #print err.args
+        # print('Bio:Application:ApplicationError number {0} : {1}'.format(err.errno, err.strerror), end='')
+        # print('Bio:Application:ApplicationError: ', err.args)
+        print(str(err).split('message ')[1].strip('\''))
+        #print(err.args)
         return True
-    print "Done"
+    print("Done")
     return False
 
 
@@ -63,10 +64,10 @@ def grouper_longest(iterable, chunksize, fillvalue=None):
 
 
 def blast(dir, fn_noext, blastdb_directory, blastdb_db, chunksize=100, max_hsps=100):
-    # print "starting blast function with " , fn_noext
-    print 'parsing protospacers', fn_noext,
+    # print("starting blast function with " , fn_noext)
+    print('parsing protospacers', fn_noext, end='')
     seqs = seqio.parse(dir + fn_noext + '.fasta','fasta')
-    print 'Done'
+    print('Done')
     nbr = 0
     nameformat = '%s.%sseqs.%s'     # TODO add '.max%sHSPs.' % max_hsps
     for seqs_chunk in grouper_longest(seqs, chunksize, None):
@@ -82,12 +83,12 @@ def blast(dir, fn_noext, blastdb_directory, blastdb_db, chunksize=100, max_hsps=
         rescuedfasta = dir + fn_code_noext + '.fasta.WRONG.RESCUED'
         rescuedblast = dir + fn_code_noext + '.blast.WRONG.RESCUED'
         if os.path.isfile(rightfasta) and os.path.isfile(rightblast):
-            # print 'skipping chunk ', nbr, fn_code_noext
+            # print('skipping chunk ', nbr, fn_code_noext)
             continue
         elif os.path.isfile(wrongfasta) or os.path.isfile(wrongblast):
-            print 'rescuing chunk ', nbr, fn_code_noext,
+            print('rescuing chunk ', nbr, fn_code_noext, end='')
         else:
-            print 'blasting chunk ', nbr, fn_code_noext,
+            print('blasting chunk ', nbr, fn_code_noext, end='')
         with open(dir + fn_code_noext + '.fasta', "w") as temp_hndl:
             seqio.write(seqs_chunk, temp_hndl, "fasta")
         failed = blast1(dir, fn_code_noext, blastdb_directory, blastdb_db, max_hsps)
@@ -102,6 +103,6 @@ def blast(dir, fn_noext, blastdb_directory, blastdb_db, chunksize=100, max_hsps=
     fn_code_noext = nameformat % (fn_noext, chunksize, nbr)
     with open(dir + fn_code_noext + '@' + str(max_hsps) + 'maxHSPs' + '.txt', "w") as temp_hndl:
             temp_hndl.write('all done - %s chunks' % nbr)
-    print 'blasting all done:', nbr, 'chunks'
+    print('blasting all done:', nbr, 'chunks')
     return nbr
 
