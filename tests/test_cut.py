@@ -38,9 +38,9 @@ def test_cut_file_1500():
     #                  id='5_R', name='754', description='ScrFI', dbxrefs=['Scaffold102974'])
     #  ]
 
-    cutbedlines1500 = cut_file('tests/data/Scaffold102974:1-1500_1500.fasta')
+    cuts500 = cut_file('tests/data/Scaffold102974:1-1500_1500.fasta')
 
-    assert(cutbedlines1500 == ['Scaffold102974:1-1500()\t786\t806\tBfaI\t1000\t+\n',
+    assert(cuts500 == ['Scaffold102974:1-1500()\t786\t806\tBfaI\t1000\t+\n',
          'Scaffold102974:1-1500()\t808\t828\tBfaI\t1000\t-\n',
           'Scaffold102974:1-1500()\t1442\t1462\tBfaI\t1000\t+\n',
           'Scaffold102974:1-1500()\t1464\t1484\tBfaI\t1000\t-\n',

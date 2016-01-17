@@ -106,8 +106,12 @@ def cut_file(filepath):
     return cut_seqrecords(seqrecords)
 
 
+
+# cut.py executed as script
+###########################
+
 if __name__ == '__main__':
-    # cut.py executed as script
+
 
     # 42nt long section of of Scaffold02974 around the first cut from enzyme BfaI
     # with recognition site C^TA_G at one-based coords: 21,22,23,24
