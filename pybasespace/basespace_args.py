@@ -1,7 +1,7 @@
 import os
 import json
 
-from pybasespace.basespace_payload import *
+from pybasespace.basespace_payload import payload
 
 # appsession_location = '/media/ros/crispreating/crispreating/tests/data/input/AppSession.json'
 appsession_location = os.environ.get('APPSESSION_LOCATION', '/data/input/AppSession.json')
@@ -90,14 +90,16 @@ def write_sample_metadata(sample, appsessionhref, sampleshrefs, sample_output_di
 
 
 def process_sample(sample, sample_output_dir):
+    ##############################
+    result = payload(param_values)
+    with open(sample_output_dir + '/payload_result.txt','w') as out:
+         out.write_str(result)
+    ##############################
+    # demonstration output of param_values table
     with open(sample_output_dir + '/appsessionparams.csv','w') as out:
-
-            payload(param_values)
-
-            # demonstration output of param_values table
-            for key, value in param_values.iteritems():
-                if key != 'input.samples':
-                    out.write('%s,%s\n' % (key ,value))
+        for key, value in param_values.iteritems():
+            if key != 'input.samples':
+                out.write('%s,%s\n' % (key ,value))
 
 
 def process_appsession(param_values):

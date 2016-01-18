@@ -37,6 +37,6 @@ def payload(args_value):
 
     # args_value['Input.binding_interference_spacing']
 
-    cut_file(SCAFFOLDS + fastafile)
+    cuts = cut_file(SCAFFOLDS + fastafile)
 
-    return 0
+    return cuts
