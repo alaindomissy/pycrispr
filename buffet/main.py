@@ -16,14 +16,14 @@ from cluster import cluster
 # DIGEST AND BLAST
 #########################################################
 
-def digest_and_blast_coord(direct, coord, blastdb_db, fileformat, chunksize=100, max_hsps=100):
-    focusfn = digest_coord(direct, coord, blastdb_db, fileformat)
-    nbr = blast(direct, focusfn + '.prsp', '/media/mis/BLASTDB/', blastdb_db, chunksize=chunksize, max_hsps=max_hsps)
+def digest_and_blast_coord(direct, coord, reference, blastdb_db, chunksize=100, max_hsps=100):
+    focusfn = digest_coord(direct, coord, reference)
+    nbr = blast(direct, focusfn + '.prsp', blastdb_db, '/media/mis/BLASTDB/', chunksize=chunksize, max_hsps=max_hsps)
     return nbr
 
-def digest_and_blast_stretch(direct, stretch, blastdb_db, fileformat, chunksize=100, max_hsps=100):
-    focusfn = digest_stretch(direct, stretch, blastdb_db, fileformat)
-    nbr = blast(direct, focusfn + '.prsp', '/media/mis/BLASTDB/', blastdb_db, chunksize=chunksize, max_hsps=max_hsps)
+def digest_and_blast_stretch(direct, stretch, reference, blastdb_db, chunksize=100, max_hsps=100):
+    focusfn = digest_stretch(direct, stretch, reference)
+    nbr = blast(direct, focusfn + '.prsp', blastdb_db, '/media/mis/BLASTDB/', chunksize=chunksize, max_hsps=max_hsps)
     return nbr
 
 
@@ -31,10 +31,10 @@ def digest_and_blast_stretch(direct, stretch, blastdb_db, fileformat, chunksize=
 # BLAST AND SCORE
 #########################################################
 
-def blast_and_score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize=100, max_hsps=None,
+def blast_and_score(direct, fn_noext, blastdb_db, blastdb_directory, chunksize=100, max_hsps=None,
                     reref_substrate_id='chr6', low=75, high=75, load_genome=True, howmany=24):
 
-    nbr = blast(direct, fn_noext, blastdb_directory, blastdb_db, chunksize=chunksize, max_hsps=max_hsps)
+    nbr = blast(direct, fn_noext, blastdb_db, blastdb_directory, chunksize=chunksize, max_hsps=max_hsps)
     guides = score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize=chunksize, nbrofchunks=nbr,
           reref_substrate_id='chr6', load_genome=load_genome)
     return cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None)
@@ -50,14 +50,14 @@ def blast_and_score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize=1
 # genome    same, used when (correctly) blasting agaist whole geome
 #
 # TODO get rid of reref_substrate_id122
-def digest_and_blast_and_score_coord(direct, coord, blastdb_db, fileformat, chunksize=100, max_hsps=100,
+def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunksize=100, max_hsps=100,
                                      reref_substrate_id='chr6', low=75, high=75, load_genome=True, howmany=None):
     """
 
     :param direct:
     :param coord:
+    :param reference:
     :param blastdb_db:
-    :param fileformat:
     :param chunksize:
     :param max_hsps:
     :param reref_substrate_id:
@@ -67,24 +67,24 @@ def digest_and_blast_and_score_coord(direct, coord, blastdb_db, fileformat, chun
     :param howmany:
     :return:
     """
-    focusfn = digest_coord(direct, coord, blastdb_db, fileformat)
+    focusfn = digest_coord(direct, coord, reference)
     fn_noext = focusfn + '.prsp'
     blastdb_directory = '/media/mis/BLASTDB/'
-    nbr = blast(direct, fn_noext ,blastdb_directory , blastdb_db, chunksize=chunksize, max_hsps=max_hsps)
-    guides = score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize=chunksize, nbrofchunks=nbr,
+    nbr = blast(direct, fn_noext, blastdb_db, blastdb_directory, chunksize=chunksize, max_hsps=max_hsps)
+    guides = score(direct, fn_noext, blastdb_db, blastdb_directory, chunksize=chunksize, nbrofchunks=nbr,
           reref_substrate_id='chr6', load_genome=load_genome)
     return cluster(guides, direct, reref_substrate_id, low, high, howmany, fn_noext)
 
-# TODO merge with the above onto one flexible input function
 
-def digest_and_blast_and_score_stretch(direct, stretch, blastdb_db, fileformat, chunksize=100, max_hsps=100,
-                                     reref_substrate_id='chr6', low=75, high=75, load_genome=True, howmany=None):
+# TODO merge with the above onto one flexible input function
+def digest_and_blast_and_score_stretch(direct, stretch, reference, blastdb_db, chunksize=100, max_hsps=100,
+                                       reref_substrate_id='chr6', low=75, high=75, load_genome=True, howmany=None):
     """
 
     :param direct:
     :param stretch:
+    :param reference:
     :param blastdb_db:
-    :param fileformat:
     :param chunksize:
     :param max_hsps:
     :param reref_substrate_id:
@@ -96,10 +96,10 @@ def digest_and_blast_and_score_stretch(direct, stretch, blastdb_db, fileformat, 
     """
     # TODO validation of input as either coord with a - or stretch with a _
     # assert type(stretch) is type(""), "requires a string"
-    focusfn = digest_stretch(direct, stretch, blastdb_db, fileformat)
+    focusfn = digest_stretch(direct, stretch, reference)
     fn_noext = focusfn + '.prsp'
     blastdb_directory = '/media/mis/BLASTDB/'
-    nbr = blast(direct, fn_noext , '/media/mis/BLASTDB/', blastdb_db, chunksize=chunksize, max_hsps=max_hsps)
+    nbr = blast(direct, fn_noext, blastdb_db, '/media/mis/BLASTDB/', chunksize=chunksize, max_hsps=max_hsps)
     guides = score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize=chunksize, nbrofchunks=nbr,
           reref_substrate_id='chr6', load_genome=load_genome)
     return cluster(guides, direct, reref_substrate_id, low, high, howmany, fn_noext)

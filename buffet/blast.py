@@ -15,10 +15,12 @@ from Bio.Application import ApplicationError
 # TODO this is also imported from cut.py, ok?
 from Bio import SeqIO as seqio
 
+BLASTDB =  os.environ.get('BLASTDB','/genomes/blastdb/')
+
 
 # SINGLE FILE BLASTING
 
-def blast1(dir, fn_noext, blastdb_directory, blastdb_db, max_hsps=100):
+def blast1(dir, fn_noext, blastdb_db, blastdb_directory=BLASTDB, max_hsps=100):
     blastn_cline = NcbiblastnCommandline(
         query=dir + fn_noext + '.fasta',
         out=dir + fn_noext + '.blast',
@@ -63,7 +65,7 @@ def grouper_longest(iterable, chunksize, fillvalue=None):
 ###################
 
 
-def blast(dir, fn_noext, blastdb_directory, blastdb_db, chunksize=100, max_hsps=100):
+def blast(dir, fn_noext, blastdb_db, blastdb_directory=BLASTDB, chunksize=100, max_hsps=100):
     # print("starting blast function with " , fn_noext)
     print('parsing protospacers', fn_noext, end='')
     seqs = seqio.parse(dir + fn_noext + '.fasta','fasta')
@@ -91,7 +93,7 @@ def blast(dir, fn_noext, blastdb_directory, blastdb_db, chunksize=100, max_hsps=
             print('blasting chunk ', nbr, fn_code_noext, end='')
         with open(dir + fn_code_noext + '.fasta', "w") as temp_hndl:
             seqio.write(seqs_chunk, temp_hndl, "fasta")
-        failed = blast1(dir, fn_code_noext, blastdb_directory, blastdb_db, max_hsps)
+        failed = blast1(dir, fn_code_noext, blastdb_db, blastdb_directory, max_hsps)
         if failed:
             os.rename(rightfasta, wrongfasta)
             os.rename(rightblast, wrongblast)

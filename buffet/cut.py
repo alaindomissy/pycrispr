@@ -104,36 +104,3 @@ def cut_file(filepath):
     fileformat = lstrip(splitext(filepath)[1], '.')
     seqrecords = create_seqrecords_from_file(filepath, fileformat)
     return cut_seqrecords(seqrecords)
-
-
-
-# cut.py executed as script
-###########################
-
-if __name__ == '__main__':
-
-
-    # 42nt long section of of Scaffold02974 around the first cut from enzyme BfaI
-    # with recognition site C^TA_G at one-based coords: 21,22,23,24
-    # GCGCTGGCCAGAACGTTCTC^TA_GGAATCGTGGAGAAGACATT
-    cuts42 = cut_file('tests/data/fourtytwobp.fasta')
-
-    assert(
-        cuts42[0] == 'fourtytwobps\t0\t20\tBfaI\t1000\t+\n'
-    )
-    assert(
-        cuts42[1] == 'fourtytwobps\t22\t42\tBfaI\t1000\t-\n'
-    )
-
-    cutbedlines1500 = cut_file('tests/data/Scaffold102974:1-1500_1500.fasta')
-
-    assert(
-        cutbedlines1500
-        ==
-        ['Scaffold102974:1-1500()\t786\t806\tBfaI\t1000\t+\n',
-         'Scaffold102974:1-1500()\t808\t828\tBfaI\t1000\t-\n',
-          'Scaffold102974:1-1500()\t1442\t1462\tBfaI\t1000\t+\n',
-          'Scaffold102974:1-1500()\t1464\t1484\tBfaI\t1000\t-\n',
-          'Scaffold102974:1-1500()\t732\t752\tScrFI\t1000\t+\n',
-          'Scaffold102974:1-1500()\t753\t773\tScrFI\t1000\t-\n']
-    )
