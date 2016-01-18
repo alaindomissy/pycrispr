@@ -1,7 +1,7 @@
 import os
 import json
 
-from pybasespace.basespace_payload import payload
+from pybasespace.payload import payload
 
 # appsession_location = '/media/ros/crispreating/crispreating/tests/data/input/AppSession.json'
 appsession_location = os.environ.get('APPSESSION_LOCATION', '/data/input/AppSession.json')
