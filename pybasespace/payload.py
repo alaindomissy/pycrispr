@@ -28,9 +28,9 @@ datadirpath = "/data/"
 #
 
 
-def payload(args_value):
+def payload(params_value):
 
-    fastafile = args_value['Input.genomic-coord']
+    fastafile = params_value.get('Input.genomic-coord', 'chr6-1-400.fasta')
     # genome = args_value['Input.genome-id']
     # chunk_size = args_value['Input.blast_chunk_size']
     # max_hsps = args_value['Input.blast_max_hsps']
