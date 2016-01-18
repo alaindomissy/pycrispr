@@ -1,0 +1,445 @@
+{
+  "OriginatingUri": "https://basespace.illumina.com",
+  "Id": "31951397",
+  "Name": "Crispr-Eating 01/17/2016 10:21:02",
+  "Href": "v1pre3/appsessions/31951397",
+  "Application": {
+    "Id": "2167166",
+    "Href": "v1pre3/applications/2167166",
+    "Name": "Crispr-Eating",
+    "CompanyName": "Open Bio San Diego",
+    "VersionNumber": "0.0.1",
+    "ShortDescription": "CRISPR-EATING is a molecular biology protocol to generate libraries of CRISPR guide RNAs. ",
+    "DateCreated": "2015-10-22T17:52:58.0000000",
+    "PublishStatus": "Development",
+    "IsBillingActivated": false,
+    "Category": "Native",
+    "Classifications": [
+      "SmallRNA"
+    ],
+    "AppFamilySlug": "open-bio-san-diego.crispr-eating",
+    "AppVersionSlug": "open-bio-san-diego.crispr-eating.0.0.1"
+  },
+  "UserCreatedBy": {
+    "Id": "7036038",
+    "Href": "v1pre3/users/7036038",
+    "Name": "Alain Domissy",
+    "GravatarUrl": "https://secure.gravatar.com/avatar/c1de6e99641cad724d70888ea039b087.jpg?s=20&d=https%3a%2f%2fbasespace.illumina.com%2fpublic%2fimages%2fDefaultCustomerGravatar.png&r=PG"
+  },
+  "Status": "Initializing",
+  "StatusSummary": "",
+  "DateCreated": "2016-01-18T06:21:29.6082813Z",
+  "ModifiedOn": "2016-01-18T06:21:30.3114015Z",
+  "Properties": {
+    "Items": [
+      {
+        "Type": "string",
+        "Href": "v1pre3/appsessions/31951397/properties/BaseSpace.Private.IsMultiNode",
+        "Name": "BaseSpace.Private.IsMultiNode",
+        "Description": "",
+        "Content": "False"
+      },
+      {
+        "Type": "string",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.app-session-name",
+        "Name": "Input.app-session-name",
+        "Description": "as analysis name",
+        "Content": "Crispr-Eating 01/17/2016 10:21:02"
+      },
+      {
+        "Type": "string",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.binding_interference_spacing",
+        "Name": "Input.binding_interference_spacing",
+        "Description": "Binding Interference Spacing",
+        "Content": "25"
+      },
+      {
+        "Type": "string",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.blast_chunk_size",
+        "Name": "Input.blast_chunk_size",
+        "Description": "Blast Chunk Size",
+        "Content": "25"
+      },
+      {
+        "Type": "string",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.blast_max_hsps",
+        "Name": "Input.blast_max_hsps",
+        "Description": "Blast Max HSPs",
+        "Content": "1000"
+      },
+      {
+        "Type": "string",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.genome_id",
+        "Name": "Input.genome_id",
+        "Description": "",
+        "Content": "Mouse8"
+      },
+      {
+        "Type": "string",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.genomic_coord",
+        "Name": "Input.genomic_coord",
+        "Description": "",
+        "Content": "chr6:136640001-136680000"
+      },
+      {
+        "Type": "project[]",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.Projects",
+        "Name": "Input.Projects",
+        "Description": "",
+        "Items": [
+          {
+            "Id": "27855842",
+            "UserOwnedBy": {
+              "Id": "7036038",
+              "Href": "v1pre3/users/7036038",
+              "Name": "Alain Domissy",
+              "GravatarUrl": "https://secure.gravatar.com/avatar/c1de6e99641cad724d70888ea039b087.jpg?s=20&d=https%3a%2f%2fbasespace.illumina.com%2fpublic%2fimages%2fDefaultCustomerGravatar.png&r=PG"
+            },
+            "Href": "v1pre3/projects/27855842",
+            "Name": "crispr-eating buffet project 1",
+            "Description": "crispr-eating buffet project 1",
+            "DateCreated": "2016-01-14T22:02:43.0000000",
+            "DateModified": "2016-01-14T22:02:43.0000000",
+            "HasCollaborators": false,
+            "TotalSize": 0
+          }
+        ],
+        "HrefItems": "v1pre3/appsessions/31951397/properties/Input.Projects/items",
+        "ItemsDisplayedCount": 1,
+        "ItemsTotalCount": 1
+      },
+      {
+        "Type": "project",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.project_id",
+        "Name": "Input.project_id",
+        "Description": "under project",
+        "Content": {
+          "Id": "27855842",
+          "UserOwnedBy": {
+            "Id": "7036038",
+            "Href": "v1pre3/users/7036038",
+            "Name": "Alain Domissy",
+            "GravatarUrl": "https://secure.gravatar.com/avatar/c1de6e99641cad724d70888ea039b087.jpg?s=20&d=https%3a%2f%2fbasespace.illumina.com%2fpublic%2fimages%2fDefaultCustomerGravatar.png&r=PG"
+          },
+          "Href": "v1pre3/projects/27855842",
+          "Name": "crispr-eating buffet project 1",
+          "Description": "crispr-eating buffet project 1",
+          "DateCreated": "2016-01-14T22:02:43.0000000",
+          "DateModified": "2016-01-14T22:02:43.0000000",
+          "HasCollaborators": false,
+          "TotalSize": 0
+        }
+      },
+      {
+        "Type": "map[]",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.project_id.attributes",
+        "Name": "Input.project_id.attributes",
+        "Description": "under project Attributes",
+        "Items": [
+          [
+            {
+              "Key": "FieldId",
+              "Values": [
+                "project_id"
+              ]
+            },
+            {
+              "Key": "ResourceType",
+              "Values": [
+                "project"
+              ]
+            },
+            {
+              "Key": "ResourceId",
+              "Values": [
+                "27855842"
+              ]
+            },
+            {
+              "Key": "ResourceHref",
+              "Values": [
+                "v1pre3/projects/27855842"
+              ]
+            }
+          ]
+        ],
+        "HrefItems": "v1pre3/appsessions/31951397/properties/Input.project_id.attributes/items",
+        "ItemsDisplayedCount": 1,
+        "ItemsTotalCount": 1
+      },
+      {
+        "Type": "string[]",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.restriction_enzymes",
+        "Name": "Input.restriction_enzymes",
+        "Description": "Restriction Enzymes",
+        "Items": [
+          "BfaI",
+          "ScrFI",
+          "HpaII"
+        ],
+        "HrefItems": "v1pre3/appsessions/31951397/properties/Input.restriction_enzymes/items",
+        "ItemsDisplayedCount": 3,
+        "ItemsTotalCount": 3
+      },
+      {
+        "Type": "sample[]",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.sample-id",
+        "Name": "Input.sample-id",
+        "Description": "",
+        "Items": [
+          {
+            "Id": "30427461",
+            "Href": "v1pre3/samples/30427461",
+            "IsMerged": false,
+            "UserOwnedBy": {
+              "Id": "7036038",
+              "Href": "v1pre3/users/7036038",
+              "Name": "Alain Domissy",
+              "GravatarUrl": "https://secure.gravatar.com/avatar/c1de6e99641cad724d70888ea039b087.jpg?s=20&d=https%3a%2f%2fbasespace.illumina.com%2fpublic%2fimages%2fDefaultCustomerGravatar.png&r=PG"
+            },
+            "Name": "SRR1015697",
+            "ExperimentName": "SRA Import",
+            "SampleId": "SRR1015697_GSM1249136-RTT5-iPS-15bi-Homo-sapiens-RNA-Seq",
+            "Status": "Complete",
+            "StatusSummary": "Application completed successfully",
+            "DateCreated": "2015-11-08T06:11:08.0000000",
+            "TotalSize": 3663526295,
+            "Genome": {
+              "Id": "4",
+              "DisplayName": "Homo Sapiens - UCSC (hg19)",
+              "SpeciesName": "Homo sapiens",
+              "Source": "UCSC",
+              "Build": "hg19",
+              "Href": "v1pre3/genomes/4",
+              "HrefAnnotations": "v1pre3/genomes/4/annotations"
+            },
+            "Read1": 50,
+            "Read2": 0,
+            "NumReadsPF": 81725433,
+            "NumReadsRaw": 81725433,
+            "TotalReadsRaw": 81725433,
+            "TotalReadsPF": 81725433,
+            "TotalClustersRaw": 81725433,
+            "TotalClustersPF": 81725433,
+            "IsPairedEnd": false
+          },
+          {
+            "Id": "30436467",
+            "Href": "v1pre3/samples/30436467",
+            "IsMerged": false,
+            "UserOwnedBy": {
+              "Id": "7036038",
+              "Href": "v1pre3/users/7036038",
+              "Name": "Alain Domissy",
+              "GravatarUrl": "https://secure.gravatar.com/avatar/c1de6e99641cad724d70888ea039b087.jpg?s=20&d=https%3a%2f%2fbasespace.illumina.com%2fpublic%2fimages%2fDefaultCustomerGravatar.png&r=PG"
+            },
+            "Name": "SRR1015696",
+            "ExperimentName": "SRA Import",
+            "SampleId": "SRR1015696_GSM1249135-RTT1-iPS-10bi-Homo-sapiens-RNA-Seq",
+            "Status": "Complete",
+            "StatusSummary": "Application completed successfully",
+            "DateCreated": "2015-11-08T06:10:26.0000000",
+            "TotalSize": 4606425168,
+            "Genome": {
+              "Id": "4",
+              "DisplayName": "Homo Sapiens - UCSC (hg19)",
+              "SpeciesName": "Homo sapiens",
+              "Source": "UCSC",
+              "Build": "hg19",
+              "Href": "v1pre3/genomes/4",
+              "HrefAnnotations": "v1pre3/genomes/4/annotations"
+            },
+            "Read1": 50,
+            "Read2": 0,
+            "NumReadsPF": 98343780,
+            "NumReadsRaw": 98343780,
+            "TotalReadsRaw": 98343780,
+            "TotalReadsPF": 98343780,
+            "TotalClustersRaw": 98343780,
+            "TotalClustersPF": 98343780,
+            "IsPairedEnd": false
+          }
+        ],
+        "HrefItems": "v1pre3/appsessions/31951397/properties/Input.sample-id/items",
+        "ItemsDisplayedCount": 2,
+        "ItemsTotalCount": 2
+      },
+      {
+        "Type": "map[]",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.sample-id.attributes",
+        "Name": "Input.sample-id.attributes",
+        "Description": " Attributes",
+        "Items": [
+          [
+            {
+              "Key": "FieldId",
+              "Values": [
+                "sample-id"
+              ]
+            },
+            {
+              "Key": "ResourceType",
+              "Values": [
+                "sample"
+              ]
+            },
+            {
+              "Key": "ResourceId",
+              "Values": [
+                "30427461"
+              ]
+            },
+            {
+              "Key": "ResourceHref",
+              "Values": [
+                "v1pre3/samples/30427461"
+              ]
+            }
+          ],
+          [
+            {
+              "Key": "FieldId",
+              "Values": [
+                "sample-id"
+              ]
+            },
+            {
+              "Key": "ResourceType",
+              "Values": [
+                "sample"
+              ]
+            },
+            {
+              "Key": "ResourceId",
+              "Values": [
+                "30436467"
+              ]
+            },
+            {
+              "Key": "ResourceHref",
+              "Values": [
+                "v1pre3/samples/30436467"
+              ]
+            }
+          ]
+        ],
+        "HrefItems": "v1pre3/appsessions/31951397/properties/Input.sample-id.attributes/items",
+        "ItemsDisplayedCount": 2,
+        "ItemsTotalCount": 2
+      },
+      {
+        "Type": "sample[]",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.Samples",
+        "Name": "Input.Samples",
+        "Description": "",
+        "Items": [
+          {
+            "Id": "30427461",
+            "Href": "v1pre3/samples/30427461",
+            "IsMerged": false,
+            "UserOwnedBy": {
+              "Id": "7036038",
+              "Href": "v1pre3/users/7036038",
+              "Name": "Alain Domissy",
+              "GravatarUrl": "https://secure.gravatar.com/avatar/c1de6e99641cad724d70888ea039b087.jpg?s=20&d=https%3a%2f%2fbasespace.illumina.com%2fpublic%2fimages%2fDefaultCustomerGravatar.png&r=PG"
+            },
+            "Name": "SRR1015697",
+            "ExperimentName": "SRA Import",
+            "SampleId": "SRR1015697_GSM1249136-RTT5-iPS-15bi-Homo-sapiens-RNA-Seq",
+            "Status": "Complete",
+            "StatusSummary": "Application completed successfully",
+            "DateCreated": "2015-11-08T06:11:08.0000000",
+            "TotalSize": 3663526295,
+            "Genome": {
+              "Id": "4",
+              "DisplayName": "Homo Sapiens - UCSC (hg19)",
+              "SpeciesName": "Homo sapiens",
+              "Source": "UCSC",
+              "Build": "hg19",
+              "Href": "v1pre3/genomes/4",
+              "HrefAnnotations": "v1pre3/genomes/4/annotations"
+            },
+            "Read1": 50,
+            "Read2": 0,
+            "NumReadsPF": 81725433,
+            "NumReadsRaw": 81725433,
+            "TotalReadsRaw": 81725433,
+            "TotalReadsPF": 81725433,
+            "TotalClustersRaw": 81725433,
+            "TotalClustersPF": 81725433,
+            "IsPairedEnd": false
+          },
+          {
+            "Id": "30436467",
+            "Href": "v1pre3/samples/30436467",
+            "IsMerged": false,
+            "UserOwnedBy": {
+              "Id": "7036038",
+              "Href": "v1pre3/users/7036038",
+              "Name": "Alain Domissy",
+              "GravatarUrl": "https://secure.gravatar.com/avatar/c1de6e99641cad724d70888ea039b087.jpg?s=20&d=https%3a%2f%2fbasespace.illumina.com%2fpublic%2fimages%2fDefaultCustomerGravatar.png&r=PG"
+            },
+            "Name": "SRR1015696",
+            "ExperimentName": "SRA Import",
+            "SampleId": "SRR1015696_GSM1249135-RTT1-iPS-10bi-Homo-sapiens-RNA-Seq",
+            "Status": "Complete",
+            "StatusSummary": "Application completed successfully",
+            "DateCreated": "2015-11-08T06:10:26.0000000",
+            "TotalSize": 4606425168,
+            "Genome": {
+              "Id": "4",
+              "DisplayName": "Homo Sapiens - UCSC (hg19)",
+              "SpeciesName": "Homo sapiens",
+              "Source": "UCSC",
+              "Build": "hg19",
+              "Href": "v1pre3/genomes/4",
+              "HrefAnnotations": "v1pre3/genomes/4/annotations"
+            },
+            "Read1": 50,
+            "Read2": 0,
+            "NumReadsPF": 98343780,
+            "NumReadsRaw": 98343780,
+            "TotalReadsRaw": 98343780,
+            "TotalReadsPF": 98343780,
+            "TotalClustersRaw": 98343780,
+            "TotalClustersPF": 98343780,
+            "IsPairedEnd": false
+          }
+        ],
+        "HrefItems": "v1pre3/appsessions/31951397/properties/Input.Samples/items",
+        "ItemsDisplayedCount": 2,
+        "ItemsTotalCount": 2
+      },
+      {
+        "Type": "project[]",
+        "Href": "v1pre3/appsessions/31951397/properties/Output.Projects",
+        "Name": "Output.Projects",
+        "Description": "",
+        "Items": [
+          {
+            "Id": "27855842",
+            "UserOwnedBy": {
+              "Id": "7036038",
+              "Href": "v1pre3/users/7036038",
+              "Name": "Alain Domissy",
+              "GravatarUrl": "https://secure.gravatar.com/avatar/c1de6e99641cad724d70888ea039b087.jpg?s=20&d=https%3a%2f%2fbasespace.illumina.com%2fpublic%2fimages%2fDefaultCustomerGravatar.png&r=PG"
+            },
+            "Href": "v1pre3/projects/27855842",
+            "Name": "crispr-eating buffet project 1",
+            "Description": "crispr-eating buffet project 1",
+            "DateCreated": "2016-01-14T22:02:43.0000000",
+            "DateModified": "2016-01-14T22:02:43.0000000",
+            "HasCollaborators": false,
+            "TotalSize": 0
+          }
+        ],
+        "HrefItems": "v1pre3/appsessions/31951397/properties/Output.Projects/items",
+        "ItemsDisplayedCount": 1,
+        "ItemsTotalCount": 1
+      }
+    ],
+    "DisplayedCount": 15,
+    "TotalCount": 15,
+    "Href": "v1pre3/appsessions/31951397/properties"
+  }
+}

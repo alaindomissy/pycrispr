@@ -38,7 +38,7 @@ def parse_appsessionparams(appsessionparams):
     param_values.update(
         {'input.project_id': param.get('Content').get('Id')
          for param in appsessionparams
-         if param.get('Name')=='Input.project-id'
+         if param.get('Name') == 'Input.project_id'
         }
     )
     param_values.update(
@@ -103,8 +103,8 @@ def process_sample(sample, sample_output_dir):
 
 
 def process_appsession(param_values):
-    project_id = param_values['input.project_id']
-    samples = param_values['input.samples']
+    project_id = param_values.get('input.project_id')
+    samples = param_values.get('input.samples')
     sampleshrefs = [sample['href'] for sample in samples]
     for sample in samples:
         sample_output_dir = '/data/output/appresults/%s/%s' % (project_id, sample['name'])

@@ -296,5 +296,7 @@ def test_parse_appsessionparams():
                     {'href': u'v1pre3/samples/30436467',
                         'id': u'30436467',
                         'name': u'SRR1015696'}],
-                'output.projects_ids': u'27855842'}
+                'output.projects_ids': u'27855842',
+                'input.project_id': u'27855842'
+                }
            )
