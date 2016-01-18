@@ -3,9 +3,9 @@ import os
 from buffet.cut import cut_file
 
 
-BLASTDB =  os.environ.get('BLASTDB','/genomes/blastdb/')
+BLASTDB =  os.environ.get('BLASTDB','/root/blastdb/')
 
-SCAFFOLDS =  os.environ.get('SCAFFOLDS','/data/scaffolds/mm8/')
+SCAFFOLDS =  os.environ.get('SCAFFOLDS','/root/scaffolds/mm8/')
 
 
 
@@ -30,13 +30,13 @@ datadirpath = "/data/"
 
 def payload(params_value):
 
-    fastafile = params_value.get('Input.genomic-coord', 'chr6-1-400.fasta')
+    coord = params_value.get('Input.genomic-coord', 'chr6-1-400.fasta')
     # genome = args_value['Input.genome-id']
     # chunk_size = args_value['Input.blast_chunk_size']
     # max_hsps = args_value['Input.blast_max_hsps']
 
     # args_value['Input.binding_interference_spacing']
 
-    cuts = cut_file(SCAFFOLDS + fastafile)
+    cuts = cut_file(SCAFFOLDS + coord + '.fasta')
 
     return cuts
