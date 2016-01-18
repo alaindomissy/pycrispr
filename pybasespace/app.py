@@ -93,7 +93,7 @@ def process_sample(sample, sample_output_dir):
     ##############################
     result = payload(param_values)
     with open(sample_output_dir + '/payload_result.txt','w') as out:
-         out.write_str(result)
+         out.write(str(result))
     ##############################
     # demonstration output of param_values table
     with open(sample_output_dir + '/appsessionparams.csv','w') as out:
