@@ -17,50 +17,50 @@ def read_appsession(appsession_location):
 
 
 def parse_appsessionparams(appsessionparams):
-    arguments_with_content = ['Input.binding_interference_spacing',
-                              'Input.blast_chunk_size',
-                              'Input.blast_max_hsps',
-                              'Input.genome-id',
-                              'Input.genomic-coord']
+    arguments_with_content = ['input.binding_interference_spacing',
+                              'input.blast_chunk_size',
+                              'input.blast_max_hsps',
+                              'input.genome_id',
+                              'input.genomic_coord']
     param_values = {}
     param_values.update(
-        {param['Name'].lower(): param['Content']
+        {param.get('Name').lower(): param.get('Content')
          for param in appsessionparams
-         if param['Name']in arguments_with_content
+         if param.get('Name').lower() in arguments_with_content
         }
     )
     param_values.update(
-        {param['Name'].lower(): param['Items']
+        {param.get('Name').lower(): param.get('Items')
          for param in appsessionparams
-         if param['Name']=='Input.restriction_enzymes'
+         if param.get('Name').lower()=='input.restriction_enzymes'
         }
     )
     param_values.update(
-        {param['Name'].lower(): param['Content']['Id']
+        {'input.project_id': param.get('Content').get('Id')
          for param in appsessionparams
-         if param['Name']=='Input.project_id'
+         if param.get('Name')=='Input.project-id'
         }
     )
     param_values.update(
-        {'input.projects_ids': project['Id']
+        {'input.projects_ids': project.get('Id')
          for param in appsessionparams
-         if param['Name']=='Input.Projects'
+         if param.get('Name')=='Input.Projects'
          for project in param['Items']
         }
     )
     param_values.update(
-        {'output.projects_ids': project['Id']
+        {'output.projects_ids': project.get('Id')
          for param in appsessionparams
-         if param['Name']=='Output.Projects'
-         for project in param['Items']
+         if param.get('Name')=='Output.Projects'
+         for project in param.get('Items')
         }
     )
     param_values.update(
         {'input.samples':
             [{'id': sample['Id'], 'href':sample['Href'], 'name': sample['Name']}
              for param in appsessionparams
-             if param['Name']=='Input.Samples'
-             for sample in param['Items']
+             if param.get('Name')=='Input.Samples'
+             for sample in param.get('Items')
             ]
         }
     )
