@@ -15,7 +15,7 @@ from Bio.Application import ApplicationError
 # TODO this is also imported from cut.py, ok?
 from Bio import SeqIO as seqio
 
-BLASTDB =  os.environ.get('BLASTDB','/genomes/blastdb/')
+BLASTDB = os.environ.get('BLASTDB','/root/blastdb/')
 
 
 # SINGLE FILE BLASTING

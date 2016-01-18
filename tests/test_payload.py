@@ -5,3 +5,9 @@ from pybasespace.payload import *
 
 
 
+def test_BLASTDB():
+    BLASTDB
+
+
+def test_SCAFFOLDS():
+    SCAFFOLDS
