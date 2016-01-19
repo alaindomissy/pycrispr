@@ -84,7 +84,7 @@ def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
     metadata['HrefAppSession'] = appsessionhref
     metadata['Properties'][0]['Items'].extend(sampleshrefs)
     with open(output_dir + '/_metadata.json', 'w') as out:
-        json.dump(metadata, out)
+        json.dump(metadata, out, indent=4, sort_keys=True)
 
 
 # def process_sample(sample, sample_output_dir, param_values):

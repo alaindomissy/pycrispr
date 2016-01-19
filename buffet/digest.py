@@ -24,41 +24,40 @@ def bedlines_save(cutbedlines, filepath):
     with open(filepath, 'w') as handle:
         for cutbedline in cutbedlines:
             handle.write(cutbedline)
+    print("%s protospacers saved as %s" % (len(cutbedlines), filepath))
 
 
-def bed_to_fasta(filepath, reference):
+def bed_to_fasta(bedfilepath, referencefastafilepath):
     """
     given a bedfile, extrat corresponding sequence from a reference fasta file and save as fasta file
     :param filepath: path to a bed file to be saved as fasta
-    :param reference: file path to a fasta file used as sequence reference
+    :param referencefastafilepath: file path to a fasta file used as sequence reference
     :return:
     """
-    root, ext = splitext(filepath)
+    root, ext = splitext(bedfilepath)
     assert(ext=='.bed')
-    reference = pybedtools.BedTool(reference)
-    bedtool = pybedtools.BedTool(filepath)
-    bedtool.sequence(fi=reference, s=True).save_seqs(root + '.fasta')
+    saveasfastapath = root + '.fasta'
+    reference = pybedtools.BedTool(referencefastafilepath)
+    bedtool = pybedtools.BedTool(bedfilepath)
+    bedtool.sequence(fi=reference, s=True).save_seqs(saveasfastapath)
+    print("protospacers saved as %s" % (saveasfastapath))
 
 
 # INITIALIZATION FUNCTION
 #########################
 
-def digest_file(filepath):
+def digest_fastafile(filepath):
     """
     Only needed for initialization, the first time a genome is being worked on.... TBA
     :param filepath:
     :return:
-
-    >>>digest_file('hg38.fa')
+    >>>digest_fastafile('hg38.fa')
     "1000000 protospacers saved as hg38.fasta.prsp.bed and hg38.fasta.prsp.fasta"
     """
     cutbedlines = cut_file(filepath)
     saveasbedpath = filepath + '.prsp.bed'
-    saveasfastapath = filepath + '.prsp.fasta'
-    # TODO move this to right spot so we know how many prsps we have ahead of blasting
-    print("%s protospacers saved as %s and %s" % (len(cutbedlines), saveasbedpath, saveasfastapath))
     bedlines_save(cutbedlines, saveasbedpath)
-    bed_to_fasta(filepath, saveasfastapath )
+    bed_to_fasta(saveasbedpath, filepath)   # input fasta filepath serves as its own reference
 
 
 # THE WORKHORSE FUNCTION
@@ -85,36 +84,58 @@ def digest_focused(focusfn, reference):
 
 # TODO merge coord and stretch input options into a singke function
 def coord_to_bedtuple_filename(coord):
+    """
+
+    :param coord:
+    :return:
+    >>> coord_to_bedtuple_filename('chr6:136640001-136680000')
+    ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000')
+    """
     chrom = coord.split(':')[0]
     start, end = coord.split(':')[1].split('-')
     # bed coords are zero-based
     start0 = str(int(start) - 1)
     length = str(int(end) - int(start) + 1)
-    filename = '%s:%s-%s_%s' % (chrom, start, end, length)
+    filename = '%s+%s-%s_%s' % (chrom, start, end, length)
     return [(chrom, start0, end)], filename
 
 assert(coord_to_bedtuple_filename('chr6:136640001-136680000')
-    == ([('chr6', '136640000', '136680000')], 'chr6:136640001-136680000_40000'))
+    == ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000'))
 
 
 def stretch_to_bedtuple_filename(stretch):
+    """
+
+    :param stretch:
+    :return:
+    >>> stretch_to_bedtuple_filename('chr6:136640001_40000')
+    ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000')
+    """
     chrom = stretch.split(':')[0]
     start, length = stretch.split(':')[1].split('_')
     # bed coords are zero-based
     start0 = str(int(start) - 1)
     end = str(int(start) + int(length) - 1)
-    filename =  '%s:%s-%s_%s' % (chrom, start, end, length)
+    filename =  '%s+%s-%s_%s' % (chrom, start, end, length)
     return [(chrom, start0, end)], filename
 
-
 assert( stretch_to_bedtuple_filename('chr6:136640001_40000')
-    == ([('chr6', '136640000', '136680000')], 'chr6:136640001-136680000_40000'))
+    == ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000'))
 
 
 # MAIN API FUNCTIONS
 ####################
 
 def digest_coord(direct, coord, reference):
+    """
+
+    :param direct:
+    :param coord:
+    :param reference:
+    :return:
+    >>> digest_coord('.', 'chr6:136640001-136680000', 'chr6.fasta')
+
+    """
     bedtuplelist, focusfn = coord_to_bedtuple_filename(coord)
     print('digesting ',  focusfn, end='')
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
@@ -124,6 +145,13 @@ def digest_coord(direct, coord, reference):
 
 
 def digest_stretch(direct, stretch, reference):
+    """
+
+    :param direct:
+    :param stretch:
+    :param reference:
+    :return:
+    """
     bedtuplelist, focusfn = stretch_to_bedtuple_filename(stretch)
     print('digesting ',  focusfn, end='')
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")

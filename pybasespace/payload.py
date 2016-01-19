@@ -3,9 +3,9 @@ import os
 from buffet.cut import cut_file
 
 
-BLASTDB =  os.environ.get('BLASTDB','/root/blastdb/')
+BLASTDB = os.environ.get('BLASTDB','/root/blastdb/')
 
-SCAFFOLDS =  os.environ.get('SCAFFOLDS','/root/scaffolds/mm8/')
+SCAFFOLDS = os.environ.get('SCAFFOLDS','/root/scaffolds/mm8/')
 
 
 
