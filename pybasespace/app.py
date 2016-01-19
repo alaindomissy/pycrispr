@@ -88,14 +88,15 @@ def write_sample_metadata(sample, appsessionhref, sampleshrefs, sample_output_di
         json.dump(metadata,out)
 
 
-def process_sample(sample, sample_output_dir, param_values):
+# def process_sample(sample, sample_output_dir, param_values):
+def process_sample(output_dir, param_values):
     ##############################
     result = payload(param_values)
-    with open(sample_output_dir + '/payload_result.txt','w') as out:
+    with open(output_dir + '/payload_result.txt','w') as out:
          out.write(str(result))
     ##############################
     # demonstration output of param_values table
-    with open(sample_output_dir + '/appsessionparams.csv','w') as out:
+    with open(output_dir + '/appsessionparams.csv','w') as out:
         for key, value in param_values.iteritems():
             if key != 'input.samples':
                 out.write('%s,%s\n' % (key ,value))
@@ -105,11 +106,17 @@ def process_appsession(param_values):
     project_id = param_values.get('input.project_id')
     samples = param_values.get('input.samples')
     sampleshrefs = [sample['href'] for sample in samples]
-    for sample in samples:
-        sample_output_dir = '/data/output/appresults/%s/%s' % (project_id, sample['name'])
-        os.system('mkdir -p "%s"' % sample_output_dir)
-        process_sample(sample, sample_output_dir, param_values)
-        write_sample_metadata(sample, appsessionhref, sampleshrefs, sample_output_dir)
+
+    # for sample in samples:
+    #     sample_output_dir = '/data/output/appresults/%s/%s' % (project_id, sample['name'])
+    #     os.system('mkdir -p "%s"' % sample_output_dir)
+    #     process_sample(sample, sample_output_dir, param_values)
+    #     write_sample_metadata(sample, appsessionhref, sampleshrefs, sample_output_dir)
+
+    output_dir = '/data/output/appresults/%s' % project_id
+    os.system('mkdir -p "%s"' % output_dir)
+    process_sample(output_dir, param_values)
+    write_sample_metadata(sample, appsessionhref, sampleshrefs, output_dir)
 
 
 # this file executed as script
