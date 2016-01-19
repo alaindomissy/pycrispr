@@ -88,7 +88,7 @@ def write_sample_metadata(sample, appsessionhref, sampleshrefs, sample_output_di
         json.dump(metadata,out)
 
 
-def process_sample(sample, sample_output_dir):
+def process_sample(sample, sample_output_dir, param_values):
     ##############################
     result = payload(param_values)
     with open(sample_output_dir + '/payload_result.txt','w') as out:
@@ -108,7 +108,7 @@ def process_appsession(param_values):
     for sample in samples:
         sample_output_dir = '/data/output/appresults/%s/%s' % (project_id, sample['name'])
         os.system('mkdir -p "%s"' % sample_output_dir)
-        process_sample(sample, sample_output_dir)
+        process_sample(sample, sample_output_dir, param_values)
         write_sample_metadata(sample, appsessionhref, sampleshrefs, sample_output_dir)
 
 

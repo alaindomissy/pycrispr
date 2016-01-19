@@ -23,12 +23,15 @@ SCAFFOLDS =  os.environ.get('SCAFFOLDS','/root/scaffolds/mm8/')
 
 def payload(params_value):
 
-    coord = params_value.get('input.genomic-coord', 'chr6-1-400')
-    # genome = args_value['Input.genome-id']
-    # chunk_size = args_value['Input.blast_chunk_size']
-    # max_hsps = args_value['Input.blast_max_hsps']
+    coord = params_value.get('input.genomic_coord')
 
-    # args_value['Input.binding_interference_spacing']
+    if not coord:
+        return "no input.genomic_coord input"
+    
+    # genome = params_value['Input.genome-id']
+    # chunk_size = params_value['Input.blast_chunk_size']
+    # max_hsps = params_value['Input.blast_max_hsps']
+    # binding_interference_spacing = params_value['Input.binding_interference_spacing']
 
     cuts = cut_file(SCAFFOLDS + coord + '.fasta')
 
