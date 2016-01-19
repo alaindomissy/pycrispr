@@ -14,7 +14,6 @@ def read_appsession(appsession_location):
     return appsessionhref, appsessionparams
 
 
-
 def parse_appsessionparams(appsessionparams):
     arguments_with_content = ['input.binding_interference_spacing',
                               'input.blast_chunk_size',
@@ -78,14 +77,14 @@ def json_deepcopy(obj):
     return json.loads(json.dumps(obj))
 
 
-def write_sample_metadata(sample, appsessionhref, sampleshrefs, sample_output_dir):
+def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
     metadata = json_deepcopy(metadatatemplate)
-    metadata['Name'] = sample['id']
-    metadata['Description'] = 'Sample Description'
+    metadata['Name'] = name
+    metadata['Description'] = description
     metadata['HrefAppSession'] = appsessionhref
     metadata['Properties'][0]['Items'].extend(sampleshrefs)
-    with open(sample_output_dir + '/_metadata.json', 'w') as out:
-        json.dump(metadata,out)
+    with open(output_dir + '/_metadata.json', 'w') as out:
+        json.dump(metadata, out)
 
 
 # def process_sample(sample, sample_output_dir, param_values):
@@ -111,12 +110,12 @@ def process_appsession(param_values):
     #     sample_output_dir = '/data/output/appresults/%s/%s' % (project_id, sample['name'])
     #     os.system('mkdir -p "%s"' % sample_output_dir)
     #     process_sample(sample, sample_output_dir, param_values)
-    #     write_sample_metadata(sample, appsessionhref, sampleshrefs, sample_output_dir)
+    #     write_sample_metadata(sample['name'], 'Sample Description', appsessionhref, sampleshrefs, sample_output_dir)
 
-    output_dir = '/data/output/appresults/%s' % project_id
+    output_dir = '/data/output/appresults/%s/sessionsummary' % project_id
     os.system('mkdir -p "%s"' % output_dir)
     process_sample(output_dir, param_values)
-    write_sample_metadata(sample, appsessionhref, sampleshrefs, output_dir)
+    write_metadata('sessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)
 
 
 # this file executed as script
