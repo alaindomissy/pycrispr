@@ -29,6 +29,7 @@ def payload(params_value, output_dir):
     coord = params_value.get('input.genomic_coord')
 
     if not coord:
+        print "no input.genomic_coord input"
         return "no input.genomic_coord input"
 
     genome = params_value['input.genome_id']
@@ -50,13 +51,14 @@ def payload(params_value, output_dir):
 
 
     # coord = 'chr6:47599949-47640339'
-     focusfn =  digest_coord(SCRATCH ,                                               #output_dir
-                                str(coord),
-                                str(SCAFFOLDS + genome + '/' + genome + '.fasta')
+    focusfn =  digest_coord(SCRATCH,
+                            str(coord),
+                            str(SCAFFOLDS + genome + '/' + genome + '.fasta')
                             )
 
-
-     blast1(SCRATCH, focusfn, genome, blastdb_directory=BLASTDB, max_hsps=max_hsps)
-     nbr = blast(SCRATCH, focusfn + '.prsp', genome, blastdb_directory=BLASTDB, chunksize=chunk_size, max_hsps=max_hsps)
+    # blast1(SCRATCH, focusfn, genome, blastdb_directory=BLASTDB, max_hsps=max_hsps)
+    nbr = blast(SCRATCH, focusfn + '.prsp',
+                 genome, blastdb_directory=BLASTDB,
+                 chunksize=chunk_size, max_hsps=max_hsps)
 
     return
