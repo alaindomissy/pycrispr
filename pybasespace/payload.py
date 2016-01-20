@@ -3,6 +3,8 @@ import os
 from buffet.cut import cut_file
 from buffet.digest import digest_fastafile, digest_focused, digest_coord
 from buffet.blast import blast
+from buffet.main import digest_and_blast_coord
+
 
 BLASTDB = os.environ.get('BLASTDB','/genomes/blastdb/')
 
@@ -51,14 +53,18 @@ def payload(params_value, output_dir):
 
 
     # coord = 'chr6:47599949-47640339'
-    focusfn =  digest_coord(SCRATCH,
-                            str(coord),
-                            str(SCAFFOLDS + genome + '/' + genome + '.fasta')
-                            )
 
-    # blast1(SCRATCH, focusfn, genome, blastdb_directory=BLASTDB, max_hsps=max_hsps)
-    nbr = blast(SCRATCH, focusfn + '.prsp',
-                 genome, blastdb_directory=BLASTDB,
-                 chunksize=chunk_size, max_hsps=max_hsps)
+    # reference = str(SCAFFOLDS + genome + '/' + genome + '.fasta')
+    # focusfn =  digest_coord(SCRATCH,
+    #                         str(coord),
+    #                         reference
+    #                         )
+    # nbr = blast(SCRATCH, focusfn + '.prsp',
+    #              genome, blastdb_directory=BLASTDB,
+    #              chunksize=chunk_size, max_hsps=max_hsps)
+    #
+
+    reference = str(SCAFFOLDS + genome + '/' + genome + '.fasta')
+    digest_and_blast_coord(SCRATCH, coord, reference, genome, chunksize=100, max_hsps=100):
 
     return
