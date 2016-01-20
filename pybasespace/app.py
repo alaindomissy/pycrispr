@@ -30,7 +30,7 @@ def parse_appsessionparams(appsessionparams):
     param_values.update(
         {param.get('Name').lower(): param.get('Items')
          for param in appsessionparams
-         if param.get('Name').lower()=='input.restriction_enzymes'
+         if param.get('Name').lower() == 'input.restriction_enzymes'
         }
     )
     param_values.update(
@@ -42,14 +42,14 @@ def parse_appsessionparams(appsessionparams):
     param_values.update(
         {'input.projects_ids': project.get('Id')
          for param in appsessionparams
-         if param.get('Name')=='Input.Projects'
+         if param.get('Name') == 'Input.Projects'
          for project in param['Items']
         }
     )
     param_values.update(
         {'output.projects_ids': project.get('Id')
          for param in appsessionparams
-         if param.get('Name')=='Output.Projects'
+         if param.get('Name') == 'Output.Projects'
          for project in param.get('Items')
         }
     )
@@ -57,7 +57,7 @@ def parse_appsessionparams(appsessionparams):
         {'input.samples':
             [{'id': sample['Id'], 'href':sample['Href'], 'name': sample['Name']}
              for param in appsessionparams
-             if param.get('Name')=='Input.Samples'
+             if param.get('Name') == 'Input.Samples'
              for sample in param.get('Items')
             ]
         }
