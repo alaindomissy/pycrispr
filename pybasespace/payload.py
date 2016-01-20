@@ -49,10 +49,12 @@ def payload(params_value,output_dir):
 
 
     # coord = 'chr6:47599949-47640339'
-    digest_coord(output_dir, str(coord),
+
+    digest_coord(SCRATCH ,                                               #output_dir
+                 str(coord),
                  str(SCAFFOLDS + genome + '/' + genome + '.fasta')
                  )
-    os.rename(rightfasta, wrongfasta)
+
 
     # return cuts
 
