@@ -8,6 +8,8 @@ BLASTDB = os.environ.get('BLASTDB','/genomes/blastdb/')
 
 SCAFFOLDS = os.environ.get('SCAFFOLDS','/genomes/scaffolds/')
 
+SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
+
 
 
 
@@ -47,7 +49,7 @@ def payload(params_value):
 
 
     # coord = 'chr6:47599949-47640339'
-    digest_coord(SCAFFOLDS, str(coord),
+    digest_coord(SCRATCH, str(coord),
                  str(SCAFFOLDS + genome + '/' + genome + '.fasta')
                  )
 
