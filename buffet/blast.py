@@ -55,6 +55,7 @@ def blast1(dir, fn_noext, blastdb_db, blastdb_directory=BLASTDB, max_hsps=100):
 #     args = [iter(iterable)] * chunk_size
 #     return izip(*args)
 
+
 def grouper_longest(iterable, chunk_size, fillvalue=None):
     args = [iter(iterable)] * chunk_size
     return izip_longest(*args, fillvalue=fillvalue)
