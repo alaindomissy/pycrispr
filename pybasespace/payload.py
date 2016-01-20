@@ -2,7 +2,7 @@ import os
 
 from buffet.cut import cut_file
 from buffet.digest import digest_fastafile, digest_focused, digest_coord
-from buffet.blast import blast1, blast
+from buffet.blast import blast
 
 BLASTDB = os.environ.get('BLASTDB','/genomes/blastdb/')
 
@@ -24,7 +24,7 @@ SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
 # digest.digest_coord(SCAFFOLDS +'chr21:42774475-42905100' + 'fasta' ,'mm8', SCAFFOLDS + 'mm8.fasta )
 
 
-def payload(params_value,output_dir):
+def payload(params_value, output_dir):
 
     coord = params_value.get('input.genomic_coord')
 
@@ -39,6 +39,7 @@ def payload(params_value,output_dir):
     filepath = str(SCAFFOLDS + genome + '/' + coord + '.fasta')
 
     # cuts = cut_file(filepath)
+    # return cuts
 
     # digest_fastafile(filepath)
 
@@ -49,16 +50,13 @@ def payload(params_value,output_dir):
 
 
     # coord = 'chr6:47599949-47640339'
+     focusfn =  digest_coord(SCRATCH ,                                               #output_dir
+                                str(coord),
+                                str(SCAFFOLDS + genome + '/' + genome + '.fasta')
+                            )
 
-    digest_coord(SCRATCH ,                                               #output_dir
-                 str(coord),
-                 str(SCAFFOLDS + genome + '/' + genome + '.fasta')
-                 )
 
-
-    # return cuts
-
-     # filename_noext = 'chr6+47599949-47640339_40391'
-     # blast1(dir, filename_noext, genome, blastdb_directory=BLASTDB, max_hsps=max_hsps):
+     blast1(SCRATCH, focusfn, genome, blastdb_directory=BLASTDB, max_hsps=max_hsps)
+     nbr = blast(SCRATCH, focusfn + '.prsp', genome, blastdb_directory=BLASTDB, chunksize=chunk_size, max_hsps=max_hsps)
 
     return

@@ -51,12 +51,12 @@ def blast1(dir, fn_noext, blastdb_db, blastdb_directory=BLASTDB, max_hsps=100):
 
 # ITERATION UTILITY
 
-# def grouper(iterable, chunksize):
-#     args = [iter(iterable)] * chunksize
+# def grouper(iterable, chunk_size):
+#     args = [iter(iterable)] * chunk_size
 #     return izip(*args)
 
-def grouper_longest(iterable, chunksize, fillvalue=None):
-    args = [iter(iterable)] * chunksize
+def grouper_longest(iterable, chunk_size, fillvalue=None):
+    args = [iter(iterable)] * chunk_size
     return izip_longest(*args, fillvalue=fillvalue)
 
 
@@ -65,19 +65,19 @@ def grouper_longest(iterable, chunksize, fillvalue=None):
 ###################
 
 
-def blast(dir, fn_noext, blastdb_db, blastdb_directory=BLASTDB, chunksize=100, max_hsps=100):
+def blast(dir, fn_noext, blastdb_db, blastdb_directory=BLASTDB, chunk_size=100, max_hsps=100):
     # print("starting blast function with " , fn_noext)
     print('parsing protospacers', fn_noext, end='')
     seqs = seqio.parse(dir + fn_noext + '.fasta','fasta')
     print('Done')
     nbr = 0
     nameformat = '%s.%sseqs.%s'     # TODO add '.max%sHSPs.' % max_hsps
-    for seqs_chunk in grouper_longest(seqs, chunksize, None):
+    for seqs_chunk in grouper_longest(seqs, chunk_size, None):
         seqs_chunk = [seq for seq in seqs_chunk if seq]
         nbr += 1
-        # fn_code_noext = fn_noext + + 'hsps.'+  str(chunksize) + 'x'  + str(nbr)
+        # fn_code_noext = fn_noext + + 'hsps.'+  str(chunk_size) + 'x'  + str(nbr)
 
-        fn_code_noext = nameformat % (fn_noext, chunksize, nbr)
+        fn_code_noext = nameformat % (fn_noext, chunk_size, nbr)
         rightfasta = dir + fn_code_noext + '.fasta'
         rightblast = dir + fn_code_noext + '.blast'
         wrongfasta = dir + fn_code_noext + '.fasta.WRONG'
@@ -102,7 +102,7 @@ def blast(dir, fn_noext, blastdb_db, blastdb_directory=BLASTDB, chunksize=100, m
                  os.rename(wrongfasta, rescuedfasta)
             if os.path.isfile(wrongblast):
                  os.rename(wrongblast, rescuedblast)
-    fn_code_noext = nameformat % (fn_noext, chunksize, nbr)
+    fn_code_noext = nameformat % (fn_noext, chunk_size, nbr)
     with open(dir + fn_code_noext + '@' + str(max_hsps) + 'maxHSPs' + '.txt', "w") as temp_hndl:
             temp_hndl.write('all done - %s chunks' % nbr)
     print('blasting all done:', nbr, 'chunks')
