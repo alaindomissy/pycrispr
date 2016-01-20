@@ -28,12 +28,12 @@ def payload(params_value):
     if not coord:
         return "no input.genomic_coord input"
 
-    # genome = params_value['Input.genome-id']
+    genome = params_value['Input.genome-id']
     # chunk_size = params_value['Input.blast_chunk_size']
     # max_hsps = params_value['Input.blast_max_hsps']
     # binding_interference_spacing = params_value['Input.binding_interference_spacing']
 
-    cuts = cut_file(str(SCAFFOLDS + 'mm8/' + coord + '.fasta'))
+    cuts = cut_file(str(SCAFFOLDS + genome + '/' + coord + '.fasta'))
     # cuts = cut_file('/genomes/scaffolds/mm8/chr6-40000.fasta')
     # cuts = cut_file(str(coord))
 
