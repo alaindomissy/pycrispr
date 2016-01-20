@@ -34,5 +34,7 @@ def payload(params_value):
     # binding_interference_spacing = params_value['Input.binding_interference_spacing']
 
     cuts = cut_file(str(SCAFFOLDS + 'mm8' + coord + '.fasta'))
+    # cuts = cut_file('/genomes/scaffolds/mm8/chr6-40000.fasta')
+    # cuts = cut_file(str(coord))
 
     return cuts
