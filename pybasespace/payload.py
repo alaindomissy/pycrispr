@@ -3,7 +3,7 @@ import os
 from buffet.cut import cut_file
 from buffet.digest import digest_fastafile, digest_focused, digest_coord
 from buffet.blast import blast
-from buffet.main import digest_and_blast_coord
+from buffet.main import digest_and_blast_coord, digest_and_blast_and_score_coord
 
 
 BLASTDB = os.environ.get('BLASTDB','/genomes/blastdb/')
@@ -31,7 +31,7 @@ def payload(params_value, output_dir):
     coord = params_value.get('input.genomic_coord')
 
     if not coord:
-        print "no input.genomic_coord input"
+        print("no input.genomic_coord input")
         return "no input.genomic_coord input"
 
     genome = params_value['input.genome_id']
@@ -54,7 +54,8 @@ def payload(params_value, output_dir):
 
     # coord = 'chr6:47599949-47640339'
 
-    # reference = str(SCAFFOLDS + genome + '/' + genome + '.fasta')
+    reference = str(SCAFFOLDS + genome + '/' + genome + '.fasta')
+
     # focusfn =  digest_coord(SCRATCH,
     #                         str(coord),
     #                         reference
@@ -64,7 +65,10 @@ def payload(params_value, output_dir):
     #              chunksize=chunk_size, max_hsps=max_hsps)
     #
 
-    reference = str(SCAFFOLDS + genome + '/' + genome + '.fasta')
-    digest_and_blast_coord(SCRATCH, coord, reference, genome, chunksize=100, max_hsps=100):
+    digest_and_blast_coord(SCRATCH, coord, reference, genome, chunk_size=chunk_size, max_hsps=max_hsps)
+
+    digest_and_blast_and_score_coord(SCRATCH, coord, reference, genome, chunk_size=chunk_size, max_hsps=max_hsps,
+                                     reref_substrate_id='chr6',
+                                     low=75, high=75, load_genome=True, howmany=None)
 
     return
