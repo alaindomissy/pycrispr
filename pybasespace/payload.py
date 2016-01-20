@@ -1,7 +1,7 @@
 import os
 
 from buffet.cut import cut_file
-from buffet.digest import digest_fastafile, digest_focused
+from buffet.digest import digest_fastafile, digest_focused, digest_coord
 
 
 BLASTDB = os.environ.get('BLASTDB','/genomes/blastdb/')
@@ -36,10 +36,20 @@ def payload(params_value):
 
     filepath = str(SCAFFOLDS + genome + '/' + coord + '.fasta')
 
-    cuts = cut_file(filepath)
-    # cuts = cut_file('/genomes/scaffolds/mm8/chr6-40000.fasta')
-    # cuts = cut_file(str(coord))
+    # cuts = cut_file(filepath)
 
-    digest_fastafile(filepath)
+    # digest_fastafile(filepath)
 
-    return cuts
+    # filename = 'chr6+47599949-47640339_40391'
+    # digest_focused(str(SCAFFOLDS + genome + '/' + filename),
+    #                str(SCAFFOLDS + genome + '/' + genome + '.fasta')
+    #                )
+
+
+    # coord = 'chr6:47599949-47640339'
+    digest_coord(SCAFFOLDS, str(coord),
+                 str(SCAFFOLDS + genome + '/' + genome + '.fasta')
+                 )
+
+    # return cuts
+    return
