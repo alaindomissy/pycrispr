@@ -5,7 +5,7 @@ from buffet.cut import cut_file
 
 BLASTDB = os.environ.get('BLASTDB','/genomes/blastdb/')
 
-SCAFFOLDS = os.environ.get('SCAFFOLDS','/data/scaffolds/')
+SCAFFOLDS = os.environ.get('SCAFFOLDS','/genomes/scaffolds/')
 
 
 
