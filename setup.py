@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
-setup(name='crispreating',
-      version='0.1.1',
-      description='Crispr Eating Library Designer.',
+setup(name='pycrispr',
+      version='0.1.2',
+      description='Crispr Eating and other tools.',
       url='https://github.com/alaindomissy/buffet',
       author='Alain Domissy',
       author_email='alaindomissy@gmail.com',
