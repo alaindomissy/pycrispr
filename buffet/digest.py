@@ -70,14 +70,13 @@ def digest_focused(focusfn, referencefastafilepath):
     :param reference:
     :return:
     """
-    bedfilepath = focusfn +'.bed'
-    focus_bedtool = pybedtools.BedTool(bedfilepath)
+    focus_bedtool = pybedtools.BedTool(focusfn +'.bed')
 
     whole_bedtool = pybedtools.BedTool(referencefastafilepath + '.prsp.bed')
     whole_bedtool.intersect(focus_bedtool).moveto(focusfn + ".prsp.bed")
 
-    bed_to_fasta(bedfilepath, referencefastafilepath)
-    bed_to_fasta(focusfn + '.prsp', referencefastafilepath)
+    bed_to_fasta(focusfn + '.bed', referencefastafilepath)
+    bed_to_fasta(focusfn + '.prsp.bed', referencefastafilepath)
 
 
 # INPUT HANDLING
