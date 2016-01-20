@@ -28,16 +28,16 @@ SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
 
 def payload(params_value, output_dir):
 
-    coord = params_value.get('input.genomic_coord')
+    coord = str(params_value.get('input.genomic_coord'))
 
     if not coord:
         print("no input.genomic_coord input")
         return "no input.genomic_coord input"
 
-    genome = params_value['input.genome_id']
-    chunk_size = params_value['input.blast_chunk_size']
-    max_hsps = params_value['input.blast_max_hsps']
-    binding_interference_spacing = params_value['input.binding_interference_spacing']
+    genome = str(params_value['input.genome_id'])
+    chunk_size = str(params_value['input.blast_chunk_size'])
+    max_hsps = str(params_value['input.blast_max_hsps'])
+    binding_interference_spacing = str(params_value['input.binding_interference_spacing'])
 
     filepath = str(SCAFFOLDS + genome + '/' + coord + '.fasta')
 
