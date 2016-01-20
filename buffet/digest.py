@@ -63,20 +63,21 @@ def digest_fastafile(filepath):
 # THE WORKHORSE FUNCTION
 ########################
 
-def digest_focused(focusfn, reference):
+def digest_focused(focusfn, referencefastafilepath):
     """
     The core inner function handling digest. Saves 4 files
     :param focusfn:
     :param reference:
     :return:
     """
-    focus_bedtool = pybedtools.BedTool(focusfn +'.bed')
+    bedfilepath = focusfn +'.bed'
+    focus_bedtool = pybedtools.BedTool(bedfilepath)
 
-    whole_bedtool = pybedtools.BedTool(reference + '.prsp.bed')
+    whole_bedtool = pybedtools.BedTool(referencefastafilepath + '.prsp.bed')
     whole_bedtool.intersect(focus_bedtool).moveto(focusfn + ".prsp.bed")
 
-    bed_to_fasta(focusfn, reference)
-    bed_to_fasta(focusfn + '.prsp', reference)
+    bed_to_fasta(bedfilepath, referencefastafilepath)
+    bed_to_fasta(focusfn + '.prsp', referencefastafilepath)
 
 
 # INPUT HANDLING

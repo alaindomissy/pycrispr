@@ -98,7 +98,7 @@ def process_sample(output_dir, param_values):
     with open(output_dir + '/appsessionparams.csv','w') as out:
         for key, value in param_values.iteritems():
             if key != 'input.samples':
-                out.write('%s,%s\n' % (key ,value))
+                out.write('%s\t%s\n' % (key,value))
 
 
 def process_appsession(param_values):
