@@ -33,6 +33,6 @@ def payload(params_value):
     # max_hsps = params_value['Input.blast_max_hsps']
     # binding_interference_spacing = params_value['Input.binding_interference_spacing']
 
-    cuts = cut_file(SCAFFOLDS + 'mm8' + coord + '.fasta')
+    cuts = cut_file(str(SCAFFOLDS + 'mm8' + coord + '.fasta'))
 
     return cuts
