@@ -89,11 +89,16 @@ def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
 
 # def process_sample(sample, sample_output_dir, param_values):
 def process_sample(output_dir, param_values):
-    ##############################
-    result = payload(param_values)
+
+    # the application payload
+    #########################
+    result = payload(param_values, output_dir)
+
     with open(output_dir + '/payload_result.txt','w') as out:
          out.write(str(result))
-    ##############################
+
+
+
     # demonstration output of param_values table
     with open(output_dir + '/appsessionparams.csv','w') as out:
         for key, value in param_values.iteritems():
