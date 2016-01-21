@@ -1,3 +1,10 @@
+########################################################################################################################
+#
+# PAYLOAD
+#
+# API functions: payload
+#
+########################################################################################################################
 
 from shutil import copytree
 # import logging
@@ -5,7 +12,6 @@ from shutil import copytree
 # def _logpath(path, names):
 #     logging.info('Working in %s' % path)
 #     return []   # nothing will be ignored
-
 
 
 from buffet.settings import SCAFFOLDS, SCRATCH
@@ -23,6 +29,11 @@ from buffet.main import digest_and_blast_coord, digest_and_blast_and_score_coord
 # from buffet import digest
 # digest.digest_file(SCAFFOLDS + 'hg38' + 'fasta')
 # digest.digest_coord(SCAFFOLDS +'chr21:42774475-42905100' + 'fasta' ,'mm8', SCAFFOLDS + 'mm8.fasta )
+
+
+###################
+# MAIN API FUNCTION
+###################
 
 
 def payload(params_value, output_dir):

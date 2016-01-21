@@ -17,6 +17,7 @@ from Bio import SeqIO as seqio    # TODO this is also imported from cut.py, ok?
 
 
 # SINGLE FILE BLASTING
+######################
 
 def blast1(dir, fn_noext, blastdb_db, max_hsps=50):
     # TODO max)hsps stopped working, now replaced with max_hsps_per_subject , but what is going on ?
@@ -24,7 +25,6 @@ def blast1(dir, fn_noext, blastdb_db, max_hsps=50):
         query=dir + fn_noext + '.fasta',
         out=dir + fn_noext + '.blast',
         outfmt=5,
-
         db= blastdb_db,
         max_target_seqs=25,
         num_threads=4,
@@ -33,12 +33,8 @@ def blast1(dir, fn_noext, blastdb_db, max_hsps=50):
         task="blastn-short",
         dust="no",
         )
-    print()
-    print('blastn_cline:  ', end='')
-    print(blastn_cline)
-    print()
+    # print('\nblastn_cline: %s' % blastn_cline)
     try:
-        # blastn_cline()
         stdout, stderr = blastn_cline()
     except ApplicationError as err:
         # print('Bio:Application:ApplicationError number {0} : {1}'.format(err.errno, err.strerror), end='')
@@ -50,8 +46,8 @@ def blast1(dir, fn_noext, blastdb_db, max_hsps=50):
     return False
 
 
-
 # ITERATION UTILITY
+###################
 
 # def grouper(iterable, chunk_size):
 #     args = [iter(iterable)] * chunk_size
@@ -97,12 +93,8 @@ def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
             seqio.write(seqs_chunk, temp_hndl, "fasta")
         failed = blast1(dir, fn_code_noext, blastdb_db, max_hsps)
         if failed:
-            print("rightfasta ", rightfasta)
-            print("wrongfasta ", wrongfasta)
-            print("rightblast ", rightblast)
-            print("wrongblast ", wrongblast)
             os.rename(rightfasta, wrongfasta)
-            # os.rename(rightblast, wrongblast)
+            os.rename(rightblast, wrongblast)
         else:
             if os.path.isfile(wrongfasta):
                  os.rename(wrongfasta, rescuedfasta)
@@ -113,4 +105,3 @@ def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
             temp_hndl.write('all done - %s chunks' % nbr)
     print('blasting all done:', nbr, 'chunks')
     return nbr
-

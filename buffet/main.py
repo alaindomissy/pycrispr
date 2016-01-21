@@ -1,7 +1,11 @@
 ########################################################################################################################
 #
-# BLAST
+# MAIN
 #
+# API functions: digest_and_blast_and_score_coord
+#
+########################################################################################################################
+
 from buffet.digest import digest_coord, digest_stretch
 from buffet.blast import blast
 from buffet.score import score
