@@ -24,7 +24,7 @@ def bedlines_save(cutbedlines, filepath):
     with open(filepath, 'w') as handle:
         for cutbedline in cutbedlines:
             handle.write(cutbedline)
-    print("%s protospacers saved as %s" % (len(cutbedlines), filepath))
+    print("> %s protospacers saved as %s" % (len(cutbedlines), filepath))
 
 
 def bed_to_fasta(bedfilepath, referencefastafilepath):
@@ -40,7 +40,7 @@ def bed_to_fasta(bedfilepath, referencefastafilepath):
     reference = pybedtools.BedTool(referencefastafilepath)
     bedtool = pybedtools.BedTool(bedfilepath)
     bedtool.sequence(fi=reference, s=True).save_seqs(saveasfastapath)
-    print("protospacers saved as %s" % (saveasfastapath))
+    print("> protospacers saved as %s" % (saveasfastapath))
 
 
 # INITIALIZATION FUNCTION
@@ -134,13 +134,13 @@ def digest_coord(direct, coord, reference):
     :param reference:
     :return:
     >>> digest_coord('.', 'chr6:136640001-136680000', 'chr6.fasta')
-
     """
     bedtuplelist, focusfn = coord_to_bedtuple_filename(coord)
-    print('digesting ',  focusfn, end='')
+    print('start digesting', focusfn, end=' ')
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     digest_focused(direct + '/' + focusfn, reference)
-    print('Done')
+    print(' done')
+    print('---')
     return focusfn
 
 
@@ -153,8 +153,8 @@ def digest_stretch(direct, stretch, reference):
     :return:
     """
     bedtuplelist, focusfn = stretch_to_bedtuple_filename(stretch)
-    print('digesting ',  focusfn, end='')
+    print('start digesting', focusfn)
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     digest_focused(direct + '/' + focusfn, reference)
-    print('Done')
+    print('...done')
     return focusfn

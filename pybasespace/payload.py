@@ -1,14 +1,11 @@
-from buffet.settings import BLASTDB, SCAFFOLDS, SCRATCH
+from buffet.settings import SCAFFOLDS, SCRATCH
 # from buffet.cut import cut_file
 # from buffet.digest import digest_fastafile, digest_focused, digest_coord
 # from buffet.blast import blast
 from buffet.main import digest_and_blast_coord, digest_and_blast_and_score_coord
 
 
-
-
-#
-# main.blast(SCAFFOLDS, 'chr6:136640001-136641000_1000.prsp', '/BLASTDB/', 'mm8')
+# main.blast(SCAFFOLDS, 'chr6:136640001-136641000_1000.prsp', 'mm8')
 # from buffet import cut
 
 # cut.cut_file(SCAFFOLDS + 'chr6-1-400' + 'fasta')
@@ -48,14 +45,8 @@ def payload(params_value, output_dir):
 
     reference = str(SCAFFOLDS + genome + '/' + genome + '.fasta')
 
-    # focusfn =  digest_coord(SCRATCH,
-    #                         str(coord),
-    #                         reference
-    #                         )
-    # nbr = blast(SCRATCH, focusfn + '.prsp',
-    #              genome, blastdb_directory=BLASTDB,
-    #              chunksize=chunk_size, max_hsps=max_hsps)
-    #
+    # focusfn =  digest_coord(SCRATCH, str(coord), reference)
+    # nbr = blast(SCRATCH, focusfn + '.prsp', genome, chunk_size=chunk_size, max_hsps=max_hsps)
 
     # digest_and_blast_coord(SCRATCH, coord, reference, genome, chunk_size=chunk_size, max_hsps=max_hsps)
 

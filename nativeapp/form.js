@@ -1,3 +1,4 @@
+
 {"$type": "Form",
  "fields": [
 //////////
@@ -5,48 +6,53 @@
         {"$type": "Select",
          "id": "genome_id",/*"label": "Reference Genome",*/
          "choices": [
-          {"value": "Human", "text": "Human (UCSC HG38)","selected": "false"},
+          {"value": "hg38", "text": "Human (UCSC hg38)","selected": "false"},
+          {"value": "mm10","text": "Mouse (UCSC mm10)","selected": "false"},
+          {"value": "mm8","text": "Mouse (UCSC mm8)","selected": "true"},
+          {"value": "xl","text": "Xenopus Laevis","selected": "false"},
+          {"value": "dm6","text": "Drosophila Melanogaster (UCSC dm6)","selected": "false"},
+          {"value": "ce10","text": "Caenorhabditis Elegans(UCSC ce10)","selected": "false"},
+          {"value": "tair10","text": "Arabidopsis Thaliana (NCBI tair10)","selected": "false"},
+          {"value": "yeast","text": "S. Cerevisia (UCSC sacCer2)","selected": "false"},
+          {"value": "ecoli","text": "E. Coli DH10B (NCBI 2008-03-17)","selected": "false"},
+          {"value": "ecoli2","text": "E. Coli MG1655 (NCBI 2001-10-15 )","selected": "false"},
+          {"value": "phix","text": "Phi X (Illumina)","selected": "false"},
+/*,
           {"value": "Human", "text": "Human (UCSC HG19)","selected": "false"},
-          {"value": "Mouse9","text": "Mouse (UCSC MM10)","selected": "false"},
           {"value": "Mouse9","text": "Mouse (UCSC MM9)","selected": "false"},
-          {"value": "Mouse8","text": "Mouse (UCSC MM8)","selected": "true"},
-          {"value": "XenLa","text": "Xenopus Laevis","selected": "false"}
-/*,       {"value": "Arabidopsis","text": "Arabidopsis (NCBI)","selected": "false"},
           {"value": "B. Taurus","text": "B. Taurus  (Ensembl UMD3.1)","selected": "false"},
-          {"value": "E. Coli DH10B","text": "E. Coli DH10B (NCBI 2008-03-17)","selected": "false"},
-          {"value": "E. Coli MG1655","text": "E. Coli MG1655 (NCBI 2001-10-15 )","selected": "false"},
-          {"value": "Phi X","text": "Phi X (Illumina)","selected": "false"},
           {"value": "S. Aureus NCTC 8325","text": "S. Aureus NCTC 8325 (NCBI 2006-02-13)","selected": "false"},
           {"value": "Rat","text": "Rat (UCSC RN5)","selected": "false"},
           {"value": "Rhodobacter","text": "Rhodobacter  (NCBI 2005-10-07)","selected": "false"},
-          {"value": "S. Cerevisia","text": "S. Cerevisia (UCSC sacCer2)","selected": "false"}
+
 */        ]},
 //////////
     {"$type": "SectionBreak","title": "Target"},
-/*    {"$type": "RadioButton",
+    {"$type": "RadioButton",
         "id": "use-coordinates","label":"Target specification by",
         "value":1,
         "choices": [{"value":1,"label":"Coordinates"},
             {"value":4,"label":"File"},
             {"value":2,"label":"Sample"},
             {"value":3,"label":"App Result"}],
-        "togglers": [{"toggleOnValue":1,"toggleFields":"genomic-coord"},
-            {"toggleOnValue":4,"toggleFields":"file-id"},
-            {"toggleOnValue":2,"toggleFields":"sample-id"},
-            {"toggleOnValue":3,"toggleFields":"app-result-id"}]
+        "togglers": [{"toggleOnValue":1,"toggleFields":"genomic_coord"},
+            {"toggleOnValue":4,"toggleFields":"file_id"},
+            {"toggleOnValue":2,"toggleFields":"sample_id"},
+            {"toggleOnValue":3,"toggleFields":"appresult_id"}]
     },
-*/  {"$type": "TextBox",
+    {"$type": "TextBox",
           "id": "genomic_coord",/*"label":"Genomic Coordinates",*/
           "required":true,"requiredMessage": "Please enter genomic goordinates for your target.",
           "size": 400, "minLength": 0, "maxLength": 150,
-          "value": "chr6:136640001-136680000"},
+          "value": "chr6:47000000-47001000"},
+          //"value": "chr6:47599949-47640339"},
     {"$type":"FileChooser",
-    	"id":"file-id",/*"label":"File",*/
+    	"id":"file_id",/*"label":"File",*/
         "required":false,/*"requiredMessage": "Please choose a file",*/
 	    "size":400,"valueType":"Input","multiselect":false,
 	    "extensionFilters": ".fasta,.fastq,.fasta.gz,.fastq.gz",},
     {"$type":"SampleChooser",
-        "id":"sample-id",/*"label":"Alternatively, select an existing Sample",*/
+        "id":"sample_id",/*"label":"Alternatively, select an existing Sample",*/
         "required":false,"size":400,"valueType": "Input","multiselect":true,
 /*        "displayFields":[
             {"$type": "CheckBox","id": "is-sample-awesome","label": "Awesome?",
@@ -58,7 +64,7 @@
             "choices":[{"text":"Oh, Yes!","value":1},{"text":"Oh, No!","value":0},{"text":"Close Contender","value" 0.5}]}],
 */      "allowedPermissions":"read","rules":"sample-reader"},
     {"$type": "AppResultChooser",
-        "id": "app-result-id",/*"label":"Alternatively, select an existing app Result",*/
+        "id": "appresult_id",/*"label":"Alternatively, select an existing app Result",*/
         "required": false,"size":400,"valueType":"Input" ,"multiselect":"true" },
 
 //////////
@@ -74,7 +80,7 @@
         "size":400, "valueType":"Output",
         "allowedPermissions": "owner","allowResourceCreation": true,"rules": "is-project-owner"},
 /*  {"$type": "RadioButton",
-        "id": "genome","label": "Reference Genome",
+        "id": "genome_id","label": "Reference Genome",
         "value": "mm8",
         "choices": [{"value": "hg38","label": "hg38"},
         	         {"value": "mm8","label": "mm8"},

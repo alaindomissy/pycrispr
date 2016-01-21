@@ -6,8 +6,8 @@ from pybasespace.payload import payload
 from buffet.settings import APPSESSIONJSON
 
 
-def read_appsession(APPSESSIONJSON):
-    with open(APPSESSIONJSON) as hdl:
+def read_appsession(appsession_jsonfilename):
+    with open(appsession_jsonfilename) as hdl:
         appsession = json.load(hdl)
     appsessionparams = appsession['Properties']['Items']
     appsessionhref = appsession['Href']
@@ -96,7 +96,7 @@ def process_sample(output_dir, param_values):
 
     with open(output_dir + '/payload_result.txt','w') as out:
          out.write(str(result))
-    print('payload_result.txt printed in ' + output_dir)
+    print('payload_result.txt printed to: % \n' % output_dir)
 
 
     # demonstration output of param_values table
@@ -104,7 +104,8 @@ def process_sample(output_dir, param_values):
         for key, value in param_values.iteritems():
             if key != 'input.samples':
                 out.write('%s\t%s\n' % (key,value))
-    print('appsessionparams.csv printed in ' + output_dir)
+
+    print('\nappsessionparams.csv \t\t printed to % \n' %output_dir)
 
 
 def process_appsession(param_values):
@@ -121,13 +122,13 @@ def process_appsession(param_values):
     output_dir = '/data/output/appresults/%s/sessionsummary' % project_id
     os.system('mkdir -p "%s"' % output_dir)
     process_sample(output_dir, param_values)
-    write_metadata('sessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)
+    write_metadata('\nsessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)
 
 
 # this file executed as script
 ##############################
 
 if __name__ == '__main__':
-    appsessionhref, appsessionparams = read_appsession(appsession_location)
+    appsessionhref, appsessionparams = read_appsession(APPSESSIONJSON)
     param_values = parse_appsessionparams(appsessionparams)
     process_appsession(param_values)

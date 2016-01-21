@@ -15,7 +15,9 @@ from Bio.Blast import NCBIXML
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from Bio import SeqIO as seqio # TODO this is also imported from cut.py, ok?
 
-from zhang import zhangscore
+# from buffet.settings import BLASTDBDIR
+from buffet.zhang import zhangscore
+
 
 
 def is_valid_pam(pam):
@@ -25,38 +27,50 @@ def is_valid_pam(pam):
     #     and (pam[2] == "G" or pam[2] == "g"))
 
 
+def load_genome_dict(fastafilepath):
+    # genomedict = a dict made from a FASTA file identical to the one used to make the BLAST DB.
+    # dict keys should be BLAST db hit_def.
+    genomeseq = seqio.parse(open(fastafilepath, 'rb'), "fasta", alphabet=IUPACAmbiguousDNA())
+    genomedict = {}
+    for seq in genomeseq:
+        genomedict[seq.id] = seq
+    return genomedict
+
+
+
 ###################
 # MAIN API FUNCTION
 ###################
 
-def score(direct, fn_noext, blastdb_directory, blastdb_db, chunk_size, nbrofchunks,
+def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
           reref_substrate_id=None, load_genome=False):
 
-    # genomedict = a dict made from a FASTA file identical to the one used to make the BLAST DB.
-    # dict keys should be BLAST db hit_def.
     if load_genome:
-        print('reading genome', end='')
-        genomeseq = seqio.parse(open(direct +'dict.fasta', 'rb'), "fasta", alphabet=IUPACAmbiguousDNA())
-        genomedict = {}
-        for seq in genomeseq:
-            genomedict[seq.id] = seq
-        print('...Done')
+        fastafilepath = direct +'dict.fasta'
+        print('start loading genome dictionnary from', end=' ')
+        genomedict =load_genome_dict(fastafilepath)
+        print('...done')
+        print('will use genomedict for pam look up')
+    else:
+        print('will use blastdbcmdfor pam look up')
 
+    print('start loading unscored guides', end='')
     with open(direct + fn_noext + '.fasta') as guidesfn:
         guides = list(seqio.parse(guidesfn, "fasta"))
+        print(' ...done')
 
+    print('start loading chunks of blast results')
     blastrecords = []
-
     for chunknbr in range(1,nbrofchunks+1):
         fn_withext = fn_noext + '.' + str(chunk_size) + 'seqs.' + str(chunknbr) + '.blast'
         blastfn = direct + fn_withext
         try:
             with open(blastfn) as blasthndl:
-                print('parsing chunk', chunknbr, fn_withext, end='')
+                print('- parsing chunk', chunknbr, fn_withext, end='')
                 blastrecords.extend(list(NCBIXML.parse(blasthndl)))
-                print('...Done')
+                print(' done')
         except IOError as ioe:
-            print('missing chunk', chunknbr,  fn_withext, '...Skipped')
+            print('- missing chunk', chunknbr,  fn_withext, 'skipped')
 
         # print(blastrecords)
 
@@ -87,20 +101,20 @@ def score(direct, fn_noext, blastdb_directory, blastdb_db, chunk_size, nbrofchun
                 # TODO *** get the correct substrate id for subject (not same as hit!) - should be alignment.hit_def
                 # TODO *** use betools and fai instead of loading full genome
                 if load_genome:
-                    # print('using the genome dict to lookup pam')
+                    print('+', end='')
                     lookup_context = genomedict[reref_substrate_id]
                     pam = lookup_context[pam_zerobased_range[0]:pam_zerobased_range[1]]
                 else:
-                    # print('using blastdbcmd to lookup pam')
-                    context_lookup_command = "blastdbcmd -db " + blastdb_directory + blastdb_db \
+                    print('*', end='')
+                    context_lookup_command = "blastdbcmd -db " + blastdb_db \
                                              + " -dbtype nucl -entry " + alignment.accession \
                                              + " -range %s-%s" % pam_onebased_range
                     context_lookup_process = subprocess.Popen(context_lookup_command, stdout=subprocess.PIPE, shell = True)
                     fstring = context_lookup_process.communicate()
                     fstring = cStringIO.StringIO(fstring[0])
-                    pam = seqio.read(fstring, "fasta")
+                    pam = seqio.read(fstring, "fasta") # if len(fstring)>0 else None
 
-                if not (hsp.frame[1] > 0):
+                if pam and not (hsp.frame[1] > 0):
                     pam = pam.reverse_complement()
 
                 # make match string padded to query length, where bar(|) is match and space( ) is non-match
@@ -142,6 +156,7 @@ def score(direct, fn_noext, blastdb_directory, blastdb_db, chunk_size, nbrofchun
         # print(hsp.match)
         # print(hsp.sbjct)
         # print(pam.seq)
+    print(' done')
 
     # TODO guides not getting a score, how does this happen ? fix it better
     # kind of fix guides without a score
