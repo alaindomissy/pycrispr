@@ -105,7 +105,7 @@ def process_sample(output_dir, param_values):
             if key != 'input.samples':
                 out.write('%s\t%s\n' % (key,value))
 
-    print('\nappsessionparams.csv \t\t printed to % \n' %output_dir)
+    print('\nappsessionparams.csv printed to % \n' % output_dir)
 
 
 def process_appsession(param_values):

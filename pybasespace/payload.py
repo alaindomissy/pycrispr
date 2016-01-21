@@ -1,3 +1,13 @@
+
+from shutil import copytree
+# import logging
+#
+# def _logpath(path, names):
+#     logging.info('Working in %s' % path)
+#     return []   # nothing will be ignored
+
+
+
 from buffet.settings import SCAFFOLDS, SCRATCH
 # from buffet.cut import cut_file
 # from buffet.digest import digest_fastafile, digest_focused, digest_coord
@@ -54,4 +64,8 @@ def payload(params_value, output_dir):
                                      reref_substrate_id='chr6',
                                      low=75, high=75, load_genome=False, howmany=None)
 
-    return "yeah!"
+
+    # copytree(source, destination, ignore=_logpath)
+    copytree(SCRATCH, output_dir + '/scratch/')
+
+    return
