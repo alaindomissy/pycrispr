@@ -24,7 +24,8 @@ def bedlines_save(cutbedlines, filepath):
     with open(filepath, 'w') as handle:
         for cutbedline in cutbedlines:
             handle.write(cutbedline)
-    print("> %s protospacers saved as %s" % (len(cutbedlines), filepath))
+    print("> saving %s protospacers" % (len(cutbedlines),))
+    print("> saved as bed file %s" % (filepath,))
 
 
 def bed_to_fasta(bedfilepath, referencefastafilepath):
@@ -40,7 +41,7 @@ def bed_to_fasta(bedfilepath, referencefastafilepath):
     reference = pybedtools.BedTool(referencefastafilepath)
     bedtool = pybedtools.BedTool(bedfilepath)
     bedtool.sequence(fi=reference, s=True).save_seqs(saveasfastapath)
-    print("> protospacers saved as %s" % (saveasfastapath))
+    print(">saved as fasta file %s" % (saveasfastapath))
 
 
 # INITIALIZATION FUNCTION

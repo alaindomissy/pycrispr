@@ -6,6 +6,6 @@ SCAFFOLDS = os.environ.get('SCAFFOLDS','/genomes/scaffolds/')
 
 SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
 
-APPSESSIONJSON = os.environ.get('APPSESSION', '/data/input/AppSession.json')
+APPSESSIONJSON = os.environ.get('APPSESSIONJSON', '/data/input/AppSession.json')
 
 RESTRICTION_ENZYMES_LIST = ['BfaI', 'HpaII', 'ScrFI']
