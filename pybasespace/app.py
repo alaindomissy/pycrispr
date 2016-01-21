@@ -90,7 +90,7 @@ def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
 # def process_sample(sample, sample_output_dir, param_values):
 def process_sample(output_dir, param_values):
 
-    # the application payload
+    # the application payload - CAREFUL this also creates the output_dir
     #########################
     result = payload(param_values, output_dir)
 
@@ -105,7 +105,7 @@ def process_sample(output_dir, param_values):
             if key != 'input.samples':
                 out.write('%s\t%s\n' % (key,value))
 
-    print('\nappsessionparams.csv printed to % \n' % output_dir)
+    # print('\nappsessionparams.csv printed to % \n' % output_dir)
 
 
 def process_appsession(param_values):
@@ -120,7 +120,8 @@ def process_appsession(param_values):
     #     write_sample_metadata(sample['name'], 'Sample Description', appsessionhref, sampleshrefs, sample_output_dir)
 
     output_dir = '/data/output/appresults/%s/sessionsummary' % project_id
-    os.system('mkdir -p "%s"' % output_dir)
+    # see above output_dir get created by call to payload
+    #os.system('mkdir -p "%s"' % output_dir)
     process_sample(output_dir, param_values)
     write_metadata('\nsessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)
 
