@@ -54,4 +54,4 @@ def payload(params_value, output_dir):
                                      reref_substrate_id='chr6',
                                      low=75, high=75, load_genome=False, howmany=None)
 
-    return
+    return "yeah!"
