@@ -94,9 +94,9 @@ def process_sample(output_dir, param_values):
     #########################
     result = payload(param_values, output_dir)
 
-    with open(output_dir + '/payload_result.txt','w') as out:
-         out.write(str(result))
-    print('payload_result.txt printed to: % \n' % output_dir)
+    # with open(output_dir + '/payload_result.txt','w') as out:
+    #      out.write(str(result))
+    # print('payload_result.txt printed to: % \n' % output_dir)
 
 
     # demonstration output of param_values table
