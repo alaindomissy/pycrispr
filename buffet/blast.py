@@ -18,7 +18,7 @@ from Bio import SeqIO as seqio    # TODO this is also imported from cut.py, ok?
 
 # SINGLE FILE BLASTING
 
-def blast1(dir, fn_noext, blastdb_db, max_hsps=100):
+def blast1(dir, fn_noext, blastdb_db, max_hsps=50):
     # TODO max)hsps stopped working, now replaced with max_hsps_per_subject , but what is going on ?
     blastn_cline = NcbiblastnCommandline(
         query=dir + fn_noext + '.fasta',
@@ -68,7 +68,7 @@ def grouper_longest(iterable, chunk_size, fillvalue=None):
 ###################
 
 
-def blast(dir, fn_noext, blastdb_db, chunk_size=100, max_hsps=100):
+def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
     print("start blasting protospacers fn_noext", fn_noext, end=' ')
     seqs = seqio.parse(dir + fn_noext + '.fasta','fasta')
     print('done')

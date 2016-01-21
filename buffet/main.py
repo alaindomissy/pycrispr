@@ -13,7 +13,7 @@ from buffet.cluster import cluster
 # DIGEST AND BLAST
 #########################################################
 
-def digest_and_blast_coord(direct, coord, reference, blastdb_db, chunk_size=100, max_hsps=100):
+def digest_and_blast_coord(direct, coord, reference, blastdb_db, chunk_size=50, max_hsps=50):
     focusfn = digest_coord(direct, coord, reference)
     nbr = blast(direct, focusfn + '.prsp', blastdb_db, chunk_size=chunk_size, max_hsps=max_hsps)
     return nbr
@@ -28,7 +28,7 @@ def digest_and_blast_stretch(direct, stretch, reference, blastdb_db, chunk_size=
 # BLAST AND SCORE
 #########################################################
 
-def blast_and_score(direct, fn_noext, blastdb_db, chunk_size=100, max_hsps=None,
+def blast_and_score(direct, fn_noext, blastdb_db, chunk_size=50, max_hsps=50,
                     reref_substrate_id='chr6', low=75, high=75, load_genome=True, howmany=24):
     nbr = blast(direct, fn_noext, blastdb_db, chunk_size=chunk_size, max_hsps=max_hsps)
     guides = score(direct, fn_noext, blastdb_db, chunk_size=chunk_size, nbrofchunks=nbr,
@@ -46,7 +46,7 @@ def blast_and_score(direct, fn_noext, blastdb_db, chunk_size=100, max_hsps=None,
 # genome    same, used when (correctly) blasting agaist whole geome
 #
 # TODO get rid of reref_substrate_id122
-def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk_size=100, max_hsps=100,
+def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk_size=50, max_hsps=50,
                                      reref_substrate_id='chr6', low=75, high=75, load_genome=False, howmany=None):
     """
 
@@ -72,7 +72,7 @@ def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk
 
 
 # TODO merge with the above onto one flexible input function
-def digest_and_blast_and_score_stretch(direct, stretch, reference, blastdb_db, chunk_size=100, max_hsps=100,
+def digest_and_blast_and_score_stretch(direct, stretch, reference, blastdb_db, chunk_size=50, max_hsps=50,
                                        reref_substrate_id='chr6', low=75, high=75, load_genome=False, howmany=None):
     """
 
