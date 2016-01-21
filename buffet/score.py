@@ -29,7 +29,7 @@ def is_valid_pam(pam):
 # MAIN API FUNCTION
 ###################
 
-def score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize, nbrofchunks,
+def score(direct, fn_noext, blastdb_directory, blastdb_db, chunk_size, nbrofchunks,
           reref_substrate_id=None, load_genome=False):
 
     # genomedict = a dict made from a FASTA file identical to the one used to make the BLAST DB.
@@ -40,22 +40,23 @@ def score(direct, fn_noext, blastdb_directory, blastdb_db, chunksize, nbrofchunk
         genomedict = {}
         for seq in genomeseq:
             genomedict[seq.id] = seq
-        print('Done')
+        print('...Done')
 
     with open(direct + fn_noext + '.fasta') as guidesfn:
         guides = list(seqio.parse(guidesfn, "fasta"))
 
     blastrecords = []
+
     for chunknbr in range(1,nbrofchunks+1):
-        fn_withext = fn_noext + '.' + str(chunksize) + 'seqs.' + str(chunknbr) + '.blast'
+        fn_withext = fn_noext + '.' + str(chunk_size) + 'seqs.' + str(chunknbr) + '.blast'
         blastfn = direct + fn_withext
         try:
             with open(blastfn) as blasthndl:
                 print('parsing chunk', chunknbr, fn_withext, end='')
                 blastrecords.extend(list(NCBIXML.parse(blasthndl)))
-                print('Done')
+                print('...Done')
         except IOError as ioe:
-            print('missing chunk', chunknbr,  fn_withext, 'Skipped')
+            print('missing chunk', chunknbr,  fn_withext, '...Skipped')
 
         # print(blastrecords)
 

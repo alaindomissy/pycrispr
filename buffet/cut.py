@@ -9,13 +9,14 @@
 #######################################################################################################################
 
 from os.path import splitext
-
 import gzip
 from string import lstrip
 
 from Bio import SeqIO as seqio
 
-from analysis import create_analysis
+from buffet.settings import RESTRICTION_ENZYMES_LIST
+from buffet.analysis import create_analysis
+
 
 
 #######################################################################################################################
@@ -62,13 +63,13 @@ def cut_cutdict(cutdict, substrate_id, substrate_end):
             for sense in ['+', '-']
             ]
 
-def cut_seqrecord(seqrecord, enzyme_names=['BfaI', 'HpaII', 'ScrFI'] ):
+def cut_seqrecord(seqrecord, enzyme_names=RESTRICTION_ENZYMES_LIST):
     # cut_dict = create_analysis(seqrecord.seq, enzyme_names).full()        # TODO we should only loose 1 side, not both
     cut_dict = create_analysis(seqrecord.seq, enzyme_names).only_between(20, len(seqrecord)-20)   # TODO is 20 the best?
     return cut_cutdict(cut_dict, seqrecord.id, len(seqrecord))
 
 
-def cut_seqrecords(seqrecords, enzyme_names=['BfaI', 'HpaII', 'ScrFI'] ):
+def cut_seqrecords(seqrecords, enzyme_names=RESTRICTION_ENZYMES_LIST):
     cuts = []
     for seqrecord in seqrecords:
         cuts.extend(cut_seqrecord(seqrecord, enzyme_names))

@@ -6,7 +6,12 @@
 ########################################################################################################################
 
 
+# import matplotlib.pyplot as plt
+import matplotlib as mpl
+# Agg is a backend allowing to create plots without a running X server
+mpl.use('Agg')
 import matplotlib.pyplot as plt
+
 from numpy import mean
 import collections
 

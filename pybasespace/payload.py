@@ -1,16 +1,8 @@
-import os
-
-from buffet.cut import cut_file
-from buffet.digest import digest_fastafile, digest_focused, digest_coord
-from buffet.blast import blast
+from buffet.settings import BLASTDB, SCAFFOLDS, SCRATCH
+# from buffet.cut import cut_file
+# from buffet.digest import digest_fastafile, digest_focused, digest_coord
+# from buffet.blast import blast
 from buffet.main import digest_and_blast_coord, digest_and_blast_and_score_coord
-
-
-BLASTDB = os.environ.get('BLASTDB','/genomes/blastdb/')
-
-SCAFFOLDS = os.environ.get('SCAFFOLDS','/genomes/scaffolds/')
-
-SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
 
 
 
@@ -69,6 +61,6 @@ def payload(params_value, output_dir):
 
     digest_and_blast_and_score_coord(SCRATCH, coord, reference, genome, chunk_size=chunk_size, max_hsps=max_hsps,
                                      reref_substrate_id='chr6',
-                                     low=75, high=75, load_genome=True, howmany=None)
+                                     low=75, high=75, load_genome=False, howmany=None)
 
     return

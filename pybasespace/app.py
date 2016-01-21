@@ -3,11 +3,11 @@ import json
 
 from pybasespace.payload import payload
 
-appsession_location = os.environ.get('APPSESSION', '/data/input/AppSession.json')
+from buffet.settings import APPSESSIONJSON
 
 
-def read_appsession(appsession_location):
-    with open(appsession_location) as hdl:
+def read_appsession(APPSESSIONJSON):
+    with open(APPSESSIONJSON) as hdl:
         appsession = json.load(hdl)
     appsessionparams = appsession['Properties']['Items']
     appsessionhref = appsession['Href']
