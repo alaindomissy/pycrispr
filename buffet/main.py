@@ -39,6 +39,7 @@
 # TODO scikitbio inspiration for pycripr
 # TODO testing framework
 # TODO doctest
+# TODO /root/bin folder
 
 
 
