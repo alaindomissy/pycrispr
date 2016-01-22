@@ -12,6 +12,7 @@ import subprocess
 import cStringIO
 
 from Bio.Blast import NCBIXML
+from Bio.Application import ApplicationError
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from Bio import SeqIO as seqio # TODO this is also imported from cut.py, ok?
 
@@ -106,7 +107,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                     lookup_context = genomedict[reref_substrate_id]
                     pam = lookup_context[pam_zerobased_range[0]:pam_zerobased_range[1]]
                 else:
-                    print('>',  hsp.sbjct, 'blast-db pam-lookup', , end=' ')
+                    print('>',  hsp.sbjct, 'blast-db pam-lookup', end=' ')
                     # print('*', end='')
                     fstring = ''
                     try:
