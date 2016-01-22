@@ -42,7 +42,7 @@ def bed_to_fasta(bedfilepath, referencefastafilepath):
     reference = pybedtools.BedTool(referencefastafilepath)
     bedtool = pybedtools.BedTool(bedfilepath)
     bedtool.sequence(fi=reference, s=True).save_seqs(saveasfastapath)
-    print(">saved as fasta file %s" % (saveasfastapath))
+    print("> saved as fasta file %s" % (saveasfastapath))
 
 
 # INITIALIZATION FUNCTION
@@ -76,6 +76,7 @@ def digest_focused(focusfn, referencefastafilepath):
 
     whole_bedtool = pybedtools.BedTool(referencefastafilepath + '.prsp.bed')
     whole_bedtool.intersect(focus_bedtool).moveto(focusfn + ".prsp.bed")
+    print("> saved as bed file %s" % (focusfn + ".prsp.bed",))
 
     bed_to_fasta(focusfn + '.bed', referencefastafilepath)
     bed_to_fasta(focusfn + '.prsp.bed', referencefastafilepath)
@@ -138,7 +139,7 @@ def digest_coord(direct, coord, reference):
     >>> digest_coord('.', 'chr6:136640001-136680000', 'chr6.fasta')
     """
     bedtuplelist, focusfn = coord_to_bedtuple_filename(coord)
-    print('start digesting', focusfn)
+    print('nDIGESTING GENOMIC INTERVAL', focusfn)
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     digest_focused(direct + '/' + focusfn, reference)
     return focusfn
@@ -153,7 +154,7 @@ def digest_stretch(direct, stretch, reference):
     :return:
     """
     bedtuplelist, focusfn = stretch_to_bedtuple_filename(stretch)
-    print('start digesting', focusfn)
+    print('DIGESTING GENOMIC INTERVAL', focusfn)
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     digest_focused(direct + '/' + focusfn, reference)
     print('...done')

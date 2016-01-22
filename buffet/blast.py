@@ -65,7 +65,7 @@ def grouper_longest(iterable, chunk_size, fillvalue=None):
 
 
 def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
-    print("start blasting protospacers fn_noext", fn_noext, end=' ')
+    print("\nBLASTING PROTOSPACERS fn_noext", fn_noext, end=' ')
     seqs = seqio.parse(dir + fn_noext + '.fasta','fasta')
     print('done')
     nbr = 0

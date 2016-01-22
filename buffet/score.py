@@ -47,7 +47,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
 
     if load_genome:
         fastafilepath = direct +'dict.fasta'
-        print('start loading genome dictionnary from', end=' ')
+        print('\nLOADING REFERENCE GENOME from', end=' ')
         genomedict =load_genome_dict(fastafilepath)
         print('...done')
         print('will use genomedict for pam look up')
@@ -59,18 +59,18 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
         guides = list(seqio.parse(guidesfn, "fasta"))
         print(' ...done')
 
-    print('start loading chunks of blast results')
+    print('\nPARSING BLAST RESULTS CHUNKS')
     blastrecords = []
     for chunknbr in range(1,nbrofchunks+1):
         fn_withext = fn_noext + '.' + str(chunk_size) + 'seqs.' + str(chunknbr) + '.blast'
         blastfn = direct + fn_withext
         try:
             with open(blastfn) as blasthndl:
-                print('- parsing chunk', chunknbr, fn_withext, end='')
+                print('> parsing chunk ', chunknbr.zfill(3), fn_withext, end='')
                 blastrecords.extend(list(NCBIXML.parse(blasthndl)))
                 print(' done')
         except IOError as ioe:
-            print('- missing chunk', chunknbr,  fn_withext, 'skipped')
+            print('> missing chunk', chunknbr,  fn_withext, 'skipped')
 
         # print(blastrecords)
 
@@ -101,22 +101,29 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                 # TODO *** get the correct substrate id for subject (not same as hit!) - should be alignment.hit_def
                 # TODO *** use betools and fai instead of loading full genome
                 if load_genome:
+                    print('> pam lookup in genome dict for ', hsp.sbjct , end=' ')
                     print('+', end='')
                     lookup_context = genomedict[reref_substrate_id]
                     pam = lookup_context[pam_zerobased_range[0]:pam_zerobased_range[1]]
                 else:
-                    print('*', end='')
-                    context_lookup_command = "blastdbcmd -db " + blastdb_db \
+                    print('> pam lookup in blastdb for ', hsp.sbjct , end=' ')
+                    # print('*', end='')
+                    fstring = ''
+                    try:
+                        context_lookup_command = "blastdbcmd -db " + blastdb_db \
                                              + " -dbtype nucl -entry " + alignment.accession \
                                              + " -range %s-%s" % pam_onebased_range
-                    context_lookup_process = subprocess.Popen(context_lookup_command, stdout=subprocess.PIPE, shell = True)
-                    fstring = context_lookup_process.communicate()
-                    fstring = cStringIO.StringIO(fstring[0])
+                        context_lookup_process = subprocess.Popen(context_lookup_command, stdout=subprocess.PIPE, shell = True)
+                        fstring = context_lookup_process.communicate()
+                        fstring = cStringIO.StringIO(fstring[0])
+                    except ApplicationError as err:
+                        print(str(err).split('message ')[1].strip('\''))
                     pam = seqio.read(fstring, "fasta") # if len(fstring)>0 else None
 
                 if pam and not (hsp.frame[1] > 0):
                     pam = pam.reverse_complement()
 
+                print('> zhang scoring for for ', hsp.sbjct , end=' ')
                 # make match string padded to query length, where bar(|) is match and space( ) is non-match
                 mmstr = list(hsp.match)
                 if hsp.query_start > 1:
@@ -158,6 +165,8 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
         # print(pam.seq)
     print(' done')
 
+
+    print('\nSAVING SCORED GUIDES')
     # TODO guides not getting a score, how does this happen ? fix it better
     # kind of fix guides without a score
     for guide in guides:

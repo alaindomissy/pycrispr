@@ -23,6 +23,7 @@ from cut import tabbed_string_from_list
 
 def cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None, fn_noext=None):
 
+    print('\nGOOD GUIDES CLUSTERS ANALYSIS')
     bedlines_s = scorebedlines(guides, reref_substrate_id, low, high)
     savelinestofile(direct + fn_noext + '.scores.bed', bedlines_s)
     # if reref_substrate_id:
@@ -39,6 +40,9 @@ def cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None, f
     return guides, groups
 
 
+# HISTOGRAM
+############
+
 def histo(direct, guides, fn_noext):
     scores = [guide.annotations['score'] for guide in guides]
     bins = range(0,106,5)
@@ -47,9 +51,6 @@ def histo(direct, guides, fn_noext):
     plt.savefig(direct + fn_noext + '.scores.pdf', format="pdf")
 
 
-
-
-############
 # BED FILES
 ############
 
@@ -61,6 +62,7 @@ def savelinestofile(outputdirpath, bedlines):
 
 def scorebedlines(guides, reref_substrate_id, low, high):
     return [scorebedline(guide, reref_substrate_id, low, high) for guide in guides]
+
 
 def scorebedline(guide, reref_substrate_id,low, high):
     substrate_id = guide.id.split(':')[0]
@@ -108,8 +110,6 @@ def groupbedline(group, reref_substrate_id, howmany, index):
     cutinfo = [substrate_id, bedstart, bedend, 'group', score, '.', bedstart, bedend, color]
     bedline = tabbed_string_from_list(cutinfo)
     return bedline
-
-
 
 
 ###

@@ -106,6 +106,10 @@ def single_offtarget_score(mismatches):
     return 100.0 * t1 * t2 * t3
 
 
+###################
+# MAIN API FUNCTION
+###################
+
 def zhangscore(matchbars):
     """
     :param macthbars: a 20-long string of bars(|) and spaces ( ) for an alignement match resp. mismatch positions
