@@ -57,6 +57,7 @@ def cut(enzyme, cutpos, substrate_id, substrate_end, sense='+'):
 ############
 
 def cut_cutdict(cutdict, substrate_id, substrate_end):
+    print('> parsing guides from digestion loci', str(enzyme))
     return [cut(enzyme, cutpos, substrate_id, substrate_end, sense)
             for enzyme in cutdict.keys()
             for index, cutpos in enumerate(cutdict[enzyme])
@@ -65,6 +66,7 @@ def cut_cutdict(cutdict, substrate_id, substrate_end):
 
 def cut_seqrecord(seqrecord, enzyme_names=RESTRICTION_ENZYMES_LIST):
     # cut_dict = create_analysis(seqrecord.seq, enzyme_names).full()        # TODO we should only loose 1 side, not both
+    print('> digesting using enzymes', enzyme_names)
     cut_dict = create_analysis(seqrecord.seq, enzyme_names).only_between(20, len(seqrecord)-20)   # TODO is 20 the best?
     return cut_cutdict(cut_dict, seqrecord.id, len(seqrecord))
 
@@ -80,6 +82,7 @@ def cut_seqrecords(seqrecords, enzyme_names=RESTRICTION_ENZYMES_LIST):
 # TODO can seqio handle the decompression itself?
 # TODO write similar utlity to create a dict using SeqIO.to_dict
 def create_seqrecords_from_file(filepath, fileformat):
+    print('> loading sequence from ref genome for interval', filepath)
     if fileformat[-3:] == '.gz':
         string_or_handle = gzip.open(filepath, 'r')
         parseformat = fileformat[:-3]

@@ -66,7 +66,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
         blastfn = direct + fn_withext
         try:
             with open(blastfn) as blasthndl:
-                print('> parsing chunk ', chunknbr.zfill(3), fn_withext, end='')
+                print('> parsing chunk ', str(chunknbr).zfill(3), fn_withext, end='')
                 blastrecords.extend(list(NCBIXML.parse(blasthndl)))
                 print(' done')
         except IOError as ioe:

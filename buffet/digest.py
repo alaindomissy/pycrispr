@@ -139,7 +139,7 @@ def digest_coord(direct, coord, reference):
     >>> digest_coord('.', 'chr6:136640001-136680000', 'chr6.fasta')
     """
     bedtuplelist, focusfn = coord_to_bedtuple_filename(coord)
-    print('nDIGESTING GENOMIC INTERVAL', focusfn)
+    print('\nDIGESTING GENOMIC INTERVAL', focusfn)
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     digest_focused(direct + '/' + focusfn, reference)
     return focusfn
@@ -154,7 +154,7 @@ def digest_stretch(direct, stretch, reference):
     :return:
     """
     bedtuplelist, focusfn = stretch_to_bedtuple_filename(stretch)
-    print('DIGESTING GENOMIC INTERVAL', focusfn)
+    print('\nDIGESTING GENOMIC INTERVAL', focusfn)
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     digest_focused(direct + '/' + focusfn, reference)
     print('...done')

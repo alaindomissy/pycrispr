@@ -28,7 +28,7 @@
 # TODO app intro section
 # TODO app background literate code bacground: bio, algo, app tutorial
 # TODO dockerfile and docker registry CI
-# TODO use illumina cocker registry, or private one
+# TODO use illumina docker registry, or private one
 # TODO retry amazon docker machine
 # TODO genomes data move to S3
 # TODO rename github project
