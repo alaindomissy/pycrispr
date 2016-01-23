@@ -76,7 +76,7 @@ def digest_focused(focusfn, referencefastafilepath):
 
     print("> loading protospacers from reference genome bed file %s" % (referencefastafilepath + ".prsp.bed",))
     whole_bedtool = pybedtools.BedTool(referencefastafilepath + '.prsp.bed')
-    print("> intersection interval with referencebbed filed"
+    print("> intersection interval with referencebbed filed")
     whole_bedtool.intersect(focus_bedtool).moveto(focusfn + ".prsp.bed")
     print("> saved as bed file %s" % (focusfn + ".prsp.bed",))
 
