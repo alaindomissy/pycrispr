@@ -83,9 +83,8 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
 
         for alignment in blastitem.alignments:    # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
-            print('>', hsp.query, 'guide off-target-hits review')
             for hsp in alignment.hsps:
-
+                print('>', hsp.query, 'guide off-target-hits review')
                 # getting the pam adjacent to the hsp's subject
 
                 hit_threeprime_offset = len(guides[0]) - hsp.query_end
