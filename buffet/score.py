@@ -80,8 +80,10 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
         fullmatches = 0
         scorelist = []
 
+
         for alignment in blastitem.alignments:    # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
+            print('> guide off-target-hits review')
             for hsp in alignment.hsps:
 
                 # getting the pam adjacent to the hsp's subject
@@ -102,12 +104,12 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                 # TODO *** get the correct substrate id for subject (not same as hit!) - should be alignment.hit_def
                 # TODO *** use betools and fai instead of loading full genome
                 if load_genome:
-                    print('>', hsp.sbjct,'ref-genome pam-lookup' , end=' ')
+                    print('> >', hsp.sbjct,'off-target-hit ref-genome pam-lookup' , end=' ')
                     print('+', end='')
                     lookup_context = genomedict[reref_substrate_id]
                     pam = lookup_context[pam_zerobased_range[0]:pam_zerobased_range[1]]
                 else:
-                    print('>',  hsp.sbjct, 'blast-db pam-lookup', end=' ')
+                    print('> >',  hsp.sbjct, 'off-target-hit blast-db pam-lookup', end=' ')
                     # print('*', end='')
                     fstring = ''
                     try:
@@ -124,7 +126,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                 if pam and not (hsp.frame[1] > 0):
                     pam = pam.reverse_complement()
 
-                print('& padding', end=' ')
+                print('+ padding', end=' ')
                 # make match string padded to query length, where bar(|) is match and space( ) is non-match
                 mmstr = list(hsp.match)
                 if hsp.query_start > 1:
@@ -133,7 +135,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                     mmstr = mmstr + list("." * (20 - hsp.query_end))
                 mmstr = "".join(mmstr)
 
-                print('& pam-checking', end=' ')
+                print('+ pam-checking', end=' ')
                 # TODO can this really not be the case? and then why do we not append a matchdit with score 0.0
                 if len(pam) == 3:
                     matchdict = {"match_score": 0.0,
@@ -144,9 +146,8 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                                  "match_bars": mmstr}
                     if is_valid_pam(pam):  # Test for valid PAM adjacency
                         if (hsp.positives >16 and hsp.positives < 20):
-                            print('& zhang-scoring')
+                            print('+ zhang-scoring', end=' ')
                             matchdict["match_score"] = zhangscore(mmstr)
-
                         # "Zhang lab algorithm doesn't handle perfect matches: give it a 50 if it's perfect"
                         # I think we should give it a 100.0 !
                         # we dont want to count in scoring the first perfect match found,
@@ -156,7 +157,8 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                                 matchdict["match_score"] = 100.0
                             fullmatches += 1
                     scorelist.append(matchdict)
-
+                print()
+        print('> overall guide-scoring', end=' ')
         finalscore = int(10000.000 / (100.000 + float(sum(item["match_score"] for item in scorelist))))
         guides[blastindex].annotations['score'] = finalscore
         guides[blastindex].annotations["blastindex"] = blastindex

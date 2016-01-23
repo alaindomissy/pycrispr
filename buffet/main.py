@@ -40,6 +40,7 @@
 # TODO testing framework
 # TODO doctest
 # TODO /root/bin folder
+# TODO gui to input number of good guides desired
 
 
 
