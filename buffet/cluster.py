@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 from numpy import mean
 import collections
 
-from cut import tabbed_string_from_list
+from buffet.cut import tabbed_string_from_list
 
 ###################
 # MAIN API FUNCTION
@@ -23,7 +23,7 @@ from cut import tabbed_string_from_list
 
 def cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None, fn_noext=None):
 
-    print('\nGOOD GUIDES CLUSTERS ANALYSIS')
+    print('\nCLUSTERING GOOD GUIDES')
     bedlines_s = scorebedlines(guides, reref_substrate_id, low, high)
     savelinestofile(direct + fn_noext + '.scores.bed', bedlines_s)
     # if reref_substrate_id:
@@ -35,9 +35,14 @@ def cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None, f
     savelinestofile(direct + fn_noext + '.groups.bed', bedlines_c)
 
     print_groups_info(groups, howmany)
+
+    print('\nRANKING CLUSTERS BY GUIDES YIELD')
     print_scores_info(scores(guides))
     histo(direct, guides, fn_noext)
+
+    print('\nDESIGNING PRIMERS')
     return guides, groups
+
 
 
 # HISTOGRAM

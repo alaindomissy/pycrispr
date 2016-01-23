@@ -12,7 +12,7 @@ from __future__ import print_function
 from os.path import splitext
 import pybedtools
 
-from cut import cut_file
+from buffet.cut import cut_file
 
 
 def bedlines_save(cutbedlines, filepath):
@@ -74,7 +74,9 @@ def digest_focused(focusfn, referencefastafilepath):
     """
     focus_bedtool = pybedtools.BedTool(focusfn +'.bed')
 
+    print("> loading protospacers from reference genome bed file %s" % (referencefastafilepath + ".prsp.bed",))
     whole_bedtool = pybedtools.BedTool(referencefastafilepath + '.prsp.bed')
+    print("> intersection interval with referencebbed filed"
     whole_bedtool.intersect(focus_bedtool).moveto(focusfn + ".prsp.bed")
     print("> saved as bed file %s" % (focusfn + ".prsp.bed",))
 
@@ -156,6 +158,7 @@ def digest_stretch(direct, stretch, reference):
     bedtuplelist, focusfn = stretch_to_bedtuple_filename(stretch)
     print('\nDIGESTING GENOMIC INTERVAL', focusfn)
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
+    print("> interval saved as bed file %s" % (focusfn + ".bed",))
     digest_focused(direct + '/' + focusfn, reference)
     print('...done')
     return focusfn

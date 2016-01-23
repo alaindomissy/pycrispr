@@ -83,7 +83,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
 
         for alignment in blastitem.alignments:    # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
-            print('> guide off-target-hits review')
+            print('>', hsp.query, 'guide off-target-hits review')
             for hsp in alignment.hsps:
 
                 # getting the pam adjacent to the hsp's subject
@@ -104,12 +104,12 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                 # TODO *** get the correct substrate id for subject (not same as hit!) - should be alignment.hit_def
                 # TODO *** use betools and fai instead of loading full genome
                 if load_genome:
-                    print('> >', hsp.sbjct,'off-target-hit ref-genome pam-lookup' , end=' ')
+                    print('  >', hsp.sbjct,'off-target-hit ref-genome pam-lookup' , end=' ')
                     print('+', end='')
                     lookup_context = genomedict[reref_substrate_id]
                     pam = lookup_context[pam_zerobased_range[0]:pam_zerobased_range[1]]
                 else:
-                    print('> >',  hsp.sbjct, 'off-target-hit blast-db pam-lookup', end=' ')
+                    print('  >',  hsp.sbjct, 'off-target-hit blast-db pam-lookup', end=' ')
                     # print('*', end='')
                     fstring = ''
                     try:
@@ -171,7 +171,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
     print(' done')
 
 
-    print('\nSAVING SCORED GUIDES')
+    print('\nCHECKING ZERO SCORED GUIDES')
     # TODO guides not getting a score, how does this happen ? fix it better
     # kind of fix guides without a score
     for guide in guides:
@@ -184,6 +184,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
     # print("HERE ARE THE GUIDES: ")
     # print([(guide.id, guide.seq, guide.annotations.get('score')) for guide in guides])
 
+    print('\nSORTING SCORED GUIDES')
     # sort guides by position, using the seqrecord id
     # guides.sort(key=lambda x: int(x.id.split(':')[2].split('-')[0]))
     guides.sort(key=lambda x: int(x.id.split(':')[1].split('-')[0]))
