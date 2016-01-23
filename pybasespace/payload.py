@@ -77,6 +77,6 @@ def payload(params_value, output_dir):
 
 
     # copytree(source, destination, ignore=_logpath)
-    copytree(SCRATCH, output_dir)
+    # copytree(SCRATCH, output_dir)
 
     return
