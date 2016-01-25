@@ -135,7 +135,7 @@ def process_appsession(param_values):
     os.system('mkdir -p "%s"' % output_dir)
 
     # process_sample(output_dir, param_values)
-    # write_metadata('\nsessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)
+    write_metadata('\nsessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)
 
 
 # this file executed as script
