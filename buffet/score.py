@@ -79,12 +79,13 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
 
         fullmatches = 0
         scorelist = []
-
+        print('>', 'blastitem:', blastitem)
 
         for alignment in blastitem.alignments:    # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
+            print('  >', alignment.hsps[0].query, 'guide off-target-hits review')
             for hsp in alignment.hsps:
-                print('>', hsp.query, 'guide off-target-hits review')
+
                 # getting the pam adjacent to the hsp's subject
 
                 hit_threeprime_offset = len(guides[0]) - hsp.query_end
@@ -108,7 +109,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                     lookup_context = genomedict[reref_substrate_id]
                     pam = lookup_context[pam_zerobased_range[0]:pam_zerobased_range[1]]
                 else:
-                    print('  >',  hsp.sbjct, 'off-target-hit blast-db pam-lookup', end=' ')
+                    print('    >',  hsp.sbjct, 'off-target-hit blast-db pam-lookup', end=' ')
                     # print('*', end='')
                     fstring = ''
                     try:
@@ -157,10 +158,11 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                             fullmatches += 1
                     scorelist.append(matchdict)
                 print()
-        print('> overall guide-scoring', end=' ')
+
         finalscore = int(10000.000 / (100.000 + float(sum(item["match_score"] for item in scorelist))))
         guides[blastindex].annotations['score'] = finalscore
         guides[blastindex].annotations["blastindex"] = blastindex
+        print('> blastitem overall guide-scoring: ', finalscore, 'blastindex: ', blastindex)
         # print("seq: ", guides[blastindex].seq, "score: ", finalscore, "id: ", guides[blastindex].id)
         # print(guides[blastindex].seq)
         # print(alignment.hit_def)

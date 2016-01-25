@@ -107,7 +107,7 @@ def process_sample(output_dir, param_values):
     #
     with open(output_dir + '/payload_result.txt','w') as out:
           out.write(str(result))
-    print('payload_result.txt printed to: % \n' % output_dir)
+    print('\npayload_result.txt printed to: %s' % output_dir)
 
 
     # output of param_values table
@@ -115,7 +115,7 @@ def process_sample(output_dir, param_values):
         for key, value in param_values.iteritems():
             if key != 'input.samples':
                 out.write('%s\t\t%s\n' % (key,value))
-    print('\nappsessionparams.csv printed to % \n' % output_dir)
+    print('\nappsessionparams.csv printed to %s' % output_dir)
 
 
 def process_appsession(param_values):
