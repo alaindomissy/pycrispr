@@ -79,7 +79,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
 
         fullmatches = 0
         scorelist = []
-        print('>', 'blastindex: ', blastindex, 'blastitem: ', blastitem.tiltle, blastindex.length, len(blastindex.list))
+        print('>', 'blastindex: ', blastindex, 'blastitem: ', blastitem.title, blastitem.length, len(blastitem.list))
 
         for alignment in blastitem.alignments:    # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
