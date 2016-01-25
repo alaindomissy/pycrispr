@@ -105,16 +105,16 @@ def process_sample(output_dir, param_values):
     #########################
     result = payload(param_values, output_dir)
 
-    with open(output_dir + '/payload_result.txt','w') as out:
-         out.write(str(result))
+    # with open(output_dir + '/payload_result.txt','w') as out:
+    #      out.write(str(result))
     # print('payload_result.txt printed to: % \n' % output_dir)
 
 
-    # demonstration output of param_values table
-    with open(output_dir + '/appsessionparams.csv','w') as out:
-        for key, value in param_values.iteritems():
-            if key != 'input.samples':
-                out.write('%s\t\t%s\n' % (key,value))
+    # output of param_values table
+    # with open(output_dir + '/appsessionparams.csv','w') as out:
+    #     for key, value in param_values.iteritems():
+    #         if key != 'input.samples':
+    #             out.write('%s\t\t%s\n' % (key,value))
 
     # print('\nappsessionparams.csv printed to % \n' % output_dir)
 
@@ -132,7 +132,7 @@ def process_appsession(param_values):
 
     output_dir = '/data/output/appresults/%s/sessionsummary' % project_id
     # see above output_dir get created by call to payload
-    #os.system('mkdir -p "%s"' % output_dir)
+    os.system('mkdir -p "%s"' % output_dir)
     process_sample(output_dir, param_values)
     write_metadata('\nsessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)
 
