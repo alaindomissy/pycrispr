@@ -103,11 +103,11 @@ def process_sample(output_dir, param_values):
 
     # the application payload - CAREFUL this also creates the output_dir
     #########################
-    result = payload(param_values, output_dir)
-
-    with open(output_dir + '/payload_result.txt','w') as out:
-         out.write(str(result))
-    print('payload_result.txt printed to: % \n' % output_dir)
+    # result = payload(param_values, output_dir)
+    #
+    # with open(output_dir + '/payload_result.txt','w') as out:
+    #      out.write(str(result))
+    # print('payload_result.txt printed to: % \n' % output_dir)
 
 
     # output of param_values table
@@ -134,7 +134,7 @@ def process_appsession(param_values):
     # see above output_dir get created by call to payload
     os.system('mkdir -p "%s"' % output_dir)
 
-    # process_sample(output_dir, param_values)
+    process_sample(output_dir, param_values)
     write_metadata('\nsessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)
 
 
