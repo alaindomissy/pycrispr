@@ -79,7 +79,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
 
         fullmatches = 0
         scorelist = []
-        print('>', 'blastitem:', blastitem)
+        print('>', 'blastindex: ', blastindex, 'blastitem: ', blastitem.tiltle, blastindex.length, len(blastindex.list))
 
         for alignment in blastitem.alignments:    # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
@@ -162,14 +162,13 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
         finalscore = int(10000.000 / (100.000 + float(sum(item["match_score"] for item in scorelist))))
         guides[blastindex].annotations['score'] = finalscore
         guides[blastindex].annotations["blastindex"] = blastindex
-        print('> blastitem overall guide-scoring: ', finalscore, 'blastindex: ', blastindex)
+        print(' SCORE: ', finalscore)
         # print("seq: ", guides[blastindex].seq, "score: ", finalscore, "id: ", guides[blastindex].id)
         # print(guides[blastindex].seq)
         # print(alignment.hit_def)
         # print(hsp.match)
         # print(hsp.sbjct)
         # print(pam.seq)
-    print(' done')
 
 
     print('\nCHECKING ZERO SCORED GUIDES')
