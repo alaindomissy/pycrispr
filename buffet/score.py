@@ -126,8 +126,9 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
 
 
                 # TODO can this really not be the case? and then why do we not append a matchdit with score 0.0
+                # Test for valid PAM adjacency
                 if len(pam) == 3:
-                    if is_valid_pam(pam):  # Test for valid PAM adjacency
+                    if not is_valid_pam(pam):
                         print('+ invalid', end=' ')
                     else:
                         print('+ valid pam', end=' ')
