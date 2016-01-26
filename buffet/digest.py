@@ -169,6 +169,12 @@ def digest_stretch(direct, stretch, reference):
 # interface to prime
 ####################
 
+
+def digest_target(target):
+    guidelist = []
+    return guidelist
+
+
 def count_non_overlapping_guides(guidelist, binding_interference_spacing=20):
     '''
     Sequence position information must be encoded in sequence name attribute,
@@ -193,10 +199,6 @@ def count_non_overlapping_guides(guidelist, binding_interference_spacing=20):
         prev_position = int(item.name)
     return guidecount
 
-
-def digest_target(target):
-    guidelist = []
-    return guidelist
 
 def nonoverlapping_guidecount(target):
     count_non_overlapping_guides(digest_target(target))
