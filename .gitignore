@@ -64,3 +64,4 @@ target/
 # development stuff
 .ipynb_checkpoints
 notebooks/
+cover/

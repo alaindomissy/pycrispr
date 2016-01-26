@@ -20,7 +20,7 @@ from Bio.SeqRecord import SeqRecord
 from Bio.Blast.Applications import NcbiblastnCommandline
 
 
-# import eating.base
+
 from buffet.amplicon import Amplicon
 from buffet.digest import nonoverlapping_guidecount
 
