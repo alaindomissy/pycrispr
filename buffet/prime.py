@@ -9,18 +9,16 @@ import time
 # import itertools
 # from collections import Counter
 
-import primer3
+# import primer3
+
 import Bio
 from Bio import SeqIO
 from Bio.Blast import NCBIXML
-# from Bio import Restriction
-# from Bio.Restriction import *
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from Bio.Blast.Applications import NcbiblastnCommandline
-# from Bio import SeqFeature
-# from Bio.SeqFeature import *
+
 
 # import eating.base
 from buffet.amplicon import Amplicon
@@ -162,7 +160,12 @@ def parse_primer_hits(hits, tm=40):
         for align in item.alignments:
             for spot in align.hsps:
                 genomic_binding_site = Bio.Seq.reverse_complement(str(spot.sbjct))
-                calculated_tm = primer3.bindings.calcEndStability(str(item.query), genomic_binding_site).tm
+
+                ###########################################################################################
+                #calculated_tm = primer3.bindings.calcEndStability(str(item.query), genomic_binding_site).tm
+                calculated_tm = 55
+                ###########################################################################################
+
                 if calculated_tm > tm: # Calculating 3' end stability
                     try:
                         priming_dict[align.title].append((spot.sbjct_start, spot.sbjct_end, item.query, genomic_binding_site, calculated_tm))
@@ -318,7 +321,12 @@ def primer_search(current_amp, global_parameters=global_parameters, filename="pr
             # leftNs = sequence_string[primeableregionleft_start:primeableregionleft_start+primeableregionleft_length].
             # if
 
-            primerdict = primer3.bindings.designPrimers(seq_args, global_parameters)
+
+            ########################################################################
+            # primerdict = primer3.bindings.designPrimers(seq_args, global_parameters)
+            prirmerdict = {}
+            ########################################################################
+
             if primerdict["PRIMER_PAIR_NUM_RETURNED"] == 0:
                 print(primerdict)
             primerdict["expandedpriming"] = expand
