@@ -162,3 +162,41 @@ def digest_stretch(direct, stretch, reference):
     digest_focused(direct + '/' + focusfn, reference)
     print('...done')
     return focusfn
+
+
+
+
+# interface to prime
+####################
+
+def count_non_overlapping_guides(guidelist, binding_interference_spacing=20):
+    '''
+    Sequence position information must be encoded in sequence name attribute,
+    e.g. name="100" indicates that left edge of guide (regardless of strand)
+    starts 100nt along the target scaffold.
+
+    Optional argument binding_interference_spacing specifies the number of
+    nucleotides apart that a guides must be to contribute to unique
+    labeling events (for example, of two guides only 10nt apart, it's impossible
+    for both to bind at once)
+
+    From the spCas9 crystal structure, it looks like guides will need to be
+    at least 24-25 nucleotides apart to bind simultaneously, and possibly
+    more.
+    '''
+    prev_position = 0
+    guidecount = 0
+    for item in guidelist:
+        distance_from_last = int(item.name) - prev_position
+        if distance_from_last > binding_interference_spacing:
+            guidecount = guidecount + 1
+        prev_position = int(item.name)
+    return guidecount
+
+
+def digest_target(target):
+    guidelist = []
+    return guidelist
+
+def nonoverlapping_guidecount(target):
+    count_non_overlapping_guides(digest_target(target))

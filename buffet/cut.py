@@ -57,7 +57,8 @@ def cut(enzyme, cutpos, substrate_id, substrate_end, sense='+'):
 ############
 
 def cut_cutdict(cutdict, substrate_id, substrate_end):
-    print('> parsing guides from digestion loci', str(enzyme))
+    print('> parsing guides from digestion loci', cutdict)
+    # print('> parsing guides from digestion loci', str(enzyme))    # TODO insert log within enzyme loop level
     return [cut(enzyme, cutpos, substrate_id, substrate_end, sense)
             for enzyme in cutdict.keys()
             for index, cutpos in enumerate(cutdict[enzyme])

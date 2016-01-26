@@ -96,6 +96,8 @@ def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
     metadata['Properties'][0]['Items'].extend(sampleshrefs)
     with open(output_dir + '/_metadata.json', 'w') as out:
         json.dump(metadata, out, indent=4, sort_keys=True)
+    with open(output_dir + '/metadata.json', 'w') as out:
+        json.dump(metadata, out, indent=4, sort_keys=True)
 
 
 # def process_sample(sample, sample_output_dir, param_values):
@@ -123,16 +125,16 @@ def process_appsession(param_values):
     samples = param_values.get('input.samples')
     sampleshrefs = [sample['href'] for sample in samples]
 
-    # for sample in samples:
+    # for samoutput_dirple in samples:
     #     sample_output_dir = '/data/output/appresults/%s/%s' % (project_id, sample['name'])
     #     os.system('mkdir -p "%s"' % sample_output_dir)
     #     process_sample(sample, sample_output_dir, param_values)
     #     write_sample_metadata(sample['name'], 'Sample Description', appsessionhref, sampleshrefs, sample_output_dir)
 
-    output_dir = '/data/output/appresults/%s/sessionsummary' % project_id
+    output_dir = '/data/output/appresults/%s/sessionsummary/' % project_id
 
     # see above output_dir get created by call to payload
-    os.system('mkdir -p "%s"' % output_dir)
+    # os.system('mkdir -p "%s"' % output_dir)
 
     process_sample(output_dir, param_values)
     write_metadata('\nsessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)

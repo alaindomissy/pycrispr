@@ -17,6 +17,7 @@ from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from Bio import SeqIO as seqio # TODO this is also imported from cut.py, ok?
 
 # from buffet.settings import BLASTDBDIR
+from buffet.settings import scorelog
 from buffet.zhang import zhangscore
 
 
@@ -50,7 +51,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
         print('\nLOADING REFERENCE GENOME from', end=' ')
         genomedict =load_genome_dict(fastafilepath)
         print('...done')
-        print('will use genomedict for pam look up')
+        scorelog('will use genomedict for pam look up')
     else:
         print('will use blastdbcmdfor pam look up')
 
@@ -78,15 +79,15 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
 
         fullmatches = 0
         scorelist = []
-        print('  >', 'blastrecord index: ', blastindex, 'blastrecord: ', len(blastrecord.alignments))
+        scorelog('  >', 'blastrecord index: ', blastindex, 'blastrecord: ', len(blastrecord.alignments))
 
         for alignment in blastrecord.alignments:    # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
-            print('    > hitting:', alignment.title, 'with', len(alignment.hsps), 'hsps'),
+            scorelog('    > hitting:', alignment.title.split()[0], 'with', len(alignment.hsps), 'hsps'),
 
             for hsp in alignment.hsps:
-                print('      > query:', hsp.query)
-                print('        sbjct: ', hsp.sbjct, end=' ')
+                scorelog('      > query:', hsp.query)
+                scorelog('        sbjct: ', hsp.sbjct, end=' ')
 
 
                 # getting the pam adjacent to the hsp's subject
@@ -104,11 +105,11 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                 # TODO *** get the correct substrate id for subject (not same as hit!) - should be alignment.hit_def
                 # TODO *** use betools and fai instead of loading full genome
                 if load_genome:
-                    print('ref-genome pam-lookup' , end=' ')
+                    scorelog('refgen', end=' ')
                     lookup_context = genomedict[reref_substrate_id]
                     pam = lookup_context[pam_zerobased_range[0]:pam_zerobased_range[1]]
                 else:
-                    print('blast-db pam-lookup', end=' ')
+                    scorelog('blastdb', end=' ')
                     fstring = ''
                     try:
                         context_lookup_command = "blastdbcmd -db " + blastdb_db \
@@ -122,17 +123,17 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                     pam = seqio.read(fstring, "fasta") # if len(fstring)>0 else None
                 if pam and not (hsp.frame[1] > 0):
                     pam = pam.reverse_complement()
-                print(pam.seq, end=' ')
+                scorelog('pam', pam.seq, end=' ')
 
 
                 # TODO can this really not be the case? and then why do we not append a matchdit with score 0.0
                 # Test for valid PAM adjacency
                 if len(pam) == 3:
                     if not is_valid_pam(pam):
-                        print('+ invalid', end=' ')
+                        scorelog('invalid', end=' ')
                     else:
-                        print('+ valid pam', end=' ')
-                        print('+ padding', end=' ')
+                        scorelog('valid', end=' ')
+                        #scorelog('+ padding', end=' ')
                         # make match string padded to query length, where bar(|) is match and space( ) is non-match
                         mmstr = list(hsp.match)
                         if hsp.query_start > 1:
@@ -158,20 +159,20 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                             if fullmatches > 0:
                                 matchdict["match_score"] = 100.0
                             fullmatches += 1
-                        print('+ zhang-scoring', matchdict["match_score"], end=' ')
+                        scorelog('score', matchdict["match_score"], end=' ')
                         scorelist.append(matchdict)
-                print()
+                scorelog()
 
         finalscore = int(10000.000 / (100.000 + float(sum(item["match_score"] for item in scorelist))))
         guides[blastindex].annotations['score'] = finalscore
         guides[blastindex].annotations["blastindex"] = blastindex
-        print(' SCORE: ', finalscore)
-        # print("seq: ", guides[blastindex].seq, "score: ", finalscore, "id: ", guides[blastindex].id)
-        # print(guides[blastindex].seq)
-        # print(alignment.hit_def)
-        # print(hsp.match)
-        # print(hsp.sbjct)
-        # print(pam.seq)
+        scorelog(' SCORE: ', finalscore)
+        # scorelog("seq: ", guides[blastindex].seq, "score: ", finalscore, "id: ", guides[blastindex].id)
+        # scorelog(guides[blastindex].seq)
+        # scorelog(alignment.hit_def)
+        # scorelog(hsp.match)
+        # scorelog(hsp.sbjct)
+        # scorelog(pam.seq)
 
 
     print('\nCHECKING ZERO SCORED GUIDES')
@@ -181,7 +182,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
         try:
             guide.annotations['score']
         except:
-            # print('guide %s does not have a score' % guide)
+            # scorelog('guide %s does not have a score' % guide)
             guide.annotations['score'] = 0.0
 
     # print("HERE ARE THE GUIDES: ")
