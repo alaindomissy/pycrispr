@@ -9,7 +9,10 @@
 
 from __future__ import print_function
 import subprocess
-import cStringIO
+try:
+    from io import StringIO         # python3
+except ImportError:
+    from cStringIO import StringIO  # python2
 
 from Bio.Blast import NCBIXML
 from Bio.Application import ApplicationError
@@ -116,7 +119,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                                              + " -range %s-%s" % pam_onebased_range
                         context_lookup_process = subprocess.Popen(context_lookup_command, stdout=subprocess.PIPE, shell = True)
                         fstring = context_lookup_process.communicate()
-                        fstring = cStringIO.StringIO(fstring[0])
+                        fstring = StringIO(fstring[0])
                     except ApplicationError as err:
                         print(str(err).split('message ')[1].strip('\''))
                     pam = seqio.read(fstring, "fasta") # if len(fstring)>0 else None
