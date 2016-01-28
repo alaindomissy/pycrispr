@@ -12,7 +12,7 @@
 ## Installation
 
 ```
-git att .
+sudo apt-get install ncbi-blast+
 sudo apt-get install bedtools
 sudo apt-get install tabix
 sudo apt-get install igv 
