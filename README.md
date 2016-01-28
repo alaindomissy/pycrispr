@@ -6,15 +6,19 @@
  [![Python 2.7 Status](https://img.shields.io/badge/Python-2.7-brightgreen.svg)](https://img.shields.io/badge/Python-2.7-blue.svg)
  [![Python 3.3 Status](https://img.shields.io/badge/Python-3.3-brightgreen.svg)](https://img.shields.io/badge/Python-3.3-blue.svg)
  [![Python 3.4 Status](https://img.shields.io/badge/Python-3.4-brightgreen.svg)](https://img.shields.io/badge/Python-3.4-blue.svg)
- 
+ [![Python 3.5 Status](https://img.shields.io/badge/Python-3.5-brightgreen.svg)](https://img.shields.io/badge/Python-3.5-blue.svg)
+  
+  
 ## Installation
- 
 
- ```
- pip install git+https://github.com/alaindomissy/buffet.git#egg=pycrispr
- 
- pip install primer3-py
- ```
+```
+git att .
+sudo apt-get install bedtools
+sudo apt-get install tabix
+sudo apt-get install igv 
+pip install git+https://github.com/alaindomissy/buffet.git#egg=pycrispr
+pip install primer3-py
+```
 
  pycrispr runs on Python 2.7, 3.3 and 3.4
  
