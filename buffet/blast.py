@@ -7,7 +7,6 @@
 
 from __future__ import print_function
 import os
-from itertools import izip_longest
 try:                                     # Python 2
     from itertools import izip_longest
 except ImportError:                      # Python 3
