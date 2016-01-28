@@ -14,6 +14,7 @@
 #
 ########################################################################################################################
 
+from functools import reduce
 
 from Bio.Restriction import Analysis
 from Bio.Restriction import Restriction
