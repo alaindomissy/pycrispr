@@ -52,7 +52,8 @@ def digest_fastafile(filepath):
     """
     Only needed for initialization, the first time a genome is being worked on.... TBA
     Creates files: filepath.prsp.bed and filepath.prsp.fasta
-    Also creares index file filepath.fai if it was not there before
+    Also creates index file filepath.fai if it was not there before
+    This is the only  place that a call to cut_file is made
 
     :param filepath:
     :return:
@@ -70,7 +71,7 @@ def digest_fastafile(filepath):
     saveasbedpath = filepath + '.prsp.bed'
     bedlines_save(cutbedlines, saveasbedpath)
     bed_to_fasta(saveasbedpath, filepath)   # input fasta filepath serves as its own reference
-
+    return(cutbedlines)
 
 # THE WORKHORSE FUNCTION
 ########################
