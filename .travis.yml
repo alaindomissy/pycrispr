@@ -5,6 +5,7 @@ python:
 install: "pip install -r requirements.txt"
 # command to run tests
 # script: nosetests -v --with-cov --cov-report html --cov-config .coveragerc  --cov buffet tests/
-script:  nosetests -v --with-coverage --cover-erase --cover-html
+# script:  nosetests -v --with-coverage --cover-erase --cover-html
+script:  nosetests
 after_success:
     - coveralls

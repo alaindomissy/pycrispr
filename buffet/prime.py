@@ -2,7 +2,7 @@ from __future__  import print_function
 
 import time
 
-import primer3
+# import primer3
 
 from settings import PRIMER3_PARAMETERS
 from amplicon import mask_sequence, Amplicon
