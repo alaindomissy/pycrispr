@@ -119,7 +119,11 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                                              + " -range %s-%s" % pam_onebased_range
                         context_lookup_process = subprocess.Popen(context_lookup_command, stdout=subprocess.PIPE, shell = True)
                         fstring = context_lookup_process.communicate()
+
+                        print('BEFORE fstring: ', fstring, '\ntypr: ', type(fstring))
                         fstring = StringIO(fstring[0])
+                        print('AFTER fstring: ', fstring, '\ntypr: ', type(fstring))
+
                     except ApplicationError as err:
                         print(str(err).split('message ')[1].strip('\''))
                     pam = seqio.read(fstring, "fasta") # if len(fstring)>0 else None
