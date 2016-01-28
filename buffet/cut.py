@@ -10,7 +10,6 @@
 
 from os.path import splitext
 import gzip
-from string import lstrip
 
 from Bio import SeqIO as seqio
 
@@ -106,6 +105,6 @@ def cut_file(filepath):
     :return: a list of strings, each a bed-formatted line for a found protospacer in
     """
     #
-    fileformat = lstrip(splitext(filepath)[1], '.')
+    fileformat = splitext(filepath)[1].strip('.')
     seqrecords = create_seqrecords_from_file(filepath, fileformat)
     return cut_seqrecords(seqrecords)
