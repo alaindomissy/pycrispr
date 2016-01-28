@@ -116,7 +116,7 @@ def zhangscore(matchbars):
     :return: a list of 0 and 1 representing the same match resp. mismatch positions
     """
     assert(len(matchbars)==20)
-    mismatches = map(lambda char : 0 if char=='|' else 1, matchbars)
+    mismatches = list(map(lambda char : 0 if char=='|' else 1, matchbars))
     return single_offtarget_score(mismatches)
 
 
