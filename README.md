@@ -46,10 +46,10 @@ minimum_specificity_clusters(
     )
 ```
  
-Design primers for amplification of N top-yielding clusters of consecutive good guides
+Given a required number of guides, design amplification primers for enough top-yielding good-guides clusters
 
 ```
-primer_design(scaffolds_directory, genomic_coord, reference, genome)
+primer_design(scaffolds_directory, genomic_coord, reference, genome, required_number_of_guides)
 ```
  
 ## Documentation
