@@ -19,8 +19,8 @@ from Bio.Application import ApplicationError
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from Bio import SeqIO as seqio # TODO this is also imported from cut.py, ok?
 
-from settings import scorelog
-from zhang import zhangscore
+from buffet.settings import scorelog
+from buffet.zhang import zhangscore
 
 
 
