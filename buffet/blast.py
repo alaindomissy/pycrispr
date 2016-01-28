@@ -7,7 +7,15 @@
 
 from __future__ import print_function
 import os
-from itertools import izip, izip_longest
+from itertools import izip_longest
+
+## we no longer need izip, but if we did, since it does not exist in python3, we would do:
+# try:
+#     # Python 2
+#     from itertools import izip, izip_longest
+# except ImportError:
+#     # Python 3
+#     izip = zip
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Application import ApplicationError
