@@ -12,10 +12,10 @@ def test_cut_file_42():
     # with recognition site C^TA_G at one-based coords: 21,22,23,24
     # GCGCTGGCCAGAACGTTCTC^TA_GGAATCGTGGAGAAGACATT
 
-    cuts42 = cut_file('tests/data/fourtytwobp.fasta')
-
-    assert(cuts42[0] == 'fourtytwobps\t0\t20\tBfaI\t1000\t+\n')
-    assert(cuts42[1] == 'fourtytwobps\t22\t42\tBfaI\t1000\t-\n')
+    assert (
+        cut_file('tests/data/fourtytwobp.fasta') == ['fourtytwobps\t0\t20\tBfaI\t1000\t+\n',
+                                                     'fourtytwobps\t22\t42\tBfaI\t1000\t-\n']
+    )
 
 def test_cut_file_1500():
 

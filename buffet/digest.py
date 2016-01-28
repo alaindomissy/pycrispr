@@ -51,10 +51,20 @@ def bed_to_fasta(bedfilepath, referencefastafilepath):
 def digest_fastafile(filepath):
     """
     Only needed for initialization, the first time a genome is being worked on.... TBA
+    Creates files: filepath.prsp.bed and filepath.prsp.fasta
+    Also creares index file filepath.fai if it was not there before
+
     :param filepath:
     :return:
     >>>digest_fastafile('hg38.fa')
     "1000000 protospacers saved as hg38.fasta.prsp.bed and hg38.fasta.prsp.fasta"
+        ('> loading sequence from ref genome for interval', 'mm8.fasta')
+        ('> digesting using enzymes', ['BfaI', 'HpaII', 'ScrFI'])
+        ('> parsing guides from digestion loci', .....
+        ('> digesting using enzymes', ['BfaI', 'HpaII', 'ScrFI'])
+        > saved as bed file mm8.fasta.prsp.bed
+        > saved as fasta file mm8.fasta.prsp.fasta
+        index file mm8.fasta.fai not found, generating...
     """
     cutbedlines = cut_file(filepath)
     saveasbedpath = filepath + '.prsp.bed'
@@ -133,6 +143,9 @@ assert( stretch_to_bedtuple_filename('chr6:136640001_40000')
 
 def digest_coord(direct, coord, reference):
     """
+    reference must be a path to a fastafile.
+    You mast have run digest_fastafile on that file already,
+    thereby creatang protospacers files .prsp.bed' and .prsp.fasta'
 
     :param direct:
     :param coord:
