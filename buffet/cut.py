@@ -68,6 +68,7 @@ def cut_cutdict(cutdict, substrate_id, substrate_end):
             for sense in ['+', '-']
             ]
 
+
 def cut_seqrecord(seqrecord, enzyme_names=RESTRICTION_ENZYMES_LIST):
     # cut_dict = create_analysis(seqrecord.seq, enzyme_names).full()        # TODO we should only loose 1 side, not both
     print('> digesting using enzymes', enzyme_names)
@@ -76,7 +77,7 @@ def cut_seqrecord(seqrecord, enzyme_names=RESTRICTION_ENZYMES_LIST):
 
 
 def cut_seqrecords(seqrecords, enzyme_names=RESTRICTION_ENZYMES_LIST):
-    return sum([cut_seqrecord(seqrecord, enzyme_names) for seqrecord in seqrecords])
+    return sum([cut_seqrecord(seqrecord, enzyme_names) for seqrecord in seqrecords],[])
 
 # IOs
 ######
@@ -92,6 +93,12 @@ def create_seqrecords_from_fastafilepath(fastafilepath, fileformat):
         parseformat = fileformat
     if parseformat=='fa':
         parseformat = 'fasta'
+    return list(seqio.parse(string_or_handle, parseformat))
+
+
+def create_seqrecords_from_unicodestring(unicodestring):
+    string_or_handle = StringIO(unicodestring)
+    parseformat = 'fasta'
     return list(seqio.parse(string_or_handle, parseformat))
 
 
@@ -116,4 +123,5 @@ def cut_unicodestring(unicodestring):
     :param unicodestring: a sequence as a unicode string
     :return:  a list of strings, each a bed-formatted line for a found protospacer in unicodestring
     """
-    cut_file(StringIO(unicodestring))
+    seqrecords = create_seqrecords_from_unicodestring(unicodestring)
+    return cut_seqrecords(seqrecords)
