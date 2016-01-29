@@ -1,5 +1,4 @@
 import os
-
 import Bio
 from Bio import SeqIO
 from Bio.Blast import NCBIXML

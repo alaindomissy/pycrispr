@@ -15,10 +15,8 @@
 ########################################################################################################################
 
 from functools import reduce
-
 from Bio.Restriction import Analysis
 from Bio.Restriction import Restriction
-
 from Bio.Restriction.Restriction_Dictionary import rest_dict, typedict
 
 

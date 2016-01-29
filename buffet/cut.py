@@ -60,7 +60,8 @@ def cut(enzyme, cutpos, substrate_id, substrate_end, sense='+'):
 ############
 
 def cut_cutdict(cutdict, substrate_id, substrate_end):
-    print('> parsing guides from digestion loci', cutdict)
+    print('> buiding forward and reverse guides annotations for all restriction cyrs loci')
+    # print cutdict
     # print('> parsing guides from digestion loci', str(enzyme))    # TODO insert log within enzyme loop level
     return [cut(enzyme, cutpos, substrate_id, substrate_end, sense)
             for enzyme in cutdict.keys()
@@ -71,7 +72,7 @@ def cut_cutdict(cutdict, substrate_id, substrate_end):
 # this is where we call analyse
 def cut_seqrecord(seqrecord, enzyme_names=RESTRICTION_ENZYMES_LIST):
     # cut_dict = create_analysis(seqrecord.seq, enzyme_names).full()
-    print('> digesting using enzymes', enzyme_names)
+    print('> analysing loaded sequences with restriction batch of following enzymes', enzyme_names)
     cut_dict = analyse(seqrecord.seq, enzyme_names)
     return cut_cutdict(cut_dict, seqrecord.id, len(seqrecord))
 
@@ -84,7 +85,7 @@ def cut_seqrecords(seqrecords, enzyme_names=RESTRICTION_ENZYMES_LIST):
 # TODO can seqio handle the decompression itself?
 # TODO write similar utlity to create a dict using SeqIO.to_dict
 def create_seqrecords_from_fastafilepath(fastafilepath, fileformat):
-    print('> loading sequence from ref genome for interval', fastafilepath)
+    print('> loading sequence from fasta file', fastafilepath)
     if fileformat[-3:] == '.gz':
         string_or_handle = gzip.open(fastafilepath, 'r')
         parseformat = fileformat[:-3]

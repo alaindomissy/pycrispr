@@ -11,7 +11,6 @@
 from __future__ import print_function
 from os.path import splitext
 import pybedtools
-
 from cut import cut_fastafile
 
 

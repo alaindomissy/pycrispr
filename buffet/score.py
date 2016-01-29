@@ -13,15 +13,12 @@ try:
     from io import StringIO        # python3
 except ImportError:
     from StringIO import StringIO  # python2
-
 from Bio.Blast import NCBIXML
 from Bio.Application import ApplicationError
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from Bio import SeqIO as seqio # TODO this is also imported from cut.py, ok?
-
-from buffet.settings import scorelog
-from buffet.zhang import zhangscore
-
+from settings import scorelog
+from zhang import zhangscore
 
 
 def is_valid_pam(pam):
