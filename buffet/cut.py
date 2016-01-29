@@ -17,8 +17,8 @@ except ImportError:
 
 from Bio import SeqIO as seqio
 
-from buffet.settings import RESTRICTION_ENZYMES_LIST
-from buffet.analysis import create_analysis
+from settings import RESTRICTION_ENZYMES_LIST
+from analyse import analyse
 
 
 
@@ -68,11 +68,11 @@ def cut_cutdict(cutdict, substrate_id, substrate_end):
             for sense in ['+', '-']
             ]
 
-
+# this is where we call analyse
 def cut_seqrecord(seqrecord, enzyme_names=RESTRICTION_ENZYMES_LIST):
-    # cut_dict = create_analysis(seqrecord.seq, enzyme_names).full()        # TODO we should only loose 1 side, not both
+    # cut_dict = create_analysis(seqrecord.seq, enzyme_names).full()
     print('> digesting using enzymes', enzyme_names)
-    cut_dict = create_analysis(seqrecord.seq, enzyme_names).only_between(20, len(seqrecord)-20)   # TODO is 20 the best?
+    cut_dict = analyse(seqrecord.seq, enzyme_names)
     return cut_cutdict(cut_dict, seqrecord.id, len(seqrecord))
 
 

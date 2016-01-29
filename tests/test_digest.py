@@ -18,15 +18,12 @@ def digesttest_stretch_to_bedtuple_filename():
 
 
 
-
+# 42nt long section of of Scaffold02974 around the first cut from enzyme BfaI
+#############################################################################
+# with recognition site C^TA_G at one-based coords: 21,22,23,24
+# GCGCTGGCCAGAACGTTCTC^TA_GGAATCGTGGAGAAGACATT
 
 def test_digest_fastafile_42():
-
-    # 42nt long section of of Scaffold02974 around the first cut from enzyme BfaI
-    #############################################################################
-    # with recognition site C^TA_G at one-based coords: 21,22,23,24
-    # GCGCTGGCCAGAACGTTCTC^TA_GGAATCGTGGAGAAGACATT
-
     pass
 
     # this requires bedtools being installed

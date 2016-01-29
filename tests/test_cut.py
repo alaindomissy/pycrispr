@@ -6,6 +6,7 @@ from buffet.cut import cut_fastafile, cut_unicodestring
 
 
 
+
 # 42nt long section of of Scaffold02974 around the first cut from enzyme BfaI
 #############################################################################
 # with recognition site C^TA_G at one-based coords: 21,22,23,24
@@ -28,8 +29,6 @@ GCGCTGGCCAGAACGTTCTCTAGGAATCGTGGAGAAGACATT
 
 
 
-# FIRST 1500bps from xenopus-laevis scaffold used in crispr-eating paper
-########################################################################
 
 # From crisper-eating paper, we should get:
 #
@@ -48,13 +47,13 @@ GCGCTGGCCAGAACGTTCTCTAGGAATCGTGGAGAAGACATT
 #  ]
 def test_cut_fastafile_1500():
     cuts1500 = cut_fastafile('tests/data/Scaffold102974:1-1500_1500.fasta')
-    assert(cuts1500 == ['Scaffold102974:1-1500()\t786\t806\tBfaI\t1000\t+\n',
-         'Scaffold102974:1-1500()\t808\t828\tBfaI\t1000\t-\n',
-          'Scaffold102974:1-1500()\t1442\t1462\tBfaI\t1000\t+\n',
-          'Scaffold102974:1-1500()\t1464\t1484\tBfaI\t1000\t-\n',
-          'Scaffold102974:1-1500()\t732\t752\tScrFI\t1000\t+\n',
-          'Scaffold102974:1-1500()\t753\t773\tScrFI\t1000\t-\n']
-    )
+    expected_list_of_bedtules = ['Scaffold102974:1-1500()\t786\t806\tBfaI\t1000\t+\n',
+                                 'Scaffold102974:1-1500()\t808\t828\tBfaI\t1000\t-\n',
+                                 'Scaffold102974:1-1500()\t1442\t1462\tBfaI\t1000\t+\n',
+                                 'Scaffold102974:1-1500()\t1464\t1484\tBfaI\t1000\t-\n',
+                                 'Scaffold102974:1-1500()\t732\t752\tScrFI\t1000\t+\n',
+                                 'Scaffold102974:1-1500()\t753\t773\tScrFI\t1000\t-\n']
+    assert(cuts1500==expected_list_of_bedtules)
 
 
 def test_cut_unicodestring_1500():
