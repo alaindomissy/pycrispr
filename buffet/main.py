@@ -45,10 +45,10 @@
 
 
 
-from buffet.digest import digest_coord, digest_stretch
-from buffet.blast import blast
-from buffet.score import score
-from buffet.cluster import cluster
+from digest import digest_coord, digest_stretch
+from blast import blast
+from score import score
+from cluster import cluster
 
 
 

@@ -1,7 +1,6 @@
 
 import copy
 import operator
-
 from Bio.Seq import Seq
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 

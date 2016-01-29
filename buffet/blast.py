@@ -11,12 +11,6 @@ try:                                     # Python 2
     from itertools import izip_longest
 except ImportError:                      # Python 3
     from itertools import zip_longest as izip_longest
-## we no longer need izip, but if we did, since it does not exist in python3, we would do:
-# try:
-#     from itertools import izip, izip_longest
-# except ImportError:
-#     izip = zip
-
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Application import ApplicationError
 from Bio import SeqIO as seqio    # TODO this is also imported from cut.py, ok?
