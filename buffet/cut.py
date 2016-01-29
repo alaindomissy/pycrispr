@@ -1,8 +1,8 @@
 #######################################################################################################################
 #  Digestion Cuts Generator
 #
-# Given a sequence faile in fasta/fastq format, returms a list of bed-formatted cuts
-# for the crispr-eatimg dgestion process
+# Given a sequence file in fasta/fastq format, returms a list of bed-formatted cuts
+# for the crispr-eating dgestion process
 #
 # API functions: create_cutbedlines_from_seq_file
 #
@@ -10,6 +10,10 @@
 
 from os.path import splitext
 import gzip
+try:
+    from io import StringIO        # python3
+except ImportError:
+    from StringIO import StringIO  # python2
 
 from Bio import SeqIO as seqio
 
@@ -19,7 +23,7 @@ from buffet.analysis import create_analysis
 
 
 #######################################################################################################################
-# Core formating function - depends on create_analysis (cutomized Bio.Restriction functionality)
+# Core formatting function - depends on create_analysis (cutomized Bio.Restriction functionality)
 
 def tabbed_string_from_list(list):
     return '\t'.join(map(str, list)) + '\n'
@@ -72,22 +76,19 @@ def cut_seqrecord(seqrecord, enzyme_names=RESTRICTION_ENZYMES_LIST):
 
 
 def cut_seqrecords(seqrecords, enzyme_names=RESTRICTION_ENZYMES_LIST):
-    cuts = []
-    for seqrecord in seqrecords:
-        cuts.extend(cut_seqrecord(seqrecord, enzyme_names))
-    return cuts
+    return [cut_seqrecord(seqrecord, enzyme_names) for seqrecord in seqrecords]
 
 # IOs
 ######
 # TODO can seqio handle the decompression itself?
 # TODO write similar utlity to create a dict using SeqIO.to_dict
-def create_seqrecords_from_file(filepath, fileformat):
-    print('> loading sequence from ref genome for interval', filepath)
+def create_seqrecords_from_fastafilepath(fastafilepath, fileformat):
+    print('> loading sequence from ref genome for interval', fastafilepath)
     if fileformat[-3:] == '.gz':
-        string_or_handle = gzip.open(filepath, 'r')
+        string_or_handle = gzip.open(fastafilepath, 'r')
         parseformat = fileformat[:-3]
     else:
-        string_or_handle = filepath
+        string_or_handle = fastafilepath
         parseformat = fileformat
     if parseformat=='fa':
         parseformat = 'fasta'
@@ -98,13 +99,21 @@ def create_seqrecords_from_file(filepath, fileformat):
 # MAIN API FUNCTION
 ###################
 
-def cut_file(filepath):
+def cut_file(fastafilepath):
     """
 
-    :param filepath: a sequence file name to load, extension should be one of: fasta, fastq, fastq.gz or fastq.gz
-    :return: a list of strings, each a bed-formatted line for a found protospacer in
+    :param fastafilepath: a sequence file name to load, extension should be one of: fasta, fastq, fastq.gz or fastq.gz
+    :return: a list of strings, each a bed-formatted line for a found protospacer in fastafilepath
     """
     #
-    fileformat = splitext(filepath)[1].strip('.')
-    seqrecords = create_seqrecords_from_file(filepath, fileformat)
+    fileformat = splitext(fastafilepath)[1].strip('.')
+    seqrecords = create_seqrecords_from_fastafilepath(fastafilepath, fileformat)
     return cut_seqrecords(seqrecords)
+
+def cut_unicodestring(unicodestring):
+    """
+
+    :param unicodestring: a sequence as a unicode string
+    :return:  a list of strings, each a bed-formatted line for a found protospacer in unicodestring
+    """
+    cut_file(StringIO(unicodestring))

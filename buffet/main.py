@@ -41,6 +41,7 @@
 # TODO doctest
 # TODO /root/bin folder
 # TODO gui to input number of good guides desired
+# TODO max length of a cluster 2kb
 
 
 

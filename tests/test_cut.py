@@ -1,23 +1,32 @@
 import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
-from buffet.cut import cut_file
+from buffet.cut import cut_fastafile, cut_unicodestring
 
 
+# 42nt long section of of Scaffold02974 around the first cut from enzyme BfaI
+#############################################################################
+# with recognition site C^TA_G at one-based coords: 21,22,23,24
+# GCGCTGGCCAGAACGTTCTC^TA_GGAATCGTGGAGAAGACATT
 
-def test_cut_file_42():
 
-    # 42nt long section of of Scaffold02974 around the first cut from enzyme BfaI
-    #############################################################################
-    # with recognition site C^TA_G at one-based coords: 21,22,23,24
-    # GCGCTGGCCAGAACGTTCTC^TA_GGAATCGTGGAGAAGACATT
+def test_cut_fastafile():
 
     assert (
         cut_file('tests/data/fourtytwobp.fasta') == ['fourtytwobps\t0\t20\tBfaI\t1000\t+\n',
                                                      'fourtytwobps\t22\t42\tBfaI\t1000\t-\n']
     )
 
-def test_cut_file_1500():
+
+def test_cut_unicodestring():
+    fourtytwobps_str = u'''>fourtytwobps
+GCGCTGGCCAGAACGTTCTCTAGGAATCGTGGAGAAGACATT
+'''
+    expected_list_of_bedtules = ['fourtytwobps\t0\t20\tBfaI\t1000\t+\n', 'fourtytwobps\t22\t42\tBfaI\t1000\t-\n']
+    assert(cut_unicodestring(fourtytwobps_str)==expected_list_of_bedtules)
+
+
+def test_cut_fastafile_1500():
 
     # FIRST 1500bps from xenopus-laevis scaffold used in crispr-eating paper
     ########################################################################
@@ -47,7 +56,3 @@ def test_cut_file_1500():
           'Scaffold102974:1-1500()\t732\t752\tScrFI\t1000\t+\n',
           'Scaffold102974:1-1500()\t753\t773\tScrFI\t1000\t-\n']
     )
-
-# test_cut_file_42()
-#
-# test_cut_file_1500()

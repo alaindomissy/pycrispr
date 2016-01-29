@@ -10,7 +10,7 @@
 from __future__ import print_function
 import subprocess
 try:
-    from io import StringIO         # python3
+    from io import StringIO        # python3
 except ImportError:
     from StringIO import StringIO  # python2
 
