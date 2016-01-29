@@ -12,7 +12,7 @@ from __future__ import print_function
 from os.path import splitext
 import pybedtools
 
-from buffet.cut import cut_file
+from buffet.cut import cut_fastafile
 
 
 def bedlines_save(cutbedlines, filepath):
@@ -53,7 +53,7 @@ def digest_fastafile(filepath):
     Only needed for initialization, the first time a genome is being worked on.... TBA
     Creates files: filepath.prsp.bed and filepath.prsp.fasta
     Also creates index file filepath.fai if it was not there before
-    This is the only  place that a call to cut_file is made
+    This is the only  place that a call to cut_fastafile is made
 
     :param filepath:
     :return:
@@ -67,7 +67,7 @@ def digest_fastafile(filepath):
         > saved as fasta file mm8.fasta.prsp.fasta
         index file mm8.fasta.fai not found, generating...
     """
-    cutbedlines = cut_file(filepath)
+    cutbedlines = cut_fastafile(filepath)
     saveasbedpath = filepath + '.prsp.bed'
     bedlines_save(cutbedlines, saveasbedpath)
     bed_to_fasta(saveasbedpath, filepath)   # input fasta filepath serves as its own reference

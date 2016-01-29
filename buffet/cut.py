@@ -76,7 +76,7 @@ def cut_seqrecord(seqrecord, enzyme_names=RESTRICTION_ENZYMES_LIST):
 
 
 def cut_seqrecords(seqrecords, enzyme_names=RESTRICTION_ENZYMES_LIST):
-    return [cut_seqrecord(seqrecord, enzyme_names) for seqrecord in seqrecords]
+    return sum([cut_seqrecord(seqrecord, enzyme_names) for seqrecord in seqrecords])
 
 # IOs
 ######
@@ -99,7 +99,7 @@ def create_seqrecords_from_fastafilepath(fastafilepath, fileformat):
 # MAIN API FUNCTION
 ###################
 
-def cut_file(fastafilepath):
+def cut_fastafile(fastafilepath):
     """
 
     :param fastafilepath: a sequence file name to load, extension should be one of: fasta, fastq, fastq.gz or fastq.gz
