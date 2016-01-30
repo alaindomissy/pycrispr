@@ -94,7 +94,6 @@ def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk
                                      reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None,
                                      restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
-
     :param direct:
     :param coord:
     :param reference:
@@ -109,35 +108,6 @@ def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk
     :return:
     """
     focusfn = digest_coord(direct, coord, reference, restriction_enzymes)
-    fn_noext = focusfn + '.prsp'
-    nbr = blast(direct, fn_noext, blastdb_db, chunk_size=chunk_size, max_hsps=max_hsps)
-    guides = score(direct, fn_noext, blastdb_db, chunk_size=chunk_size, nbrofchunks=nbr,
-          reref_substrate_id='chr6', load_genome=load_genome)
-    return cluster(guides, direct, reref_substrate_id, low, high, howmany, fn_noext)
-
-
-# TODO merge with the above onto one flexible input function
-def digest_and_blast_and_score_stretch(direct, stretch, reference, blastdb_db, chunk_size=50, max_hsps=50,
-                                       reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None,
-                                       restriction_enzymes = [u'BfaI', u'ScrFI', u'HpaII']):
-    """
-
-    :param direct:
-    :param stretch:
-    :param reference:
-    :param blastdb_db:
-    :param chunk_size:
-    :param max_hsps:
-    :param reref_substrate_id:
-    :param low:
-    :param high:
-    :param load_genome:
-    :param howmany:
-    :return:
-    """
-    # TODO validation of input as either coord with a - or stretch with a _
-    # assert type(stretch) is type(""), "requires a string"
-    focusfn = digest_stretch(direct, stretch, reference, restriction_enzymes)
     fn_noext = focusfn + '.prsp'
     nbr = blast(direct, fn_noext, blastdb_db, chunk_size=chunk_size, max_hsps=max_hsps)
     guides = score(direct, fn_noext, blastdb_db, chunk_size=chunk_size, nbrofchunks=nbr,

@@ -24,7 +24,7 @@ def referncebedlines_save(cutbedlines, filepath):
     with open(filepath, 'w') as handle:
         for cutbedline in cutbedlines:
             handle.write(cutbedline)
-    print("> save %s refrence protospacers as bed file %s" % (len(cutbedlines), filepath))
+    print("> save %s reference protospacers as bed file %s" % (len(cutbedlines), filepath))
 
 
 def bed_to_fasta(bedfilepath, referencefastafilepath):
@@ -39,7 +39,9 @@ def bed_to_fasta(bedfilepath, referencefastafilepath):
     saveasfastapath = root + '.fasta'
     reference = pybedtools.BedTool(referencefastafilepath)
     bedtool = pybedtools.BedTool(bedfilepath)
-    bedtool.sequence(fi=reference, s=True).save_seqs(saveasfastapath)
+    # test for empty list of prsp in the intersection and avoid or handle bedtool.seqence error due to empty lisy
+    bedtool.sequence(fi=reference, s=True)
+    bedtool.save_seqs(saveasfastapath)
     print("fasta file %s" % (saveasfastapath))
 
 
@@ -52,24 +54,43 @@ def digest_referencefastafile(fastafilepath, restriction_enzymes=[u'BfaI', u'Scr
     Creates files: filepath.prsp.bed and filepath.prsp.fasta
     Also creates index file filepath.fai if it was not there before
     This is the only  place that a call to cut_fastafile is made
-
     :param filepath:
     :param restriction_enzymes:
     :return:
-    >>>digest_referencefastafile('hg38.fa')
-    "1000000 protospacers saved as hg38.fasta.prsp.bed and hg38.fasta.prsp.fasta"
-        ('> loading sequence from ref genome for interval', 'mm8.fasta')
-        ('> digesting using enzymes', ['BfaI', 'HpaII', 'ScrFI'])
-        ('> parsing guides from digestion loci', .....
-        ('> digesting using enzymes', ['BfaI', 'HpaII', 'ScrFI'])
-        > saved as bed file mm8.fasta.prsp.bed
-        > saved as fasta file mm8.fasta.prsp.fasta
-        index file mm8.fasta.fai not found, generating...
+
+>>>crispr.digest.digest_referencefastafile('phix.fasta')
+('> load sequence from fasta file', 'phix.fasta')
+('> analyse loaded sequences with restriction batch of following enzymes', ['BfaI', 'HpaII', 'ScrFI'])
+> buid forward and reverse guide annotations for all restriction cut loci
+> save 22 refrence protospacers as bed file phix.fasta.prsp.bed
+> save refrence protospacers as fasta file phix.fasta.prsp.fasta
+['phix\t3116\t3136\tBfaI\t1000\t+\n',
+ 'phix\t3138\t3158\tBfaI\t1000\t-\n',
+ 'phix\t3887\t3907\tBfaI\t1000\t+\n',
+ 'phix\t3909\t3929\tBfaI\t1000\t-\n',
+ 'phix\t5041\t5061\tBfaI\t1000\t+\n',
+ 'phix\t5063\t5083\tBfaI\t1000\t-\n',
+ 'phix\t709\t729\tHpaII\t1000\t+\n',
+ 'phix\t731\t751\tHpaII\t1000\t-\n',
+ 'phix\t1083\t1103\tHpaII\t1000\t+\n',
+ 'phix\t1105\t1125\tHpaII\t1000\t-\n',
+ 'phix\t2780\t2800\tHpaII\t1000\t+\n',
+ 'phix\t2802\t2822\tHpaII\t1000\t-\n',
+ 'phix\t2999\t3019\tHpaII\t1000\t+\n',
+ 'phix\t3021\t3041\tHpaII\t1000\t-\n',
+ 'phix\t3347\t3367\tHpaII\t1000\t+\n',
+ 'phix\t3369\t3389\tHpaII\t1000\t-\n',
+ 'phix\t862\t882\tScrFI\t1000\t+\n',
+ 'phix\t883\t903\tScrFI\t1000\t-\n',
+ 'phix\t2781\t2801\tScrFI\t1000\t+\n',
+ 'phix\t2802\t2822\tScrFI\t1000\t-\n',
+ 'phix\t3481\t3501\tScrFI\t1000\t+\n',
+ 'phix\t3502\t3522\tScrFI\t1000\t-\n']
     """
     cutbedlines = cut_fastafile(fastafilepath)
     bedpath = fastafilepath + '.prsp.bed'
     referncebedlines_save(cutbedlines, bedpath)
-    print("> save refrence protospacers as ", end='')
+    print("> save reference protospacers as ", end='')
     bed_to_fasta(bedpath, fastafilepath)   # input fasta filepath serves as its own reference
     return(cutbedlines)
 
@@ -127,7 +148,7 @@ def coord_to_bedtuple_and_filename(coord):
         end = str(int(start) + int(length) - 1)
     chrom = coord.split(':')[0]
     start0 = str(int(start) - 1)    # bed coords are zero-based
-    filename = '%s+%s-%s_%s' % (chrom, start, end, length)
+    filename = '%s_%s-%s_%s' % (chrom, start, end, length)
     return [(chrom, start0, end)], filename
 
 
@@ -144,10 +165,25 @@ def digest_coord(direct, coord, reference, restriction_enzymes=[u'BfaI', u'ScrFI
     :param direct:
     :param coord: scaffold:start-end or scaffold:start_length
     :param reference:
-    :return:
-    >>> digest_coord('.', 'chr6:136640001-136680000', 'chr6.fasta')
-    >>> digest_coord('.', 'chr6:136640001_40000', 'chr6.fasta')
-    """
+    :return:cris
+>>> digest_coord('.', 'chr6:136640001-136680000', 'chr6.fasta')
+
+>>> digest_coord('.', 'chr6:136640001_40000', 'chr6.fasta')
+
+>>> crispr.digest.digest_coord('./', 'phix:1-4000', './phix.fasta')
+
+bedtuplelist: [('phix', '0', '4000')] 	 focusfn: phix_1-4000_4000
+DIGEST GENOMIC INTERVAL phix_1-4000_4000
+
+> save target as bed file ./phix_1-4000_4000.bed
+> load protospacers from reference bed file ./phix.fasta.prsp.bed
+> intersect target with reference bed file ./phix.fasta.prsp.bed
+> save in-target protospacers as bed file ./phix_1-4000_4000.prsp.bed
+> save target as fasta file ./phix_1-4000_4000.fasta
+> save in-target protospacers as fasta file ./phix_1-4000_4000.prsp.fasta
+
+'phix_1-4000_4000'
+ """
     bedtuplelist, focusfn = coord_to_bedtuple_and_filename(coord)
     print('bedtuplelist:', bedtuplelist, '\t', 'focusfn:', focusfn)
     print('\nDIGEST GENOMIC INTERVAL', focusfn, '\n')
@@ -155,6 +191,7 @@ def digest_coord(direct, coord, reference, restriction_enzymes=[u'BfaI', u'ScrFI
     print("> save target as bed file %s" % (direct + focusfn + ".bed",))
     digest_focused(direct + focusfn, reference, restriction_enzymes)
     return focusfn
+
 
 
 # interface to prime

@@ -8,6 +8,7 @@
 #
 #######################################################################################################################
 
+from __future__ import print_function
 from os.path import splitext
 import gzip
 try:
@@ -32,7 +33,6 @@ def tabbed_string_from_list(list):
 # TODO store cutpos (goes in seqrecords.name)
 def cut(enzyme, cutpos, substrate_id, substrate_end, sense='+'):
     """
-
     :param enzyme:
     :param cutpos:
     :param substrate_id:
@@ -80,8 +80,8 @@ def cut_seqrecords(seqrecords, enzyme_names=RESTRICTION_ENZYMES_LIST):
 
 # IOs
 ######
-# TODO can seqio handle the decompression itself?
-# TODO write similar utlity to create a dict using SeqIO.to_dict
+# TODO make seqio handle decompression?
+# TODO use SeqIO.to_dict to create a dict
 def create_seqrecords_from_fastafilepath(fastafilepath, fileformat):
     print('> load sequence from fasta file', fastafilepath)
     if fileformat[-3:] == '.gz':
@@ -107,7 +107,6 @@ def create_seqrecords_from_unicodestring(unicodestring):
 
 def cut_fastafile(fastafilepath):
     """
-
     :param fastafilepath: a sequence file name to load, extension should be one of: fasta, fastq, fastq.gz or fastq.gz
     :return: a list of strings, each a bed-formatted line for a found protospacer in fastafilepath
     """
@@ -118,7 +117,6 @@ def cut_fastafile(fastafilepath):
 
 def cut_unicodestring(unicodestring):
     """
-
     :param unicodestring: a sequence as a unicode string
     :return:  a list of strings, each a bed-formatted line for a found protospacer in unicodestring
     """
