@@ -47,7 +47,7 @@ def bed_to_fasta(bedfilepath, referencefastafilepath):
 # INITIALIZATION FUNCTION
 #########################
 
-def digest_fastafile(fastafilepath):
+def digest_fastafile(fastafilepath, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
     Only needed for initialization, the first time a genome is being worked on.... TBA
     Creates files: filepath.prsp.bed and filepath.prsp.fasta
@@ -55,6 +55,7 @@ def digest_fastafile(fastafilepath):
     This is the only  place that a call to cut_fastafile is made
 
     :param filepath:
+    :param restriction_enzymes:
     :return:
     >>>digest_fastafile('hg38.fa')
     "1000000 protospacers saved as hg38.fasta.prsp.bed and hg38.fasta.prsp.fasta"
@@ -72,14 +73,15 @@ def digest_fastafile(fastafilepath):
     bed_to_fasta(bedpath, fastafilepath)   # input fasta filepath serves as its own reference
     return(cutbedlines)
 
+
 # THE WORKHORSE FUNCTION
 ########################
-
-def digest_focused(focusfn, referencefastafilepath):
+def digest_focused(focusfn, referencefastafilepath, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
     The core inner function handling digest. Saves 4 files
     :param focusfn:
     :param reference:
+    :param restriction_enzymes:
     :return:
     """
     focus_bedtool = pybedtools.BedTool(focusfn +'.bed')
@@ -160,7 +162,7 @@ def digest_coord(direct, coord, reference, restriction_enzymes=[u'BfaI', u'ScrFI
     print('\nDIGEST GENOMIC INTERVAL', focusfn, '\n')
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     print("> save target as bed file %s" % (direct + focusfn + ".bed",))
-    digest_focused(direct + focusfn, reference)
+    digest_focused(direct + focusfn, reference, restriction_enzymes)
     return focusfn
 
 
@@ -176,7 +178,7 @@ def digest_stretch(direct, stretch, reference, restriction_enzymes=[u'BfaI', u'S
     print('\nDIGEST GENOMIC INTERVAL\n', focusfn)
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     print("> save target as bed file %s" % (focusfn + ".bed",))
-    digest_focused(direct + '/' + focusfn, reference)
+    digest_focused(direct + '/' + focusfn, reference, restriction_enzymes)
     print('...done')
     return focusfn
 
