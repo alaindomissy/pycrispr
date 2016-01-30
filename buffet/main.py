@@ -71,10 +71,10 @@ def digest_and_blast_stretch(direct, stretch, reference, blastdb_db, chunk_size=
 #########################################################
 
 def blast_and_score(direct, fn_noext, blastdb_db, chunk_size=50, max_hsps=50,
-                    reref_substrate_id='chr6', low=75, high=75, load_genome=True, howmany=24):
+                    reref_substrate_id=None, low=75, high=75, load_genome=True, howmany=24):
     nbr = blast(direct, fn_noext, blastdb_db, chunk_size=chunk_size, max_hsps=max_hsps)
     guides = score(direct, fn_noext, blastdb_db, chunk_size=chunk_size, nbrofchunks=nbr,
-          reref_substrate_id='chr6', load_genome=load_genome)
+          reref_substrate_id=None, load_genome=load_genome)
     return cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None)
 
 
@@ -89,9 +89,9 @@ def blast_and_score(direct, fn_noext, blastdb_db, chunk_size=50, max_hsps=50,
 # dict      a genome fasta file against which pam lookup is optionnaly done for guides candidates
 # genome    same, used when (correctly) blasting agaist whole geome
 #
-# TODO get rid of reref_substrate_id122
+# TODO get rid of reref_substrate_id
 def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk_size=50, max_hsps=50,
-                                     reref_substrate_id='chr6', low=75, high=75, load_genome=False, howmany=None):
+                                     reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None):
     """
 
     :param direct:
@@ -117,7 +117,7 @@ def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk
 
 # TODO merge with the above onto one flexible input function
 def digest_and_blast_and_score_stretch(direct, stretch, reference, blastdb_db, chunk_size=50, max_hsps=50,
-                                       reref_substrate_id='chr6', low=75, high=75, load_genome=False, howmany=None):
+                                       reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None):
     """
 
     :param direct:

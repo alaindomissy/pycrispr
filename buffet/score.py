@@ -103,7 +103,8 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                     pam_zerobased_range = (pam_start -4, pam_start -1)
                 # TODO *** get the correct substrate id for subject (not same as hit!) - should be alignment.hit_def
                 # TODO *** use betools and fai instead of loading full genome
-                if load_genome:
+                # if load_genome: DISABLED FOR NOW
+                if False:
                     scorelog('refgen', end=' ')
                     lookup_context = genomedict[reref_substrate_id]
                     pam = lookup_context[pam_zerobased_range[0]:pam_zerobased_range[1]]
