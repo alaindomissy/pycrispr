@@ -1,7 +1,7 @@
 import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
-from crispr.digest import coord_to_bedtuple_and_filename, digest_fastafile
+from crispr.digest import coord_to_bedtuple_and_filename, digest_referencefastafile
 
 
 
@@ -28,7 +28,7 @@ def test_digest_fastafile_42():
 
     # this requires bedtools being installed
     #
-    # digest_fastafile('tests/data/fourtytwobp.fasta')
+    # digest_referencefastafile('tests/data/fourtytwobp.fasta')
     #
     # with open('tests/data/fourtytwobp.fasta.prsp.bed') as prspbed:
     #     str(prspbed.read())=='fourtytwobps\t0\t20\tBfaI\t1000\t+\nfourtytwobps\t22\t42\tBfaI\t1000\t-\n'

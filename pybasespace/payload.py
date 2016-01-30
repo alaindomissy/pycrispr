@@ -53,7 +53,7 @@ def payload(params_value, output_dir):
     # cuts = cut_file(filepath)
     # return cuts
 
-    # digest_fastafile(filepath)
+    # digest_referencefastafile(filepath)
 
     # filename_noext = 'chr6+47599949-47640339_40391'
     # digest_focused(str(SCAFFOLDS + genome + '/' + filename_noext),

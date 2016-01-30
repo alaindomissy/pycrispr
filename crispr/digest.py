@@ -14,7 +14,7 @@ import pybedtools
 from cut import cut_fastafile
 
 
-def bedlines_save(cutbedlines, filepath):
+def referncebedlines_save(cutbedlines, filepath):
     """
     saves a list of bed formatted strings as lines into a bed formatted file
     :param cutbedlines: list of bed formatted strings
@@ -24,8 +24,7 @@ def bedlines_save(cutbedlines, filepath):
     with open(filepath, 'w') as handle:
         for cutbedline in cutbedlines:
             handle.write(cutbedline)
-    print("> saving %s protospacers" % (len(cutbedlines),))
-    print("> saved as bed file %s" % (filepath,))
+    print("> save %s refrence protospacers as bed file %s" % (len(cutbedlines), filepath))
 
 
 def bed_to_fasta(bedfilepath, referencefastafilepath):
@@ -47,7 +46,7 @@ def bed_to_fasta(bedfilepath, referencefastafilepath):
 # INITIALIZATION FUNCTION
 #########################
 
-def digest_fastafile(fastafilepath, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
+def digest_referencefastafile(fastafilepath, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
     Only needed for initialization, the first time a genome is being worked on.... TBA
     Creates files: filepath.prsp.bed and filepath.prsp.fasta
@@ -57,7 +56,7 @@ def digest_fastafile(fastafilepath, restriction_enzymes=[u'BfaI', u'ScrFI', u'Hp
     :param filepath:
     :param restriction_enzymes:
     :return:
-    >>>digest_fastafile('hg38.fa')
+    >>>digest_referencefastafile('hg38.fa')
     "1000000 protospacers saved as hg38.fasta.prsp.bed and hg38.fasta.prsp.fasta"
         ('> loading sequence from ref genome for interval', 'mm8.fasta')
         ('> digesting using enzymes', ['BfaI', 'HpaII', 'ScrFI'])
@@ -69,7 +68,8 @@ def digest_fastafile(fastafilepath, restriction_enzymes=[u'BfaI', u'ScrFI', u'Hp
     """
     cutbedlines = cut_fastafile(fastafilepath)
     bedpath = fastafilepath + '.prsp.bed'
-    bedlines_save(cutbedlines, bedpath)
+    referncebedlines_save(cutbedlines, bedpath)
+    print("> save refrence protospacers as ", end='')
     bed_to_fasta(bedpath, fastafilepath)   # input fasta filepath serves as its own reference
     return(cutbedlines)
 
@@ -101,10 +101,8 @@ def digest_focused(focusfn, referencefastafilepath, restriction_enzymes=[u'BfaI'
 # INPUT HANDLING
 ################
 
-# TODO merge coord and stretch input options into a singke function
 def coord_to_bedtuple_and_filename(coord):
     """
-
     :param coord: scaffold:start-end or scaffold:start_length
     :return: a tuple of: a list of 1 3cols-bed-tuple, and a filename
 
@@ -140,7 +138,7 @@ def coord_to_bedtuple_and_filename(coord):
 def digest_coord(direct, coord, reference, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
     reference must be a path to a fastafile.
-    You mast have run digest_fastafile on that file already,
+    You mast have run digest_referencefastafile on that file already,
     thereby creatang protospacers files .prsp.bed' and .prsp.fasta'
 
     :param direct:
