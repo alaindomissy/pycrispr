@@ -157,7 +157,7 @@ def digest_coord(direct, coord, reference, restriction_enzymes=[u'BfaI', u'ScrFI
     """
     bedtuplelist, focusfn = coord_to_bedtuple_filename(coord)
     print('bedtuplelist:', bedtuplelist, '\t', 'focusfn:', focusfn)
-    print('\nDIGEST GENOMIC INTERVAL', focusfn)
+    print('\nDIGEST GENOMIC INTERVAL', focusfn, '\n')
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     print("> save target as bed file %s" % (direct + focusfn + ".bed",))
     digest_focused(direct + focusfn, reference)
