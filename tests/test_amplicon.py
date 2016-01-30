@@ -11,8 +11,6 @@ def test_mask_sequence():
     assert(mask_sequence(SeqRecord('acgtACGTacgtACGT')).seq == 'NNNNACGTNNNNACGT' )
 
 
-
-
 def test_amplicon():
     run = []
     guidelist = []

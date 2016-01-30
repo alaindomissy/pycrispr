@@ -9,12 +9,12 @@
 #######################################################################################################################
 
 from __future__ import print_function
-from os.path import splitext
-import gzip
 try:
     from io import StringIO        # python3
 except ImportError:
     from StringIO import StringIO  # python2
+from os.path import splitext
+import gzip
 from Bio import SeqIO as seqio
 from settings import RESTRICTION_ENZYMES_LIST
 from analyse import analyse
@@ -122,3 +122,5 @@ def cut_unicodestring(unicodestring):
     """
     seqrecords = create_seqrecords_from_unicodestring(unicodestring)
     return cut_seqrecords(seqrecords)
+
+

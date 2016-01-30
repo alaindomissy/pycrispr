@@ -12,7 +12,7 @@ from __future__ import print_function
 from os.path import splitext
 import pybedtools
 from cut import cut_fastafile
-
+from settings import digestlog
 
 def referncebedlines_save(cutbedlines, filepath):
     """
@@ -107,15 +107,15 @@ def digest_focused(focusfn, referencefastafilepath, restriction_enzymes=[u'BfaI'
     """
     focus_bedtool = pybedtools.BedTool(focusfn +'.bed')
     referenceprspbedfilepath = referencefastafilepath + ".prsp.bed"
-    print("> load protospacers from reference bed file %s" % referenceprspbedfilepath)
+    digestlog("> load protospacers from reference bed file %s" % referenceprspbedfilepath)
     whole_bedtool = pybedtools.BedTool(referencefastafilepath + '.prsp.bed')
-    print("> intersect target with reference bed file %s" % referenceprspbedfilepath)
+    digestlog("> intersect target with reference bed file %s" % referenceprspbedfilepath)
     whole_bedtool.intersect(focus_bedtool).moveto(focusfn + ".prsp.bed")
-    print("> save in-target protospacers as bed file %s" % (focusfn + ".prsp.bed",))
+    digestlog("> save in-target protospacers as bed file %s" % (focusfn + ".prsp.bed",))
 
-    print("> save target as ", end='')
+    digestlog("> save target as ", end='')
     bed_to_fasta(focusfn + '.bed', referencefastafilepath)
-    print("> save in-target protospacers as ", end='')
+    digestlog("> save in-target protospacers as ", end='')
     bed_to_fasta(focusfn + '.prsp.bed', referencefastafilepath)
 
 
@@ -161,16 +161,15 @@ def digest_coord(direct, coord, reference, restriction_enzymes=[u'BfaI', u'ScrFI
     reference must be a path to a fastafile.
     You mast have run digest_referencefastafile on that file already,
     thereby creatang protospacers files .prsp.bed' and .prsp.fasta'
-
     :param direct:
     :param coord: scaffold:start-end or scaffold:start_length
-    :param reference:
+    :param reference: reference fasta file
     :return:cris
->>> digest_coord('.', 'chr6:136640001-136680000', 'chr6.fasta')
+    >>> digest_coord('.', 'chr6:136640001-136680000', 'chr6.fasta')
 
->>> digest_coord('.', 'chr6:136640001_40000', 'chr6.fasta')
+    >>> digest_coord('.', 'chr6:136640001_40000', 'chr6.fasta')
 
->>> crispr.digest.digest_coord('./', 'phix:1-4000', './phix.fasta')
+    >>> crispr.digest.digest_coord('./', 'phix:1-4000', './phix.fasta')
 
 bedtuplelist: [('phix', '0', '4000')] 	 focusfn: phix_1-4000_4000
 DIGEST GENOMIC INTERVAL phix_1-4000_4000
@@ -185,13 +184,12 @@ DIGEST GENOMIC INTERVAL phix_1-4000_4000
 'phix_1-4000_4000'
  """
     bedtuplelist, focusfn = coord_to_bedtuple_and_filename(coord)
-    print('bedtuplelist:', bedtuplelist, '\t', 'focusfn:', focusfn)
-    print('\nDIGEST GENOMIC INTERVAL', focusfn, '\n')
+    digestlog('bedtuplelist:', bedtuplelist, '\t', 'focusfn:', focusfn)
+    digestlog('\nDIGEST GENOMIC INTERVAL', focusfn, '\n')
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
-    print("> save target as bed file %s" % (direct + focusfn + ".bed",))
+    digestlog("> save target as bed file %s" % (direct + focusfn + ".bed",))
     digest_focused(direct + focusfn, reference, restriction_enzymes)
     return focusfn
-
 
 
 # interface to prime
