@@ -67,10 +67,11 @@ def grouper_longest(iterable, chunk_size, fillvalue=None):
 
 
 def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
-    print("\nBLASTING PROTOSPACERS fn_noext", fn_noext, end=' ')
+    print("\nBLAST PROTOSPACERS in", fn_noext, end=' ')
     seqs = seqio.parse(dir + fn_noext + '.fasta','fasta')
     print('done')
     nbr = 0
+    nbrwrong = 0
     nameformat = '%s.%sseqs.%s'     # TODO add '.max%sHSPs.' % max_hsps
     for seqs_chunk in grouper_longest(seqs, chunk_size, None):
         seqs_chunk = [seq for seq in seqs_chunk if seq]
@@ -80,21 +81,22 @@ def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
         fn_code_noext = nameformat % (fn_noext, chunk_size, nbr)
         rightfasta = dir + fn_code_noext + '.fasta'
         rightblast = dir + fn_code_noext + '.blast'
-        wrongfasta = dir + fn_code_noext + '.fasta.WRONG'
-        wrongblast = dir + fn_code_noext + '.blast.WRONG'
-        rescuedfasta = dir + fn_code_noext + '.fasta.WRONG.RESCUED'
-        rescuedblast = dir + fn_code_noext + '.blast.WRONG.RESCUED'
+        wrongfasta = dir + fn_code_noext + '.fasta.FAILED'
+        wrongblast = dir + fn_code_noext + '.blast.FAILED'
+        rescuedfasta = dir + fn_code_noext + '.fasta.FAILED.RESCUED'
+        rescuedblast = dir + fn_code_noext + '.blast.FAILED.RESCUED'
         if os.path.isfile(rightfasta) and os.path.isfile(rightblast):
-            print('> skipping chunk ', nbr, fn_code_noext)
+            print('> skip chunk ', nbr, fn_code_noext)
             continue
         elif os.path.isfile(wrongfasta) or os.path.isfile(wrongblast):
-            print('> rescuing chunk ', nbr, fn_code_noext, end=' ')
+            print('> rescue chunk ', nbr, fn_code_noext, end=' ')
         else:
-            print('> blasting chunk ', nbr, fn_code_noext, end=' ')
+            print('> blast chunk ', nbr, fn_code_noext, end=' ')
         with open(dir + fn_code_noext + '.fasta', "w") as temp_hndl:
             seqio.write(seqs_chunk, temp_hndl, "fasta")
         failed = blast1(dir, fn_code_noext, blastdb_db, max_hsps)
         if failed:
+            nbrwrong +=1
             os.rename(rightfasta, wrongfasta)
             os.rename(rightblast, wrongblast)
         else:
@@ -105,5 +107,5 @@ def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
     fn_code_noext = nameformat % (fn_noext, chunk_size, nbr)
     with open(dir + fn_code_noext + '@' + str(max_hsps) + 'maxHSPs' + '.txt', "w") as temp_hndl:
             temp_hndl.write('all done - %s chunks' % nbr)
-    print('blasting all done:', nbr, 'chunks')
+    print('all', nbr, 'chunks blasted','with', nbrwrong, 'failed chunks' )
     return nbr
