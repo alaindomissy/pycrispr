@@ -102,48 +102,40 @@ def digest_focused(focusfn, referencefastafilepath, restriction_enzymes=[u'BfaI'
 ################
 
 # TODO merge coord and stretch input options into a singke function
-def coord_to_bedtuple_filename(coord):
+def coord_to_bedtuple_and_filename(coord):
     """
 
-    :param coord:
-    :return:
-    >>> coord_to_bedtuple_filename('chr6:136640001-136680000')
+    :param coord: scaffold:start-end or scaffold:start_length
+    :return: a tuple of: a list of 1 3cols-bed-tuple, and a filename
+
+    works with start and end:
+
+    >>> coord_to_bedtuple_and_filename('chr6:136640001-136680000')
+    ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000')
+
+    and also works with start and length:
+
+    >>> coord_to_bedtuple_and_filename('chr6:136640001_40000')
     ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000')
     """
+    has_dash = '-' in coord
+    has_under = '_' in coord
+    assert(has_dash ^ has_under)
+    if has_dash:
+        start, end = coord.split(':')[1].split('-')
+        length = str(int(end) - int(start) + 1)
+    if has_under:
+        start, length = stretch.split(':')[1].split('_')
+        end = str(int(start) + int(length) - 1)
     chrom = coord.split(':')[0]
-    start, end = coord.split(':')[1].split('-')
-    # bed coords are zero-based
-    start0 = str(int(start) - 1)
-    length = str(int(end) - int(start) + 1)
+    start0 = str(int(start) - 1)    # bed coords are zero-based
     filename = '%s+%s-%s_%s' % (chrom, start, end, length)
     return [(chrom, start0, end)], filename
 
-assert(coord_to_bedtuple_filename('chr6:136640001-136680000')
-    == ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000'))
 
 
-def stretch_to_bedtuple_filename(stretch):
-    """
-
-    :param stretch:
-    :return:
-    >>> stretch_to_bedtuple_filename('chr6:136640001_40000')
-    ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000')
-    """
-    chrom = stretch.split(':')[0]
-    start, length = stretch.split(':')[1].split('_')
-    # bed coords are zero-based
-    start0 = str(int(start) - 1)
-    end = str(int(start) + int(length) - 1)
-    filename =  '%s+%s-%s_%s' % (chrom, start, end, length)
-    return [(chrom, start0, end)], filename
-
-assert( stretch_to_bedtuple_filename('chr6:136640001_40000')
-    == ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000'))
-
-
-# MAIN API FUNCTIONS
-####################
+# MAIN API FUNCTION
+###################
 
 def digest_coord(direct, coord, reference, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
@@ -152,37 +144,19 @@ def digest_coord(direct, coord, reference, restriction_enzymes=[u'BfaI', u'ScrFI
     thereby creatang protospacers files .prsp.bed' and .prsp.fasta'
 
     :param direct:
-    :param coord:
+    :param coord: scaffold:start-end or scaffold:start_length
     :param reference:
     :return:
     >>> digest_coord('.', 'chr6:136640001-136680000', 'chr6.fasta')
+    >>> digest_coord('.', 'chr6:136640001_40000', 'chr6.fasta')
     """
-    bedtuplelist, focusfn = coord_to_bedtuple_filename(coord)
+    bedtuplelist, focusfn = coord_to_bedtuple_and_filename(coord)
     print('bedtuplelist:', bedtuplelist, '\t', 'focusfn:', focusfn)
     print('\nDIGEST GENOMIC INTERVAL', focusfn, '\n')
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     print("> save target as bed file %s" % (direct + focusfn + ".bed",))
     digest_focused(direct + focusfn, reference, restriction_enzymes)
     return focusfn
-
-
-def digest_stretch(direct, stretch, reference, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
-    """
-
-    :param direct:
-    :param stretch:
-    :param reference:
-    :return:
-    """
-    bedtuplelist, focusfn = stretch_to_bedtuple_filename(stretch)
-    print('\nDIGEST GENOMIC INTERVAL\n', focusfn)
-    pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
-    print("> save target as bed file %s" % (focusfn + ".bed",))
-    digest_focused(direct + '/' + focusfn, reference, restriction_enzymes)
-    print('...done')
-    return focusfn
-
-
 
 
 # interface to prime

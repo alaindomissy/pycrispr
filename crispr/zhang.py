@@ -59,6 +59,16 @@ def mean_pairwise_distance_between_mismatches(mismatches):
     """
     :param np_mismatches: 20-long list of 0 or 1 representing mismatches for a guide at a possible offtarget location
     :return: mean pairwise distance between mismatches
+    >>> mean_pairwise_distance_between_mismatches(np.array([0,1,1,1,1]+ 15*[0]))
+    1.0
+    >>> mean_pairwise_distance_between_mismatches(np.array([1,0,0,0,0,0,0,0,0,0,0,0,1]+ 7*[0]))
+    12.0
+    >>> mean_pairwise_distance_between_mismatches(np.array([1,1,0,0,0,0,0,0,0,1,0,0,1]+ 7*[0]))
+    4.0
+    >>> mean_pairwise_distance_between_mismatches(np.zeros(20))
+    19.0
+    >>> mean_pairwise_distance_between_mismatches(np.ones(20))
+    1.0
     """
     assert(len(mismatches)==20)
     d = len(mismatches) -1.0

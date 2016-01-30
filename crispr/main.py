@@ -45,7 +45,7 @@
 
 
 
-from digest import digest_coord, digest_stretch
+from digest import digest_coord
 from blast import blast
 from score import score
 from cluster import cluster
