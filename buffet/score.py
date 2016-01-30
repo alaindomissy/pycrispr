@@ -47,30 +47,30 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
 
     if load_genome:
         fastafilepath = direct +'dict.fasta'
-        print('\nLOADING REFERENCE GENOME from', end=' ')
+        print('\nLOAD REFERENCE GENOME from', end=' ')
         genomedict =load_genome_dict(fastafilepath)
         print('...done')
-        scorelog('will use genomedict for pam look up')
+        scorelog('pam look up via genomedict')
     else:
-        print('will use blastdbcmdfor pam look up')
+        print('pam look up via blastdbcmd')
 
-    print('start loading unscored guides', end='')
+    print('load unscored guides', end='')
     with open(direct + fn_noext + '.fasta') as guidesfn:
         guides = list(seqio.parse(guidesfn, "fasta"))
         print(' ...done')
 
-    print('\nPARSING BLAST RESULTS CHUNKS')
+    print('\nPARSE BLAST RESULTS CHUNKS')
     blastrecords = []
     for chunknbr in range(1,nbrofchunks+1):
         fn_withext = fn_noext + '.' + str(chunk_size) + 'seqs.' + str(chunknbr) + '.blast'
         blastfn = direct + fn_withext
         try:
             with open(blastfn) as blasthndl:
-                print('\n> parsing chunk ', str(chunknbr).zfill(3), fn_withext, end='')
+                print('\n> parse chunk ', str(chunknbr).zfill(3), fn_withext, end='')
                 blastrecords.extend(list(NCBIXML.parse(blasthndl)))
                 print(' done')
         except IOError as ioe:
-            print('> missing chunk', chunknbr,  fn_withext, 'skipped')
+            print('> miss chunk', chunknbr,  fn_withext, 'skip')
 
         # print(blastrecords)
 
@@ -175,7 +175,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
         # scorelog(pam.seq)
 
 
-    print('\nCHECKING ZERO SCORED GUIDES')
+    print('\nCHECK ZERO SCORED GUIDES')
     # TODO guides not getting a score, how does this happen ? fix it better
     # kind of fix guides without a score
     for guide in guides:

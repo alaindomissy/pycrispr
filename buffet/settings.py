@@ -55,3 +55,4 @@ PRIMER3_PARAMETERS = {
         'PRIMER_PAIR_WT_DIFF_TM':1, #added
         'PRIMER_PAIR_WT_PRODUCT_SIZE_LT': 0.5, #added
         }
+

@@ -91,7 +91,8 @@ def blast_and_score(direct, fn_noext, blastdb_db, chunk_size=50, max_hsps=50,
 #
 # TODO get rid of reref_substrate_id
 def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk_size=50, max_hsps=50,
-                                     reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None):
+                                     reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None,
+                                     restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
 
     :param direct:
@@ -107,7 +108,7 @@ def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk
     :param howmany:
     :return:
     """
-    focusfn = digest_coord(direct, coord, reference)
+    focusfn = digest_coord(direct, coord, reference, restriction_enzymes)
     fn_noext = focusfn + '.prsp'
     nbr = blast(direct, fn_noext, blastdb_db, chunk_size=chunk_size, max_hsps=max_hsps)
     guides = score(direct, fn_noext, blastdb_db, chunk_size=chunk_size, nbrofchunks=nbr,
@@ -117,7 +118,8 @@ def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk
 
 # TODO merge with the above onto one flexible input function
 def digest_and_blast_and_score_stretch(direct, stretch, reference, blastdb_db, chunk_size=50, max_hsps=50,
-                                       reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None):
+                                       reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None,
+                                       restriction_enzymes = [u'BfaI', u'ScrFI', u'HpaII']):
     """
 
     :param direct:
@@ -135,7 +137,7 @@ def digest_and_blast_and_score_stretch(direct, stretch, reference, blastdb_db, c
     """
     # TODO validation of input as either coord with a - or stretch with a _
     # assert type(stretch) is type(""), "requires a string"
-    focusfn = digest_stretch(direct, stretch, reference)
+    focusfn = digest_stretch(direct, stretch, reference, restriction_enzymes)
     fn_noext = focusfn + '.prsp'
     nbr = blast(direct, fn_noext, blastdb_db, chunk_size=chunk_size, max_hsps=max_hsps)
     guides = score(direct, fn_noext, blastdb_db, chunk_size=chunk_size, nbrofchunks=nbr,

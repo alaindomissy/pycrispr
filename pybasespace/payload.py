@@ -44,9 +44,12 @@ def payload(params_value, output_dir):
         print("no input.genomic_coord input")
         return "no input.genomic_coord input"
 
+
     genome = str(params_value['input.genome_id'])
+    restriction_enzymes =  params_value['input.blast_chunk_size']
     chunk_size = int(params_value['input.blast_chunk_size'])
     max_hsps = int(params_value['input.blast_max_hsps'])
+
     binding_interference_spacing = str(params_value['input.binding_interference_spacing'])
 
     filepath = str(SCAFFOLDS + genome + '/' + coord + '.fasta')
@@ -73,7 +76,8 @@ def payload(params_value, output_dir):
 
     digest_and_blast_and_score_coord(SCRATCH, coord, reference, genome, chunk_size=chunk_size, max_hsps=max_hsps,
                                      reref_substrate_id=None,
-                                     low=75, high=75, load_genome=False, howmany=None)
+                                     low=75, high=75, load_genome=False, howmany=None,
+                                     restriction_enzymes = restriction_enzymes)
 
 
     # copytree(source, destination, ignore=_logpath)

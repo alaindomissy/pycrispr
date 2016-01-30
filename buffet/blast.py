@@ -67,7 +67,8 @@ def grouper_longest(iterable, chunk_size, fillvalue=None):
 
 
 def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
-    print("\nBLAST PROTOSPACERS in", fn_noext, end=' ')
+    print("\nBLAST PROTOSPACERS\n")
+    print("\nload protospacers from fasta file", fn_noext, end=' ')
     seqs = seqio.parse(dir + fn_noext + '.fasta','fasta')
     print('done')
     nbr = 0
@@ -86,12 +87,12 @@ def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
         rescuedfasta = dir + fn_code_noext + '.fasta.FAILED.RESCUED'
         rescuedblast = dir + fn_code_noext + '.blast.FAILED.RESCUED'
         if os.path.isfile(rightfasta) and os.path.isfile(rightblast):
-            print('> skip chunk ', nbr, fn_code_noext)
+            print('> skip chunk ', str(nbr).zfill(3), fn_code_noext)
             continue
         elif os.path.isfile(wrongfasta) or os.path.isfile(wrongblast):
-            print('> rescue chunk ', nbr, fn_code_noext, end=' ')
+            print('> rescue chunk ', str(nbr).zfill(3), fn_code_noext, end=' ')
         else:
-            print('> blast chunk ', nbr, fn_code_noext, end=' ')
+            print('> blast chunk ', str(nbr).zfill(3), fn_code_noext, end=' ')
         with open(dir + fn_code_noext + '.fasta', "w") as temp_hndl:
             seqio.write(seqs_chunk, temp_hndl, "fasta")
         failed = blast1(dir, fn_code_noext, blastdb_db, max_hsps)

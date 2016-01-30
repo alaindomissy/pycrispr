@@ -86,7 +86,7 @@ def digest_focused(focusfn, referencefastafilepath):
     referenceprspbedfilepath = referencefastafilepath + ".prsp.bed"
     print("> load protospacers from reference bed file %s" % referenceprspbedfilepath)
     whole_bedtool = pybedtools.BedTool(referencefastafilepath + '.prsp.bed')
-    print("> intersect target with reference protospacers from bed file %s" % referenceprspbedfilepath)
+    print("> intersect target with reference bed file %s" % referenceprspbedfilepath)
     whole_bedtool.intersect(focus_bedtool).moveto(focusfn + ".prsp.bed")
     print("> save in-target protospacers as bed file %s" % (focusfn + ".prsp.bed",))
 
@@ -143,7 +143,7 @@ assert( stretch_to_bedtuple_filename('chr6:136640001_40000')
 # MAIN API FUNCTIONS
 ####################
 
-def digest_coord(direct, coord, reference):
+def digest_coord(direct, coord, reference, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
     reference must be a path to a fastafile.
     You mast have run digest_fastafile on that file already,
@@ -164,7 +164,7 @@ def digest_coord(direct, coord, reference):
     return focusfn
 
 
-def digest_stretch(direct, stretch, reference):
+def digest_stretch(direct, stretch, reference, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
 
     :param direct:
@@ -173,7 +173,7 @@ def digest_stretch(direct, stretch, reference):
     :return:
     """
     bedtuplelist, focusfn = stretch_to_bedtuple_filename(stretch)
-    print('\nDIGEST GENOMIC INTERVAL', focusfn)
+    print('\nDIGEST GENOMIC INTERVAL\n', focusfn)
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     print("> save target as bed file %s" % (focusfn + ".bed",))
     digest_focused(direct + '/' + focusfn, reference)
