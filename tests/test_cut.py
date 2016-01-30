@@ -1,7 +1,7 @@
 import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
-from buffet.cut import cut_fastafile, cut_unicodestring
+from crispr.cut import cut_fastafile, cut_unicodestring
 
 
 

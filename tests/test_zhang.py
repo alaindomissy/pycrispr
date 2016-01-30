@@ -1,7 +1,7 @@
 import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
-from buffet.zhang import *
+from crispr.zhang import *
 
 
 def test_mean_pairwise_distance_between_mismatches():

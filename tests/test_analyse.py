@@ -5,7 +5,7 @@ import Bio
 from Bio.Seq import Seq
 
 import Bio.Restriction
-from buffet.analyse import create_enzyme, create_batch, create_analysis, analyse
+from crispr.analyse import create_enzyme, create_batch, create_analysis, analyse
 
 
 def test_create_enzyme():
@@ -124,9 +124,9 @@ def test_create_batch():
 #
 # tests/test_analyse.py:55:
 # _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-# buffet/analyse.py:77: in analyse
+# crispr/analyse.py:77: in analyse
 #     return create_analysis(seq, enzyme_names).full()     # .only_between(20, -20)  would get rid of both sides, not good
-# buffet/analyse.py:62: in create_analysis
+# crispr/analyse.py:62: in create_analysis
 #     return Analysis(batch, seq, linear= True)
 # /root/anaconda3/envs/pycrispr/lib/python2.7/site-packages/Bio/Restriction/Restriction.py:2092: in __init__
 #     RestrictionBatch.__init__(self, restrictionbatch)

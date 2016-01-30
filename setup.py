@@ -1,14 +1,14 @@
-from setuptools import setup, find_packages
+from setuptools import setup  #, find_packages
 
 setup(name='pycrispr',
       version='0.1.2',
       description='Crispr Eating and other tools.',
-      url='https://github.com/alaindomissy/buffet',
+      url='https://github.com/alaindomissy/crispr',
       author='Alain Domissy',
       author_email='alaindomissy@gmail.com',
       license='MIT',
       # packages=find_packages(exclude=["tests"]),
-      packages=['buffet', 'pybasespace'],
+      packages=['crispr', 'pybasespace'],
       install_requires=[
             'biopython==1.66',
             'coverage==4.0.3',

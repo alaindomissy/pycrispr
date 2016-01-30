@@ -15,7 +15,7 @@ from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Application import ApplicationError
 from Bio import SeqIO as seqio    # TODO this is also imported from cut.py, ok?
 
-# from buffet.settings import BLASTDBDIR
+# from crispr.settings import BLASTDBDIR
 
 
 # SINGLE FILE BLASTING

@@ -14,7 +14,7 @@ import json
 
 from pybasespace.payload import payload
 
-from buffet.settings import APPSESSIONJSON
+from crispr.settings import APPSESSIONJSON
 
 
 def read_appsession(appsession_jsonfilename):

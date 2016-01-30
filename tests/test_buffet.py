@@ -1,7 +1,7 @@
 import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
-import buffet
+import crispr
 
-def test_buffet():
-    import buffet.main
+def test_crispr():
+    import crispr.main

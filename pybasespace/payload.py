@@ -14,19 +14,15 @@ from shutil import copytree
 #     return []   # nothing will be ignored
 
 
-from buffet.settings import SCAFFOLDS, SCRATCH
-# from buffet.cut import cut_file
-# from buffet.digest import digest_fastafile, digest_focused, digest_coord
-# from buffet.blast import blast
-from buffet.main import digest_and_blast_coord, digest_and_blast_and_score_coord
-
+from crispr.settings import SCAFFOLDS, SCRATCH
+from crispr.main import digest_and_blast_coord, digest_and_blast_and_score_coord
 
 # main.blast(SCAFFOLDS, 'chr6:136640001-136641000_1000.prsp', 'mm8')
-# from buffet import cut
+# from crispr import cut
 
 # cut.cut_file(SCAFFOLDS + 'chr6-1-400' + 'fasta')
 #
-# from buffet import digest
+# from crispr import digest
 # digest.digest_file(SCAFFOLDS + 'hg38' + 'fasta')
 # digest.digest_coord(SCAFFOLDS +'chr21:42774475-42905100' + 'fasta' ,'mm8', SCAFFOLDS + 'mm8.fasta )
 

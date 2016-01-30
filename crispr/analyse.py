@@ -33,6 +33,7 @@ def keywords_tuple(enzyme_name):
     # this list length should be 1, as each enzyme belongs to one and only one type entry of typedict
     return keywords_tuple_list[0]
 
+
 def create_enzyme(enzyme_name):
     """
     >>>type(create_enzyme('BfaI'))
@@ -41,13 +42,10 @@ def create_enzyme(enzyme_name):
     enzyme_types = tuple(getattr(Restriction, x) for x in keywords_tuple(enzyme_name))
     return Restriction.RestrictionType(enzyme_name, enzyme_types, rest_dict[enzyme_name])
 
+
 def create_batch(enzyme_names):
     return reduce(lambda x, y: x + y, map(create_enzyme, enzyme_names))
 
-
-###################
-# MAIN API FUNCTION
-###################
 
 def create_analysis(seq, enzyme_names=['BfaI', 'HpaII', 'ScrFI']):
     """
@@ -59,6 +57,12 @@ def create_analysis(seq, enzyme_names=['BfaI', 'HpaII', 'ScrFI']):
     batch = create_batch(enzyme_names)
     return Analysis(batch, seq, linear= True)
 
+
+###################
+# MAIN API FUNCTION
+###################
+
+
 # TODO check and discard forward (resp reverse) side of prsps with a PAM less then 20bps from start (resp end)
 def analyse(seq, enzyme_names=['BfaI', 'HpaII', 'ScrFI']):
     """
@@ -68,7 +72,7 @@ def analyse(seq, enzyme_names=['BfaI', 'HpaII', 'ScrFI']):
     # 5'...C TA G ...3'
     # 3'...G AT C ...5'
     the position returned is the one-based position of the T nucleotide in forward strand
-    :param seq:
+    :param seq: a Bio.Seq.Seq object for a fasta genomic sequence
     :param enzyme_names:
     :return: a dict, keys are object enzymes for given enzyme_names, values are a lsit of cut positions for that enzyme
     """

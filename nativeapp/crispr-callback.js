@@ -1,7 +1,7 @@
 function launchSpec(dataProvider){
     var projectId = dataProvider.GetProperty("Input.project_id").Id;
     var ret = {
-           //commandLine: ["/root/anaconda3/envs/buffet/bin/python","-m","pybasespace.app" ],
+           //commandLine: ["/root/anaconda3/envs/crispr/bin/python","-m","pybasespace.app" ],
            commandLine: ["/root/app"],
            containerImageId: "alaindomissy/crispreating",
            Options: [ "bsfs.enabled=false" ]

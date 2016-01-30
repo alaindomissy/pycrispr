@@ -4,7 +4,7 @@ sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
 from Bio.SeqRecord import SeqRecord
 
-from buffet.amplicon import Amplicon, mask_sequence
+from crispr.amplicon import Amplicon, mask_sequence
 
 
 def test_mask_sequence():

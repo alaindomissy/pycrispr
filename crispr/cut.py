@@ -14,9 +14,7 @@ try:
     from io import StringIO        # python3
 except ImportError:
     from StringIO import StringIO  # python2
-
 from Bio import SeqIO as seqio
-
 from settings import RESTRICTION_ENZYMES_LIST
 from analyse import analyse
 

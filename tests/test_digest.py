@@ -1,7 +1,7 @@
 import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
-from buffet.digest import coord_to_bedtuple_filename, stretch_to_bedtuple_filename, digest_fastafile
+from crispr.digest import coord_to_bedtuple_filename, stretch_to_bedtuple_filename, digest_fastafile
 
 
 
