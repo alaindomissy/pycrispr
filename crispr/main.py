@@ -28,6 +28,7 @@
 # TODO app intro section
 # TODO app background literate code bacground: bio, algo, app tutorial
 # TODO dockerfile and docker registry CI
+# TODO new doker image lighter weight and less layers
 # TODO use illumina docker registry, or private one
 # TODO retry amazon docker machine
 # TODO genomes data move to S3
@@ -41,6 +42,7 @@
 # TODO gui to input number of good guides desired
 # TODO max length of a cluster 2kb
 # TODO figure out which ecoli K12 or ?
+# TODO use human blast data from igenomes
 
 
 

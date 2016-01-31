@@ -2,14 +2,14 @@ from __future__ import print_function
 
 import os
 
-#BLASTDB = os.environ.get('BLASTDBD','/genomes/blast/')
+# BLASTDB = os.environ.get('BLASTDB', '/BLASTDB/')
 
-GENOMES = os.environ.get('nano .','/GENOMES/')
+GENOMES = os.environ.get('GENOMES', '/GENOMES/')
 PROTOSP = os.environ.get('PROTOSPACERS','/PROTOSP/')
 
 SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
 
-APPSESSIONJSON = os.environ.get('APPSESSIONJSON', '/data/input/AppSession.json')
+APPSESS = os.environ.get('APPSESS', '/data/input/AppSession.json')
 
 RESTRICTION_ENZYMES_LIST = ['BfaI', 'HpaII', 'ScrFI']
 
