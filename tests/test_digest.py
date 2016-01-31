@@ -1,17 +1,17 @@
 import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
-from crispr.digest import coord_to_bedtuple_and_filename, digest_referencefastafile
+from crispr.digest import coord_to_bedtuple_and_filename, digest_genome
 
 
+def test_coord_to_bedtuple_filename():
 
-def test_coord_to_bedtuple_filename_has_dash():
+    # has_dash
     assert(coord_to_bedtuple_and_filename('chr6:136640001-136680000') ==
            ([('chr6', '136640000', '136680000')], 'chr6_136640001-136680000_40000')
            )
 
-
-def digesttest_coord_to_bedtuple_filename_has_under():
+    # has_under()
     assert(coord_to_bedtuple_and_filename('chr6:136640001_40000') ==
            ([('chr6', '136640000', '136680000')], 'chr6_136640001-136680000_40000')
            )
@@ -28,7 +28,7 @@ def test_digest_fastafile_42():
 
     # this requires bedtools being installed
     #
-    # digest_referencefastafile('tests/data/fourtytwobp.fasta')
+    # digest_genome('tests/data/fourtytwobp.fasta')
     #
     # with open('tests/data/fourtytwobp.fasta.prsp.bed') as prspbed:
     #     str(prspbed.read())=='fourtytwobps\t0\t20\tBfaI\t1000\t+\nfourtytwobps\t22\t42\tBfaI\t1000\t-\n'

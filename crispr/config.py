@@ -4,7 +4,8 @@ import os
 
 #BLASTDB = os.environ.get('BLASTDBD','/genomes/blast/')
 
-SCAFFOLDS = os.environ.get('SCAFFOLDS','/genomes/scaffolds/')
+GENOMES = os.environ.get('nano .','/GENOMES/')
+PROTOSP = os.environ.get('PROTOSPACERS','/PROTOSP/')
 
 SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
 
@@ -76,28 +77,62 @@ PRIMER3_PARAMETERS = {
     'PRIMER_PAIR_WT_PRODUCT_SIZE_LT': 0.5, #added
     }
 
-GENOMES = {
-    'hg38'   : '/genomes/Homo_sapiens/UCSC/hg38/Sequence/WholeGenomeFasta/genome.fa',
-    'hg19'   : '/genomes/Homo_sapiens/UCSC/hg19/Sequence/WholeGenomeFasta/genome.fa',
-    'hg18'   : '/genomes/Homo_sapiens/UCSC/hg18/Sequence/WholeGenomeFasta/genome.fa',
-    'mm10'   : '/genomes/Homo_sapiens/UCSC/mm10/Sequence/WholeGenomeFasta/genome.fa',
-    'mm9'    : '/genomes/Mus_musculus/UCSC/mm9/Sequence/WholeGenomeFasta/genome.fa',
-    'mm8'    : '/genomes/scaffolds/mm8/mm8.fasta',
-    'tair10' : '/genomes/Arabidopsis_thaliana/NCBI/TAIR10/Sequence/WholeGenomeFasta/genome.fa',
-    'saccer3': '/genomes/Saccharomyces_cerevisiae/UCSC/sacCer3/Sequence/WholeGenomeFasta/genome.fa',
-    'ecoli'  : '/genomes/Escherichia_coli_K_12_DH10B/NCBI/2008-03-17/Sequence/WholeGenomeFasta/genome.fa',
-    'phix'   : '/genomes/PhiX/Illumina/RTA/Sequence/WholeGenomeFasta/genome.fa'
-}
 
-PROTOSPACERS = {
-    'hg38'   : '/genomes/Homo_sapiens/UCSC/hg38/Sequence/WholeGenomeFasta/genome.fa',
-    'hg19'   : '/genomes/Homo_sapiens/UCSC/hg19/Sequence/WholeGenomeFasta/genome.fa',
-    'hg18'   : '/genomes/Homo_sapiens/UCSC/hg18/Sequence/WholeGenomeFasta/genome.fa',
-    'mm10'   : '/genomes/Homo_sapiens/UCSC/mm10/Sequence/WholeGenomeFasta/genome.fa',
-    'mm9'    : '/genomes/Mus_musculus/UCSC/mm9/Sequence/WholeGenomeFasta/genome.fa',
-    'mm8'    : '/genomes/scaffolds/mm8/mm8.fasta',
-    'tair10' : '/genomes/Arabidopsis_thaliana/NCBI/TAIR10/Sequence/WholeGenomeFasta/genome.fa',
-    'saccer3': '/genomes/Saccharomyces_cerevisiae/UCSC/sacCer3/Sequence/WholeGenomeFasta/genome.fa',
-    'ecoli'  : '/genomes/Escherichia_coli_K_12_DH10B/NCBI/2008-03-17/Sequence/WholeGenomeFasta/genome.fa',
-    'phix'   : '/genomes/PhiX/Illumina/RTA/Sequence/WholeGenomeFasta/genome.fa'
-}
+# GENOMES = {
+#     'hg38'   : '/genomes/Homo_sapiens/UCSC/hg38/Sequence/WholeGenomeFasta/genome.fa',
+#     'hg19'   : '/genomes/Homo_sapiens/UCSC/hg19/Sequence/WholeGenomeFasta/genome.fa',
+#     'hg18'   : '/genomes/Homo_sapiens/UCSC/hg18/Sequence/WholeGenomeFasta/genome.fa',
+#     'mm10'   : '/genomes/Homo_sapiens/UCSC/mm10/Sequence/WholeGenomeFasta/genome.fa',
+#     'mm9'    : '/genomes/Mus_musculus/UCSC/mm9/Sequence/WholeGenomeFasta/genome.fa',
+#     'mm8'    : '/genomes/scaffolds/mm8/mm8.fasta',
+#     'tair10' : '/genomes/Arabidopsis_thaliana/NCBI/TAIR10/Sequence/WholeGenomeFasta/genome.fa',
+#     'saccer3': '/genomes/Saccharomyces_cerevisiae/UCSC/sacCer3/Sequence/WholeGenomeFasta/genome.fa',
+#     'ecoli'  : '/genomes/Escherichia_coli_K_12_DH10B/NCBI/2008-03-17/Sequence/WholeGenomeFasta/genome.fa',
+#     'phix'   : '/genomes/PhiX/Illumina/RTA/Sequence/WholeGenomeFasta/genome.fa'
+# }
+
+
+def genomes_path(genome):
+    """
+    >>>prsp_path('mm8')
+    /GENOMES/mm8.fasta
+    :param genome:
+    :return:
+    """
+    return GENOMES + genome + '.fasta'
+
+
+def protosp_path(genome):
+    """
+    >>>prsp_path('mm8')
+    /PROTOSPACESR/mm8.prsp.bed
+    :param genome:
+    :return:
+    """
+    return(PROTOSP + genome + '.prsp.bed')
+
+
+
+def sorted_unique_firstdotsplit(filenammes):
+    """
+    :param filenammes:
+    :return:
+    >>>filenames = ['phix.fasta', 'phix.fasta.fai', 'hg38.fasta.fai', 'hg38.fasta','saccer3.fasta', 'saccer3.fasta.fai']
+    >>>sorted_unique_firstdotsplit(filenammes)
+    ['hg38', 'phix', 'saccer3']
+    """
+    return sorted(list(set([file.split('.')[0] for file in filenammes])))
+
+
+def genomes_list():
+    """
+    :return:
+    """
+    return sorted_unique_firstdotsplit(os.listdir(GENOMES))
+
+
+def protosp_list():
+    """
+    :return:
+    """
+    return sorted_unique_firstdotsplit(os.listdir(PROTOSP))

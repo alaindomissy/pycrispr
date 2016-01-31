@@ -14,7 +14,7 @@ from shutil import copytree
 #     return []   # nothing will be ignored
 
 
-from crispr.config import SCAFFOLDS, SCRATCH
+from crispr.config import GENOMES, SCRATCH
 from crispr.main import digest_and_blast_coord, digest_and_blast_and_score_coord
 
 # main.blast(SCAFFOLDS, 'chr6:136640001-136641000_1000.prsp', 'mm8')
@@ -53,7 +53,7 @@ def payload(params_value, output_dir):
     # cuts = cut_file(filepath)
     # return cuts
 
-    # digest_referencefastafile(filepath)
+    # digest_genome(filepath)
 
     # filename_noext = 'chr6+47599949-47640339_40391'
     # digest_focused(str(SCAFFOLDS + genome + '/' + filename_noext),

@@ -19,7 +19,7 @@
 # TODO parameter chosen coord defined by length, common length menu
 # TODO input bedfile as coord input
 # TODO multi run (severeal coord, alternative enzyme choices, ...
-# TODO cache all resuls to speed up furure use
+# TODO cache all results to speed up furure use
 # TODO logging utility function
 # TODO adapt logs to basespace monitoring log: line length, emphasis
 # TODO parameter logging options
@@ -36,10 +36,11 @@
 # TODO reference Berkely
 # TODO clean room
 # TODO scikitbio inspiration for pycripr
-# TODO testing framework
+# TODO testing fixtures
 # TODO doctest
 # TODO gui to input number of good guides desired
 # TODO max length of a cluster 2kb
+# TODO figure out which ecoli K12 or ?
 
 
 

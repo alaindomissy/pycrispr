@@ -12,9 +12,9 @@ from __future__ import print_function
 from os.path import splitext
 import pybedtools
 from cut import cut_fastafile
-from config import digestlog
+from config import digestlog, genomes_path, protosp_path
 
-def referencebedlines_save(cutbedlines, filepath):
+def genome_bedlines_save(cutbedlines, filepath):
     """
     saves a list of bed formatted strings as lines into a bed formatted file
     :param cutbedlines: list of bed formatted strings
@@ -48,17 +48,17 @@ def bed_to_fasta(bedfilepath, referencefastafilepath):
 # INITIALIZATION FUNCTION
 #########################
 
-def digest_referencefastafile(fastafilepath, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
+def digest_genome(genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
     Only needed for initialization, the first time a genome is being worked on.... TBA
     Creates files: filepath.prsp.bed and filepath.prsp.fasta
     Also creates index file filepath.fai if it was not there before
     This is the only  place that a call to cut_fastafile is made
-    :param filepath:
+    :param genome:
     :param restriction_enzymes:
     :return:
 
->>>crispr.digest.digest_referencefastafile('phix.fasta')
+>>>digest_genome('phix')
 ('> load sequence from fasta file', 'phix.fasta')
 ('> analyse loaded sequences with restriction batch of following enzymes', ['BfaI', 'HpaII', 'ScrFI'])
 > buid forward and reverse guide annotations for all restriction cut loci
@@ -87,10 +87,9 @@ def digest_referencefastafile(fastafilepath, restriction_enzymes=[u'BfaI', u'Scr
  'phix\t3481\t3501\tScrFI\t1000\t+\n',
  'phix\t3502\t3522\tScrFI\t1000\t-\n']
     """
-    cutbedlines = cut_fastafile(fastafilepath)
-    bedpath = fastafilepath + '.prsp.bed'
-    referencebedlines_save(cutbedlines, bedpath)
-    # NOT NEEDED !?
+    cutbedlines = cut_fastafile(genomes_path(genome))
+    genome_bedlines_save(cutbedlines, protosp_path(genome))
+    # NOT NEEDED
     # print("> save reference protospacers as ", end='')
     # bed_to_fasta(bedpath, fastafilepath)   # input fasta filepath serves as its own reference
     return(cutbedlines)
@@ -98,7 +97,7 @@ def digest_referencefastafile(fastafilepath, restriction_enzymes=[u'BfaI', u'Scr
 
 # THE WORKHORSE FUNCTION
 ########################
-def digest_focused(focusfn, referencefastafilepath, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
+def digest_focused(focusfn, genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
     The core inner function handling digest. Saves 4 files
     :param focusfn:
@@ -107,7 +106,11 @@ def digest_focused(focusfn, referencefastafilepath, restriction_enzymes=[u'BfaI'
     :return:
     """
     targetbedfilepath = focusfn +'.bed'
-    referenceprspbedfilepath = referencefastafilepath + '.prsp.bed'
+
+    # referenceprspbedfilepath = referencefastafilepath + '.prsp.bed'
+    referencefastafilepath = genomes_path(genome)
+    referenceprspbedfilepath = protosp_path(genome)
+
     intargetprspbedfilepath = focusfn + ".prsp.bed"
 
     focus_bedtool = pybedtools.BedTool(targetbedfilepath)
@@ -151,7 +154,7 @@ def coord_to_bedtuple_and_filename(coord):
         start, end = coord.split(':')[1].split('-')
         length = str(int(end) - int(start) + 1)
     if has_under:
-        start, length = stretch.split(':')[1].split('_')
+        start, length = coord.split(':')[1].split('_')
         end = str(int(start) + int(length) - 1)
     chrom = coord.split(':')[0]
     start0 = str(int(start) - 1)    # bed coords are zero-based
@@ -166,7 +169,7 @@ def coord_to_bedtuple_and_filename(coord):
 def digest_coord(direct, coord, reference, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
     reference must be a path to a fastafile.
-    You mast have run digest_referencefastafile on that file already,
+    You mast have run digest_genome on that file already,
     thereby creating protospacers files .prsp.bed' and .prsp.fasta'
     :param direct:
     :param coord: scaffold:start-end or scaffold:start_length

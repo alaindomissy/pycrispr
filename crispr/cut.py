@@ -25,6 +25,12 @@ from analyse import analyse
 # Core formatting function - depends on create_analysis (cutomized Bio.Restriction functionality)
 
 def tabbed_string_from_list(list):
+    """
+    :param list:
+    :return:
+    >>>tabbed_string_from_list('Scaffold102974:1-1500()', 786, 806, 'BfaI', 1000)
+    'Scaffold102974:1-1500()\t786\t806\tBfaI\t1000\n'
+    """
     return '\t'.join(map(str, list)) + '\n'
 
 

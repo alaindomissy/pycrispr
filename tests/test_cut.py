@@ -1,10 +1,13 @@
 import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
-from crispr.cut import cut_fastafile, cut_unicodestring
+from crispr.cut import tabbed_string_from_list, cut_fastafile, cut_unicodestring
 
 
-
+def test_tabbed_string_from_list():
+    assert(tabbed_string_from_list(('Scaffold102974:1-1500()', 786, 806, 'BfaI', 1000)) ==
+           'Scaffold102974:1-1500()\t786\t806\tBfaI\t1000\n'
+           )
 
 
 # 42nt long section of of Scaffold02974 around the first cut from enzyme BfaI
@@ -20,15 +23,15 @@ def test_cut_fastafile_42():
     )
 
 
+
+
+
 def test_cut_unicodestring_42():
     unicodestring = u'''>fourtytwobps
 GCGCTGGCCAGAACGTTCTCTAGGAATCGTGGAGAAGACATT
 '''
     expected_list_of_bedtules = ['fourtytwobps\t0\t20\tBfaI\t1000\t+\n', 'fourtytwobps\t22\t42\tBfaI\t1000\t-\n']
     assert(cut_unicodestring(unicodestring)==expected_list_of_bedtules)
-
-
-
 
 # From crisper-eating paper, we should get:
 #

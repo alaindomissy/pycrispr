@@ -17,6 +17,7 @@
 from functools import reduce
 from Bio.Restriction import Analysis
 from Bio.Restriction import Restriction
+from Bio.Restriction import RestrictionBatch
 from Bio.Restriction.Restriction_Dictionary import rest_dict, typedict
 
 
@@ -36,6 +37,8 @@ def keywords_tuple(enzyme_name):
 
 def create_enzyme(enzyme_name):
     """
+    :param enzyme_name:
+    :return:
     >>>type(create_enzyme('BfaI'))
     Bio.Restriction.Restriction.RestrictionType)
     """
@@ -44,7 +47,13 @@ def create_enzyme(enzyme_name):
 
 
 def create_batch(enzyme_names):
-    return reduce(lambda x, y: x + y, map(create_enzyme, enzyme_names))
+    if len(enzyme_names) == 1:
+        return RestrictionBatch(enzyme_names)
+    # without an initializer, on a singleton kist map would return first element
+    # return reduce(lambda x, y: x + y, map(create_enzyme, enzyme_names))
+    # [] as the initializer parameter is wrong type, can't + with a RestrictionType, we need an empty restriction batch
+    emptyrestrictionbatch = RestrictionBatch([])
+    return reduce(lambda x, y: x + y, map(create_enzyme, enzyme_names), emptyrestrictionbatch)
 
 
 def create_analysis(seq, enzyme_names=['BfaI', 'HpaII', 'ScrFI']):
@@ -55,7 +64,7 @@ def create_analysis(seq, enzyme_names=['BfaI', 'HpaII', 'ScrFI']):
     :return: a working Analysis instance that performs digestion for given list of enzyme names
     """
     batch = create_batch(enzyme_names)
-    return Analysis(batch, seq, linear= True)
+    return Analysis(batch, seq, linear=True)
 
 
 ###################
@@ -77,7 +86,6 @@ def analyse(seq, enzyme_names=['BfaI', 'HpaII', 'ScrFI']):
     :return: a dict, keys are object enzymes for given enzyme_names, values are a lsit of cut positions for that enzyme
     """
     return create_analysis(seq, enzyme_names).full()     # .only_between(20, -20)  would get rid of both sides, not good
-
 
 
 # # this should now work in ipython notebook

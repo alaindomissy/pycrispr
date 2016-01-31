@@ -6,10 +6,10 @@ from config import DIGEST_LOG_ON
 parser = argparse.ArgumentParser()
 
 parser.add_argument('coord',
-                     help='scaffold:start-end or scaffold:start_length')
+                     help='cord: scaffold:start-end or scaffold:start_length')
 
-parser.add_argument('reference',
-                     help=" reference fasta file")
+parser.add_argument('genome',
+                     help="genome: reference genome")
 
 parser.add_argument("-v", "--verbose", help="increase output verbosity",
                     action="store_true")
