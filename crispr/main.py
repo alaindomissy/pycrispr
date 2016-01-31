@@ -55,14 +55,14 @@ from cluster import cluster
 # DIGEST AND BLAST
 #########################################################
 
-def digest_and_blast_coord(direct, coord, reference, blastdb_db, chunk_size=50, max_hsps=50):
+def digest_and_blast_coord(direct, coord, reference, blastdb, chunk_size=50, max_hsps=50):
     focusfn = digest_coord(direct, coord, reference)
-    nbr = blast(direct, focusfn + '.prsp', blastdb_db, chunk_size=chunk_size, max_hsps=max_hsps)
+    nbr = blast(direct, focusfn + '.prsp', blastdb, chunk_size=chunk_size, max_hsps=max_hsps)
     return nbr
 
-def digest_and_blast_stretch(direct, stretch, reference, blastdb_db, chunk_size=100, max_hsps=100):
+def digest_and_blast_stretch(direct, stretch, reference, blastdb, chunk_size=100, max_hsps=100):
     focusfn = digest_stretch(direct, stretch, reference)
-    nbr = blast(direct, focusfn + '.prsp', blastdb_db, chunk_size=chunk_size, max_hsps=max_hsps)
+    nbr = blast(direct, focusfn + '.prsp', blastdb, chunk_size=chunk_size, max_hsps=max_hsps)
     return nbr
 
 
@@ -70,10 +70,10 @@ def digest_and_blast_stretch(direct, stretch, reference, blastdb_db, chunk_size=
 # BLAST AND SCORE
 #########################################################
 
-def blast_and_score(direct, fn_noext, blastdb_db, chunk_size=50, max_hsps=50,
+def blast_and_score(direct, fn_noext, blastdb, chunk_size=50, max_hsps=50,
                     reref_substrate_id=None, low=75, high=75, load_genome=True, howmany=24):
-    nbr = blast(direct, fn_noext, blastdb_db, chunk_size=chunk_size, max_hsps=max_hsps)
-    guides = score(direct, fn_noext, blastdb_db, chunk_size=chunk_size, nbrofchunks=nbr,
+    nbr = blast(direct, fn_noext, blastdb, chunk_size=chunk_size, max_hsps=max_hsps)
+    guides = score(direct, fn_noext, blastdb, chunk_size=chunk_size, nbrofchunks=nbr,
           reref_substrate_id=None, load_genome=load_genome)
     return cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None)
 
@@ -90,14 +90,14 @@ def blast_and_score(direct, fn_noext, blastdb_db, chunk_size=50, max_hsps=50,
 # genome    same, used when (correctly) blasting agaist whole geome
 #
 # TODO get rid of reref_substrate_id
-def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk_size=50, max_hsps=50,
+def digest_and_blast_and_score_coord(direct, coord, reference, blastdb, chunk_size=50, max_hsps=50,
                                      reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None,
                                      restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
     :param direct:
     :param coord:
     :param reference:
-    :param blastdb_db:
+    :param blastdb:
     :param chunk_size:
     :param max_hsps:
     :param reref_substrate_id:
@@ -109,7 +109,7 @@ def digest_and_blast_and_score_coord(direct, coord, reference, blastdb_db, chunk
     """
     focusfn = digest_coord(direct, coord, reference, restriction_enzymes)
     fn_noext = focusfn + '.prsp'
-    nbr = blast(direct, fn_noext, blastdb_db, chunk_size=chunk_size, max_hsps=max_hsps)
-    guides = score(direct, fn_noext, blastdb_db, chunk_size=chunk_size, nbrofchunks=nbr,
+    nbr = blast(direct, fn_noext, blastdb, chunk_size=chunk_size, max_hsps=max_hsps)
+    guides = score(direct, fn_noext, blastdb, chunk_size=chunk_size, nbrofchunks=nbr,
           reref_substrate_id='chr6', load_genome=load_genome)
     return cluster(guides, direct, reref_substrate_id, low, high, howmany, fn_noext)

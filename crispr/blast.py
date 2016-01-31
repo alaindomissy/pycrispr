@@ -20,13 +20,13 @@ from config import blastlog
 # SINGLE FILE BLASTING
 ######################
 
-def blast1(dir, fn_noext, blastdb_db, max_hsps=50):
+def blast1(dir, fn_noext, blastdb, max_hsps=50):
     # TODO max)hsps stopped working, now replaced with max_hsps_per_subject , but what is going on ?
     blastn_cline = NcbiblastnCommandline(
         query=dir + fn_noext + '.fasta',
         out=dir + fn_noext + '.blast',
         outfmt=5,
-        db= blastdb_db,
+        db= blastdb,
         max_target_seqs=25,
         num_threads=4,
         evalue=10,
@@ -65,19 +65,22 @@ def grouper_longest(iterable, chunk_size, fillvalue=None):
 ###################
 
 
-def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
+def blast(dir, fn_noext, blastdb, chunk_size=50, max_hsps=50):
     """
     :param dir:
     :param fn_noext:
-    :param blastdb_db:
+    :param blastdb:
     :param chunk_size:
     :param max_hsps:
     :return:
     """
     blastlog("\nBLAST PROTOSPACERS\n")
     blastlog("\nload protospacers from fasta file", fn_noext, end=' ')
-    seqs = seqio.parse(dir + fn_noext + '.fasta','fasta')
+    seqs = list(seqio.parse(dir + fn_noext + '.fasta','fasta'))
     blastlog('done')
+    nbr_of_prsps = len(seqs)
+    nbr_of_chunks = 1+ len(seqs) // chunk_size
+    blastlog("%s protospacers in total - will blast %s chunks of %s prsps each\n" % (nbr_of_prsps, nbr_of_chunks, chunk_size))
     nbr = 0
     nbrwrong = 0
     nameformat = '%s.%sseqs.%s'     # TODO add '.max%sHSPs.' % max_hsps
@@ -102,7 +105,7 @@ def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
             blastlog('> blast chunk ', str(nbr).zfill(3), fn_code_noext, end=' ')
         with open(dir + fn_code_noext + '.fasta', "w") as temp_hndl:
             seqio.write(seqs_chunk, temp_hndl, "fasta")
-        failed = blast1(dir, fn_code_noext, blastdb_db, max_hsps)
+        failed = blast1(dir, fn_code_noext, blastdb, max_hsps)
         if failed:
             nbrwrong +=1
             os.rename(rightfasta, wrongfasta)

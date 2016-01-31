@@ -40,7 +40,7 @@ def load_genome_dict(fastafilepath):
 
 ###################
 # MAIN API FUNCTION
-##############
+###################
 
 
 # #####
