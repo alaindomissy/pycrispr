@@ -97,36 +97,32 @@ def digest_genome(genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
 
 # THE WORKHORSE FUNCTION
 ########################
-def digest_focused(focusfn, genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
+def digest_bedfile(bedfile, genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
     The core inner function handling digest. Saves 4 files
-    :param focusfn:
+    :param bedfile:
     :param reference:
     :param restriction_enzymes:
     :return:
     """
-    targetbedfilepath = focusfn +'.bed'
 
-    # referenceprspbedfilepath = referencefastafilepath + '.prsp.bed'
-    referencefastafilepath = genomes_path(genome)
-    referenceprspbedfilepath = protosp_path(genome)
 
-    intargetprspbedfilepath = focusfn + ".prsp.bed"
+    intargetprspbedfilepath = bedfile + ".prsp.bed"
 
-    focus_bedtool = pybedtools.BedTool(targetbedfilepath)
+    focus_bedtool = pybedtools.BedTool(bedfile)
 
-    digestlog("> load protospacers from reference bed file %s" % referenceprspbedfilepath)
-    whole_bedtool = pybedtools.BedTool(referenceprspbedfilepath)
+    digestlog("> load protospacers from reference bed file %s" % protosp_path(genome))
+    whole_bedtool = pybedtools.BedTool(protosp_path(genome))
 
-    digestlog("> intersect target with reference bed file %s" % referenceprspbedfilepath)
+    digestlog("> intersect target with reference bed file %s" % protosp_path(genome))
     digestlog("> save in-target protospacers as bed file %s" % (intargetprspbedfilepath,))
     whole_bedtool.intersect(focus_bedtool).moveto(intargetprspbedfilepath)
 
     digestlog("> save target as ", end='')
-    bed_to_fasta(targetbedfilepath, referencefastafilepath)
+    bed_to_fasta(bedfile, genomes_path(genome))
 
     digestlog("> save in-target protospacers as ", end='')
-    bed_to_fasta(intargetprspbedfilepath, referencefastafilepath)
+    bed_to_fasta(intargetprspbedfilepath, genomes_path(genome))
 
 
 # INPUT HANDLING
@@ -158,8 +154,8 @@ def coord_to_bedtuple_and_filename(coord):
         end = str(int(start) + int(length) - 1)
     chrom = coord.split(':')[0]
     start0 = str(int(start) - 1)    # bed coords are zero-based
-    filename = '%s_%s-%s_%s' % (chrom, start, end, length)
-    return [(chrom, start0, end)], filename
+    filenamenoext = '%s_%s-%s_%s.bed' % (chrom, start, end, length)
+    return [(chrom, start0, end)], filenamenoext
 
 
 
@@ -193,13 +189,14 @@ DIGEST GENOMIC INTERVAL phix_1-4000_4000
 
 'phix_1-4000_4000'
  """
-    bedtuplelist, focusfn = coord_to_bedtuple_and_filename(coord)
-    # digestlog('bedtuplelist:', bedtuplelist, '\t', 'focusfn:', focusfn)
-    digestlog('\nDIGEST GENOMIC INTERVAL', focusfn, '\n')
-    pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
-    digestlog("> save target as bed file %s" % (direct + focusfn + ".bed",))
-    digest_focused(direct + focusfn, reference, restriction_enzymes)
-    return focusfn
+    bedtuplelist, filenamenoext = coord_to_bedtuple_and_filename(coord)
+    # digestlog('bedtuplelist:', bedtuplelist, '\t', 'filenamenoext:', filenamenoext)
+    bedfile = direct + filenamenoext + '.bed'
+    digestlog('\nDIGEST GENOMIC INTERVAL', filenamenoext, '\n')
+    pybedtools.BedTool(bedtuplelist).moveto(bedfile)
+    digestlog("> save target as bed file %s" % bedfile)
+    digest_bedfile(bedfile, reference, restriction_enzymes)
+    return bedfile
 
 
 # interface to prime
