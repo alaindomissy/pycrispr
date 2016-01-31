@@ -14,7 +14,7 @@
 # TODO option to batch together or separate each enzyme digestion
 # TODO address truncated guides due to <20bp-distnat enzyme cuts (same or different): dicount goodones, watch bad ones
 # TODO parameter(s) for priming: margin in/out from cluster end, possibly loose ending good guides
-# TODO same MT constarint on all clusters primers, parameter for MT window
+# TODO same MT constraint on all clusters primers, parameter for MT window
 # TODO id the clusters
 # TODO parameter chosen coord defined by length, common length menu
 # TODO input bedfile as coord input
@@ -32,14 +32,12 @@
 # TODO retry amazon docker machine
 # TODO genomes data move to S3
 # TODO rename github project
-# TODO readme.md
 # TODO conda package
 # TODO reference Berkely
 # TODO clean room
 # TODO scikitbio inspiration for pycripr
 # TODO testing framework
 # TODO doctest
-# TODO /root/bin folder
 # TODO gui to input number of good guides desired
 # TODO max length of a cluster 2kb
 
