@@ -14,8 +14,7 @@ except ImportError:                      # Python 3
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Application import ApplicationError
 from Bio import SeqIO as seqio    # TODO this is also imported from cut.py, ok?
-
-# from crispr.settings import BLASTDBDIR
+from config import blastlog
 
 
 # SINGLE FILE BLASTING
@@ -67,10 +66,18 @@ def grouper_longest(iterable, chunk_size, fillvalue=None):
 
 
 def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
-    print("\nBLAST PROTOSPACERS\n")
-    print("\nload protospacers from fasta file", fn_noext, end=' ')
+    """
+    :param dir:
+    :param fn_noext:
+    :param blastdb_db:
+    :param chunk_size:
+    :param max_hsps:
+    :return:
+    """
+    blastlog("\nBLAST PROTOSPACERS\n")
+    blastlog("\nload protospacers from fasta file", fn_noext, end=' ')
     seqs = seqio.parse(dir + fn_noext + '.fasta','fasta')
-    print('done')
+    blastlog('done')
     nbr = 0
     nbrwrong = 0
     nameformat = '%s.%sseqs.%s'     # TODO add '.max%sHSPs.' % max_hsps
@@ -87,12 +94,12 @@ def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
         rescuedfasta = dir + fn_code_noext + '.fasta.FAILED.RESCUED'
         rescuedblast = dir + fn_code_noext + '.blast.FAILED.RESCUED'
         if os.path.isfile(rightfasta) and os.path.isfile(rightblast):
-            print('> skip chunk ', str(nbr).zfill(3), fn_code_noext)
+            blastlog('> skip chunk ', str(nbr).zfill(3), fn_code_noext)
             continue
         elif os.path.isfile(wrongfasta) or os.path.isfile(wrongblast):
-            print('> rescue chunk ', str(nbr).zfill(3), fn_code_noext, end=' ')
+            blastlog('> rescue chunk ', str(nbr).zfill(3), fn_code_noext, end=' ')
         else:
-            print('> blast chunk ', str(nbr).zfill(3), fn_code_noext, end=' ')
+            blastlog('> blast chunk ', str(nbr).zfill(3), fn_code_noext, end=' ')
         with open(dir + fn_code_noext + '.fasta', "w") as temp_hndl:
             seqio.write(seqs_chunk, temp_hndl, "fasta")
         failed = blast1(dir, fn_code_noext, blastdb_db, max_hsps)
@@ -108,5 +115,5 @@ def blast(dir, fn_noext, blastdb_db, chunk_size=50, max_hsps=50):
     fn_code_noext = nameformat % (fn_noext, chunk_size, nbr)
     with open(dir + fn_code_noext + '@' + str(max_hsps) + 'maxHSPs' + '.txt', "w") as temp_hndl:
             temp_hndl.write('all done - %s chunks' % nbr)
-    print('all', nbr, 'chunks blasted','with', nbrwrong, 'failed chunks' )
+    blastlog('all', nbr, 'chunks blasted','with', nbrwrong, 'failed chunks' )
     return nbr

@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from numpy import mean
 import collections
 from cut import tabbed_string_from_list
+from config import clusterlog
 
 ###################
 # MAIN API FUNCTION

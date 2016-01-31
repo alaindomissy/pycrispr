@@ -13,8 +13,7 @@ import os
 import json
 
 from pybasespace.payload import payload
-
-from crispr.settings import APPSESSIONJSON
+from crispr.config import APPSESSIONJSON
 
 
 def read_appsession(appsession_jsonfilename):

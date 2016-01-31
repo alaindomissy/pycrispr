@@ -9,16 +9,16 @@
 
 from __future__ import print_function
 import subprocess
-try:
-    from io import StringIO        # python3
-except ImportError:
-    from StringIO import StringIO  # python2
 from Bio.Blast import NCBIXML
 from Bio.Application import ApplicationError
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from Bio import SeqIO as seqio # TODO this is also imported from cut.py, ok?
-from settings import scorelog
+from config import scorelog
 from zhang import zhangscore
+try:
+    from io import StringIO        # python3
+except ImportError:
+    from StringIO import StringIO  # python2
 
 
 def is_valid_pam(pam):
@@ -40,7 +40,10 @@ def load_genome_dict(fastafilepath):
 
 ###################
 # MAIN API FUNCTION
-###################
+##############
+
+
+# #####
 
 def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
           reref_substrate_id=None, load_genome=False):

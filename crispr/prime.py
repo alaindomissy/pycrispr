@@ -4,10 +4,11 @@ import time
 
 # import primer3
 
-from settings import PRIMER3_PARAMETERS
+from config import PRIMER3_PARAMETERS
 from amplicon import mask_sequence, Amplicon
 from primers_screen import screen_primer_dumb, screen_primer_in_silico_pcr
 from digest import nonoverlapping_guidecount
+from config import primelog
 
 
 def primer_search(current_amp, global_parameters=PRIMER3_PARAMETERS, filename="primerlist.tsv", method="dumb", tm=40):

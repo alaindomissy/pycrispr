@@ -12,7 +12,7 @@ from __future__ import print_function
 from os.path import splitext
 import pybedtools
 from cut import cut_fastafile
-from settings import digestlog
+from config import digestlog
 
 def referncebedlines_save(cutbedlines, filepath):
     """
@@ -184,7 +184,7 @@ DIGEST GENOMIC INTERVAL phix_1-4000_4000
 'phix_1-4000_4000'
  """
     bedtuplelist, focusfn = coord_to_bedtuple_and_filename(coord)
-    digestlog('bedtuplelist:', bedtuplelist, '\t', 'focusfn:', focusfn)
+    # digestlog('bedtuplelist:', bedtuplelist, '\t', 'focusfn:', focusfn)
     digestlog('\nDIGEST GENOMIC INTERVAL', focusfn, '\n')
     pybedtools.BedTool(bedtuplelist).moveto(direct + focusfn + ".bed")
     digestlog("> save target as bed file %s" % (direct + focusfn + ".bed",))

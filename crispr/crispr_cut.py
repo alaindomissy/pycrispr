@@ -1,8 +1,4 @@
 from __future__ import print_function
-try:
-    from io import StringIO        # python3
-except ImportError:
-    from StringIO import StringIO  # python2
 import argparse
 from cut import cut_fastafile #,cut_unicodestring
 

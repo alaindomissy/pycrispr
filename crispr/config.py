@@ -2,7 +2,7 @@ from __future__ import print_function
 
 import os
 
-#BLASTDB = os.environ.get('BLASTDBD','/genomes/blastdb/')
+#BLASTDB = os.environ.get('BLASTDBD','/genomes/blast/')
 
 SCAFFOLDS = os.environ.get('SCAFFOLDS','/genomes/scaffolds/')
 
@@ -12,18 +12,31 @@ APPSESSIONJSON = os.environ.get('APPSESSIONJSON', '/data/input/AppSession.json')
 
 RESTRICTION_ENZYMES_LIST = ['BfaI', 'HpaII', 'ScrFI']
 
-SCORING_LOG_ON = False
-
 DIGEST_LOG_ON = True
-
-
-def scorelog(*args, **kwargs):
-    if SCORING_LOG_ON:
-        print(*args, **kwargs)
+BLAST_LOG_ON = True
+SCORE_LOG_ON = False
+CLUSTER_LOG_ON = True
+PRIME_LOG_ON = True
 
 
 def digestlog(*args, **kwargs):
     if DIGEST_LOG_ON:
+        print(*args, **kwargs)
+
+def blastlog(*args, **kwargs):
+    if BLAST_LOG_ON:
+        print(*args, **kwargs)
+
+def scorelog(*args, **kwargs):
+    if SCORE_LOG_ON:
+        print(*args, **kwargs)
+
+def clusterlog(*args, **kwargs):
+    if CLUSTER_LOG_ON:
+        print(*args, **kwargs)
+
+def primelog(*args, **kwargs):
+    if PRIME_LOG_ON:
         print(*args, **kwargs)
 
 

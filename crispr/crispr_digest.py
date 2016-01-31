@@ -1,11 +1,7 @@
 from __future__ import print_function
-try:
-    from io import StringIO        # python3
-except ImportError:
-    from StringIO import StringIO  # python2
 import argparse
 from digest import digest_coord
-import settings
+from config import DIGEST_LOG_ON
 
 parser = argparse.ArgumentParser()
 
@@ -26,6 +22,6 @@ if args.verbose:
     print("verbosity turned on")
 if args.quiet:
     print("logs turned off")
-    settings.DIGEST_LOG_ON = False
+    DIGEST_LOG_ON = False
 
 digest_coord('./', args.coord, args.reference)

@@ -16,7 +16,7 @@ except ImportError:
 from os.path import splitext
 import gzip
 from Bio import SeqIO as seqio
-from settings import RESTRICTION_ENZYMES_LIST
+from config import RESTRICTION_ENZYMES_LIST
 from analyse import analyse
 
 
