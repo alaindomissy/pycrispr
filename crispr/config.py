@@ -12,7 +12,6 @@ SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
 APPSESS = os.environ.get('APPSESS', '/data/input/AppSession.json')
 
 RESTRICTION_ENZYMES_LIST = ['BfaI', 'HpaII', 'ScrFI']
-
 DIGEST_LOG_ON = True
 BLAST_LOG_ON = True
 SCORE_LOG_ON = False
@@ -92,26 +91,6 @@ PRIMER3_PARAMETERS = {
 # }
 
 
-def genomes_path(genome):
-    """
-    >>>prsp_path('mm8')
-    /GENOMES/mm8.fasta
-    :param genome:
-    :return:
-    """
-    return GENOMES + genome + '.fasta'
-
-
-def protosp_path(genome):
-    """
-    >>>prsp_path('mm8')
-    /PROTOSPACESR/mm8.prsp.bed
-    :param genome:
-    :return:
-    """
-    return(PROTOSP + genome + '.prsp.bed')
-
-
 
 def sorted_unique_firstdotsplit(filenammes):
     """
@@ -136,3 +115,23 @@ def protosp_list():
     :return:
     """
     return sorted_unique_firstdotsplit(os.listdir(PROTOSP))
+
+
+def genomes_path(genome):
+    """
+    >>>prsp_path('mm8')
+    /GENOMES/mm8.fasta
+    :param genome:
+    :return:
+    """
+    return GENOMES + genome + '.fasta'
+
+
+def protosp_path(genome):
+    """
+    >>>prsp_path('mm8')
+    /PROTOSP/mm8.prsp.bed
+    :param genome:
+    :return:
+    """
+    return(PROTOSP + genome + '.prsp.bed')

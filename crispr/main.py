@@ -5,9 +5,6 @@
 # API functions: digest_and_blast_and_score_coord
 #
 ########################################################################################################################
-
-
-##########
 # TODO design primers
 # TODO implement choice of enzymes
 # TODO exclude redundant overlapping good guides from cluster yield count
@@ -45,28 +42,26 @@
 # TODO use human blast data from igenomes
 
 
-
 from digest import digest_coord
 from blast import blast
 from score import score
 from cluster import cluster
 
 
-
 # DIGEST AND BLAST
-#########################################################
+##################
 
 def digest_and_blast_coord(direct, coord, genome, blastdb, chunk_size=50, max_hsps=50):
 
     filenamenoext = digest_coord(direct, coord, genome)
 
-    nbr = blast(direct, filenamenoext + '.prsp', blastdb, chunk_size=chunk_size, max_hsps=max_hsps)
+    nbr = blast(direct, filenamenoext + '.bed..prsp', blastdb, chunk_size=chunk_size, max_hsps=max_hsps)
 
     return nbr
 
 
 # BLAST AND SCORE
-#########################################################
+#################
 
 def blast_and_score(direct, filenamenoext, blastdb, chunk_size=50, max_hsps=50,
                     reref_substrate_id=None, low=75, high=75, load_genome=True, howmany=24):
@@ -79,11 +74,13 @@ def blast_and_score(direct, filenamenoext, blastdb, chunk_size=50, max_hsps=50,
     return cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None)
 
 
-#########################################################
+##########
 # MAIN API
-#
+##########
+
+
 # DIGEST AND BLAST AND SCORE
-#########################################################
+############################
 
 # requires:
 # blastdb database
@@ -106,6 +103,7 @@ def digest_and_blast_and_score_coord(direct, coord, genome, blastdb, chunk_size=
     :param high:
     :param load_genome:
     :param howmany:
+    :param restriction_enzymes:
     :return:
     """
     filenamenoext = digest_coord(direct, coord, genome, restriction_enzymes)

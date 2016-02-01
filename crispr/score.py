@@ -62,7 +62,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
         guides = list(seqio.parse(guidesfn, "fasta"))
         print(' ...done')
 
-    print('\nPARSE BLAST RESULTS CHUNKS')
+    print('\nPARSE BLAST-RESULTS IN CHUNKS')
     blastrecords = []
     for chunknbr in range(1,nbrofchunks+1):
         fn_withext = fn_noext + '.' + str(chunk_size) + 'seqs.' + str(chunknbr) + '.blast'
@@ -178,7 +178,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
         # scorelog(pam.seq)
 
 
-    print('\nCHECK ZERO SCORED GUIDES')
+    print('\nCHECK ZERO-SCORED GUIDES')
     # TODO guides not getting a score, how does this happen ? fix it better
     # kind of fix guides without a score
     for guide in guides:

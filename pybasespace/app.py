@@ -143,6 +143,6 @@ def process_appsession(param_values):
 ##############################
 
 if __name__ == '__main__':
-    appsessionhref, appsessionparams = read_appsession(APPSESSIONJSON)
+    appsessionhref, appsessionparams = read_appsession(APPSESS)
     param_values = parse_appsessionparams(appsessionparams)
     process_appsession(param_values)

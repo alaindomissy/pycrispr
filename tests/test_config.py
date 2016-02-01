@@ -18,8 +18,8 @@ def test_sorted_unique_firstdotsplit():
 
 
 def test_genomes_path():
-    assert(genomes_list() == ['ecoli', 'hg18', 'hg38', 'lambda', 'mycotube', 'phix', 'saccer3'])
+    assert(genomes_list() == ['ecoli', 'hg18', 'hg38', 'lambda', 'mm8', 'mycotube', 'phix', 'saccer3'])
 
 
 def test_protosp_list():
-    assert(protosp_list() == ['ecoli', 'hg18', 'lambda', 'mm8', 'mycotube', 'phix', 'saccer3'])
+    assert(protosp_list() == ['ecoli', 'hg18', 'hg38', 'lambda', 'mm8', 'mycotube', 'phix', 'saccer3'])

@@ -14,7 +14,8 @@ from shutil import copytree
 #     return []   # nothing will be ignored
 
 
-from crispr.config import GENOMES, SCRATCH
+from crispr.config import SCRATCH, genomes_path, protosp_path
+from crispr.main import digest_coord, blast, score, cluster
 from crispr.main import digest_and_blast_coord, digest_and_blast_and_score_coord
 
 # main.blast(SCAFFOLDS, 'chr6:136640001-136641000_1000.prsp', 'mm8')
@@ -48,8 +49,6 @@ def payload(params_value, output_dir):
 
     binding_interference_spacing = str(params_value['input.binding_interference_spacing'])
 
-    filepath = str(SCAFFOLDS + genome + '/' + coord + '.fasta')
-
     # cuts = cut_file(filepath)
     # return cuts
 
@@ -63,14 +62,13 @@ def payload(params_value, output_dir):
 
     # coord = 'chr6:47599949-47640339'
 
-    reference = str(SCAFFOLDS + genome + '/' + genome + '.fasta')
+    # blast(SCRATCH, protosp_path(genome), genome,
+    #       chunk_size=chunk_size, max_hsps=max_hsps)
+    #
+    # digest_and_blast_coord(SCRATCH, coord, genome, genome,
+    #                        chunk_size=chunk_size, max_hsps=max_hsps)
 
-    # focusfn =  digest_coord(SCRATCH, str(coord), reference)
-    # nbr = blast(SCRATCH, focusfn + '.prsp', genome, chunk_size=chunk_size, max_hsps=max_hsps)
-
-    # digest_and_blast_coord(SCRATCH, coord, reference, genome, chunk_size=chunk_size, max_hsps=max_hsps)
-
-    digest_and_blast_and_score_coord(SCRATCH, coord, reference, genome,
+    digest_and_blast_and_score_coord(SCRATCH, coord, genome, genome,
                                      chunk_size=chunk_size, max_hsps=max_hsps,
                                      reref_substrate_id=None,
                                      low=75, high=75, load_genome=False, howmany=None,

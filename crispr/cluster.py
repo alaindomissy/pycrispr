@@ -20,7 +20,7 @@ from config import clusterlog
 
 def cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None, fn_noext=None):
 
-    print('\nCLUSTERING GOOD GUIDES')
+    print('\nCLUSTER GOOD GUIDES')
     bedlines_s = scorebedlines(guides, reref_substrate_id, low, high)
     savelinestofile(direct + fn_noext + '.scores.bed', bedlines_s)
     # if reref_substrate_id:
@@ -33,11 +33,11 @@ def cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None, f
 
     print_groups_info(groups, howmany)
 
-    print('\nRANKING CLUSTERS BY GUIDES YIELD')
+    print('\nRANK CLUSTERS BY GUIDES YIELD')
     print_scores_info(scores(guides))
     histo(direct, guides, fn_noext)
 
-    print('\nDESIGNING PRIMERS')
+    print('\nDESIGN PRIMERS')
     return guides, groups
 
 

@@ -24,24 +24,24 @@ def genome_bedlines_save(cutbedlines, filepath):
     with open(filepath, 'w') as handle:
         for cutbedline in cutbedlines:
             handle.write(cutbedline)
-    print("> save %s reference protospacers as bed file %s" % (len(cutbedlines), filepath))
+    print("> save %s reference protospacers as %s" % (len(cutbedlines), filepath))
 
 
-def bed_to_fasta(bedfilepath, referencefastafilepath):
+def bed_to_fasta(bedpath, referencefastapath):
     """
     given a bedfile, extract corresponding sequence from a reference fasta file and save as fasta file
     :param filepath: path to a bed file to be saved as fasta
     :param referencefastafilepath: file path to a fasta file used as sequence reference
     :return:
     """
-    root, ext = splitext(bedfilepath)
+    root, ext = splitext(bedpath)
     assert(ext=='.bed')
-    saveasfastapath = root + '.fasta'
+    fastapath = root + '.fasta'
 
     # TODO test for empty list of prsp in the intersection and avoid or handle bedtool.seqence error due to empty list
-    BedTool(bedfilepath).sequence(fi=BedTool(referencefastafilepath), s=True).save_seqs(saveasfastapath)
+    BedTool(bedpath).sequence(fi=BedTool(referencefastapath), s=True).save_seqs(fastapath)
 
-    print("fasta file %s" % (saveasfastapath))
+    return fastapath
 
 
 # INITIALIZATION FUNCTION
@@ -104,14 +104,17 @@ def digest_bedfile(bedfile, genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'Hp
     :param restriction_enzymes:
     :return:
     """
+    root, ext = splitext(bedfile)
+    assert(ext=='.bed')
+    prspbefile = root + '.prsp.bed'
+
     digestlog("> load reference %s" % protosp_path(genome))
-    digestlog("> intersect target with reference %s" % protosp_path(genome))
-    digestlog("> save protospacers as %s" % (bedfile + '.prsp.bed',))
-    BedTool(protosp_path(genome)).intersect(BedTool(bedfile)).moveto(bedfile + '.prsp.bed')
+    digestlog("> intersect target with reference")
+    digestlog("> save protospacers as", prspbefile)
+    BedTool(protosp_path(genome)).intersect(BedTool(bedfile)).moveto(prspbefile)
 
-    digestlog("> save protospacers as ", end='')
-    bed_to_fasta(bedfile + '.prsp.bed', genomes_path(genome))
-
+    fastapath = bed_to_fasta(prspbefile, genomes_path(genome))
+    digestlog("> save protospacers as", fastapath)
 
 # INPUT HANDLING
 ################
@@ -167,11 +170,11 @@ def digest_coord(dir, coord, genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'H
 
     digestlog('\nDIGEST GENOMIC INTERVAL', filenamenoext, '\n')
 
-    digestlog("> save target as %s" % bedfile)
     BedTool(bedtuplelist).moveto(bedfile)
+    digestlog("> save target as", bedfile)
 
-    digestlog("> save target as ", end='')
-    bed_to_fasta(bedfile, genomes_path(genome))
+    fastapath = bed_to_fasta(bedfile, genomes_path(genome))
+    digestlog("> save target as", fastapath)
 
     digest_bedfile(bedfile, genome, restriction_enzymes)
 
