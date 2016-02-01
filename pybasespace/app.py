@@ -11,6 +11,7 @@
 
 import os
 import json
+from datetime import datetime
 
 from pybasespace.payload import payload
 from crispr.config import APPSESS
@@ -130,7 +131,7 @@ def process_appsession(param_values):
     #     process_sample(sample, sample_output_dir, param_values)
     #     write_sample_metadata(sample['name'], 'Sample Description', appsessionhref, sampleshrefs, sample_output_dir)
 
-    output_dir = '/data/output/appresults/%s/sessionsummary/' % project_id
+    output_dir = '/data/output/appresults/%s/sessionsummary_' + datetime.now().isoformat('_') + '/' % project_id
 
     # see above output_dir get created by call to payload
     # os.system('mkdir -p "%s"' % output_dir)

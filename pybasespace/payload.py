@@ -13,7 +13,7 @@ from shutil import copytree
 #     logging.info('Working in %s' % path)
 #     return []   # nothing will be ignored
 
-
+from datetime import datetime
 from crispr.config import SCRATCH, genomes_path, protosp_path
 from crispr.main import digest_coord, blast, score, cluster
 from crispr.main import digest_and_blast_coord, digest_and_blast_and_score_coord
@@ -74,8 +74,8 @@ def payload(params_value, output_dir):
                                      low=75, high=75, load_genome=False, howmany=None,
                                      restriction_enzymes = restriction_enzymes)
 
-
+    datetime.now()
     # copytree(source, destination, ignore=_logpath)
-    copytree(SCRATCH, output_dir + '../sessiondetails/')
+    copytree(SCRATCH, output_dir + '../sessiondetails_' + datetime.now().isoformat('_') + '/')
 
     return
