@@ -10,7 +10,7 @@
 
 from __future__ import print_function
 from os.path import splitext
-import pybedtools
+from  pybedtools import BedTool
 from cut import cut_fastafile
 from config import digestlog, genomes_path, protosp_path
 
@@ -29,7 +29,7 @@ def genome_bedlines_save(cutbedlines, filepath):
 
 def bed_to_fasta(bedfilepath, referencefastafilepath):
     """
-    given a bedfile, extrat corresponding sequence from a reference fasta file and save as fasta file
+    given a bedfile, extract corresponding sequence from a reference fasta file and save as fasta file
     :param filepath: path to a bed file to be saved as fasta
     :param referencefastafilepath: file path to a fasta file used as sequence reference
     :return:
@@ -37,11 +37,10 @@ def bed_to_fasta(bedfilepath, referencefastafilepath):
     root, ext = splitext(bedfilepath)
     assert(ext=='.bed')
     saveasfastapath = root + '.fasta'
-    reference = pybedtools.BedTool(referencefastafilepath)
-    bedtool = pybedtools.BedTool(bedfilepath)
-    # test for empty list of prsp in the intersection and avoid or handle bedtool.seqence error due to empty lisy
-    bedtool.sequence(fi=reference, s=True)
-    bedtool.save_seqs(saveasfastapath)
+
+    # TODO test for empty list of prsp in the intersection and avoid or handle bedtool.seqence error due to empty list
+    BedTool(bedfilepath).sequence(fi=BedTool(referencefastafilepath), s=True).save_seqs(saveasfastapath)
+
     print("fasta file %s" % (saveasfastapath))
 
 
@@ -101,28 +100,17 @@ def digest_bedfile(bedfile, genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'Hp
     """
     The core inner function handling digest. Saves 4 files
     :param bedfile:
-    :param reference:
+    :param genome:
     :param restriction_enzymes:
     :return:
     """
+    digestlog("> load reference %s" % protosp_path(genome))
+    digestlog("> intersect target with reference %s" % protosp_path(genome))
+    digestlog("> save protospacers as %s" % (bedfile + '.prsp.bed',))
+    BedTool(protosp_path(genome)).intersect(BedTool(bedfile)).moveto(bedfile + '.prsp.bed')
 
-
-    intargetprspbedfilepath = bedfile + ".prsp.bed"
-
-    focus_bedtool = pybedtools.BedTool(bedfile)
-
-    digestlog("> load protospacers from reference bed file %s" % protosp_path(genome))
-    whole_bedtool = pybedtools.BedTool(protosp_path(genome))
-
-    digestlog("> intersect target with reference bed file %s" % protosp_path(genome))
-    digestlog("> save in-target protospacers as bed file %s" % (intargetprspbedfilepath,))
-    whole_bedtool.intersect(focus_bedtool).moveto(intargetprspbedfilepath)
-
-    digestlog("> save target as ", end='')
-    bed_to_fasta(bedfile, genomes_path(genome))
-
-    digestlog("> save in-target protospacers as ", end='')
-    bed_to_fasta(intargetprspbedfilepath, genomes_path(genome))
+    digestlog("> save protospacers as ", end='')
+    bed_to_fasta(bedfile + '.prsp.bed', genomes_path(genome))
 
 
 # INPUT HANDLING
@@ -136,12 +124,12 @@ def coord_to_bedtuple_and_filename(coord):
     works with start and end:
 
     >>> coord_to_bedtuple_and_filename('chr6:136640001-136680000')
-    ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000')
+    ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000.bed')
 
     and also works with start and length:
 
     >>> coord_to_bedtuple_and_filename('chr6:136640001_40000')
-    ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000')
+    ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000.bed')
     """
     has_dash = '-' in coord
     has_under = '_' in coord
@@ -154,7 +142,7 @@ def coord_to_bedtuple_and_filename(coord):
         end = str(int(start) + int(length) - 1)
     chrom = coord.split(':')[0]
     start0 = str(int(start) - 1)    # bed coords are zero-based
-    filenamenoext = '%s_%s-%s_%s.bed' % (chrom, start, end, length)
+    filenamenoext = '%s_%s-%s_%s' % (chrom, start, end, length)
     return [(chrom, start0, end)], filenamenoext
 
 
@@ -162,41 +150,32 @@ def coord_to_bedtuple_and_filename(coord):
 # MAIN API FUNCTION
 ###################
 
-def digest_coord(direct, coord, reference, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
+def digest_coord(dir, coord, genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
     """
-    reference must be a path to a fastafile.
-    You mast have run digest_genome on that file already,
+    You mast have run digest_genome genome already,
     thereby creating protospacers files .prsp.bed' and .prsp.fasta'
-    :param direct:
+    :param dir:
     :param coord: scaffold:start-end or scaffold:start_length
-    :param reference: reference fasta file
+    :param genome:
     :return:cris
     >>> digest_coord('.', 'chr6:136640001-136680000', 'chr6.fasta')
-
     >>> digest_coord('.', 'chr6:136640001_40000', 'chr6.fasta')
-
     >>> crispr.digest.digest_coord('./', 'phix:1-4000', './phix.fasta')
-
-bedtuplelist: [('phix', '0', '4000')] 	 focusfn: phix_1-4000_4000
-DIGEST GENOMIC INTERVAL phix_1-4000_4000
-
-> save target as bed file ./phix_1-4000_4000.bed
-> load protospacers from reference bed file ./phix.fasta.prsp.bed
-> intersect target with reference bed file ./phix.fasta.prsp.bed
-> save in-target protospacers as bed file ./phix_1-4000_4000.prsp.bed
-> save target as fasta file ./phix_1-4000_4000.fasta
-> save in-target protospacers as fasta file ./phix_1-4000_4000.prsp.fasta
-
-'phix_1-4000_4000'
- """
+    """
     bedtuplelist, filenamenoext = coord_to_bedtuple_and_filename(coord)
-    # digestlog('bedtuplelist:', bedtuplelist, '\t', 'filenamenoext:', filenamenoext)
-    bedfile = direct + filenamenoext + '.bed'
+    bedfile = dir + filenamenoext + '.bed'
+
     digestlog('\nDIGEST GENOMIC INTERVAL', filenamenoext, '\n')
-    pybedtools.BedTool(bedtuplelist).moveto(bedfile)
-    digestlog("> save target as bed file %s" % bedfile)
-    digest_bedfile(bedfile, reference, restriction_enzymes)
-    return bedfile
+
+    digestlog("> save target as %s" % bedfile)
+    BedTool(bedtuplelist).moveto(bedfile)
+
+    digestlog("> save target as ", end='')
+    bed_to_fasta(bedfile, genomes_path(genome))
+
+    digest_bedfile(bedfile, genome, restriction_enzymes)
+
+    return filenamenoext
 
 
 # interface to prime

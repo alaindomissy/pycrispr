@@ -20,11 +20,11 @@ from config import blastlog
 # SINGLE FILE BLASTING
 ######################
 
-def blast1(dir, fn_noext, blastdb, max_hsps=50):
+def blast1(dir, prspfilenoext, blastdb, max_hsps=50):
     # TODO max)hsps stopped working, now replaced with max_hsps_per_subject , but what is going on ?
     blastn_cline = NcbiblastnCommandline(
-        query=dir + fn_noext + '.fasta',
-        out=dir + fn_noext + '.blast',
+        query=dir + prspfilenoext + '.fasta',
+        out=dir + prspfilenoext + '.blast',
         outfmt=5,
         db= blastdb,
         max_target_seqs=25,
@@ -65,18 +65,18 @@ def grouper_longest(iterable, chunk_size, fillvalue=None):
 ###################
 
 
-def blast(dir, fn_noext, blastdb, chunk_size=50, max_hsps=50):
+def blast(dir, prspfilenoext, blastdb, chunk_size=50, max_hsps=50):
     """
     :param dir:
-    :param fn_noext:
+    :param prspfilenoext:
     :param blastdb:
     :param chunk_size:
     :param max_hsps:
     :return:
     """
     blastlog("\nBLAST PROTOSPACERS\n")
-    blastlog("\nload protospacers from fasta file", fn_noext, end=' ')
-    seqs = list(seqio.parse(dir + fn_noext + '.fasta','fasta'))
+    blastlog("\nload protospacers from", prspfilenoext, end=' ')
+    seqs = list(seqio.parse(dir + prspfilenoext + '.fasta','fasta'))
     blastlog('done')
     nbr_of_prsps = len(seqs)
     nbr_of_chunks = 1+ len(seqs) // chunk_size
@@ -87,9 +87,9 @@ def blast(dir, fn_noext, blastdb, chunk_size=50, max_hsps=50):
     for seqs_chunk in grouper_longest(seqs, chunk_size, None):
         seqs_chunk = [seq for seq in seqs_chunk if seq]
         nbr += 1
-        # fn_code_noext = fn_noext + + 'hsps.'+  str(chunk_size) + 'x'  + str(nbr)
+        # fn_code_noext = prspfilenoext + + 'hsps.'+  str(chunk_size) + 'x'  + str(nbr)
 
-        fn_code_noext = nameformat % (fn_noext, chunk_size, nbr)
+        fn_code_noext = nameformat % (prspfilenoext, chunk_size, nbr)
         rightfasta = dir + fn_code_noext + '.fasta'
         rightblast = dir + fn_code_noext + '.blast'
         wrongfasta = dir + fn_code_noext + '.fasta.FAILED'
@@ -115,7 +115,7 @@ def blast(dir, fn_noext, blastdb, chunk_size=50, max_hsps=50):
                  os.rename(wrongfasta, rescuedfasta)
             if os.path.isfile(wrongblast):
                  os.rename(wrongblast, rescuedblast)
-    fn_code_noext = nameformat % (fn_noext, chunk_size, nbr)
+    fn_code_noext = nameformat % (prspfilenoext, chunk_size, nbr)
     with open(dir + fn_code_noext + '@' + str(max_hsps) + 'maxHSPs' + '.txt', "w") as temp_hndl:
             temp_hndl.write('all done - %s chunks' % nbr)
     blastlog('all', nbr, 'chunks blasted','with', nbrwrong, 'failed chunks' )
