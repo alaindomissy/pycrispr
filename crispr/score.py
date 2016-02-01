@@ -89,7 +89,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
 
             for hsp in alignment.hsps:
                 scorelog('      > query:', hsp.query)
-                scorelog('        sbjct: ', hsp.sbjct, end=' ')
+                scorelog('        sbjct:', hsp.sbjct, end=' ')
 
 
                 # getting the pam adjacent to the hsp's subject

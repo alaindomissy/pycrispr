@@ -40,6 +40,8 @@
 # TODO max length of a cluster 2kb
 # TODO figure out which ecoli K12 or ?
 # TODO use human blast data from igenomes
+# TODO check plastid, metaseq, bioconda, track
+# TODO bigBed bigWig
 
 
 from digest import digest_coord

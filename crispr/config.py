@@ -14,7 +14,7 @@ APPSESS = os.environ.get('APPSESS', '/data/input/AppSession.json')
 RESTRICTION_ENZYMES_LIST = ['BfaI', 'HpaII', 'ScrFI']
 DIGEST_LOG_ON = True
 BLAST_LOG_ON = True
-SCORE_LOG_ON = False
+SCORE_LOG_ON = True
 CLUSTER_LOG_ON = True
 PRIME_LOG_ON = True
 
