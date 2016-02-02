@@ -33,4 +33,4 @@ if args.quiet:
     print("logs turned off")
     BLAST_LOG_ON = False
 
-blast('./', args.prsp_file_wo_fasta_ext, args.blastdb, args.chunk_size, args.max_hsps)
+blast(args.prsp_file_wo_fasta_ext, args.blastdb, './', args.max_hsps, args.chunk_size)

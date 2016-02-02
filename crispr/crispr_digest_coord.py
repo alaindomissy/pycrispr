@@ -24,4 +24,4 @@ if args.quiet:
     print("logs turned off")
     DIGEST_LOG_ON = False
 
-digest_coord('./', args.coord, args.reference)
+digest_coord(args.coord, args.reference, './')

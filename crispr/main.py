@@ -49,31 +49,32 @@ from blast import blast
 from score import score
 from cluster import cluster
 
-
-# DIGEST AND BLAST
-##################
-
-def digest_and_blast_coord(direct, coord, genome, blastdb, chunk_size=50, max_hsps=50):
-
-    filenamenoext = digest_coord(direct, coord, genome)
-
-    nbr = blast(direct, filenamenoext + '.bed..prsp', blastdb, chunk_size=chunk_size, max_hsps=max_hsps)
-
-    return nbr
-
-
-# BLAST AND SCORE
-#################
-
-def blast_and_score(direct, filenamenoext, blastdb, chunk_size=50, max_hsps=50,
-                    reref_substrate_id=None, low=75, high=75, load_genome=True, howmany=24):
-
-    nbr = blast(direct, filenamenoext, blastdb, chunk_size=chunk_size, max_hsps=max_hsps)
-
-    guides = score(direct, filenamenoext, blastdb, chunk_size=chunk_size, nbrofchunks=nbr,
-                   reref_substrate_id=None, load_genome=load_genome)
-
-    return cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None)
+#
+# # DIGEST AND BLAST
+# ##################
+#
+# def digest_and_blast_coord(coord, genome='mm8', direct='./', blastdb='mm8', chunk_size=50, max_hsps=50):
+#
+#     filenamenoext = digest_coord(coord, genome, direct)
+#
+#     nbr = blast(filenamenoext + '.bed.prsp', blastdb, direct, max_hsps=max_hsps, chunk_size=chunk_size)
+#
+#     return nbr
+#
+#
+# # BLAST AND SCORE
+# #################
+#
+# def blast_and_score(filenamenoext, direct='./', blastdb='mm8',
+#                     chunk_size=50, max_hsps=50,
+#                     reref_substrate_id=None, low=75, high=75, load_genome=True, howmany=None):
+#
+#     nbr = blast(filenamenoext, blastdb, direct, max_hsps=max_hsps, chunk_size=chunk_size)
+#
+#     guides = score(direct, filenamenoext, blastdb, chunk_size=chunk_size, nbrofchunks=nbr,
+#                    reref_substrate_id=None, load_genome=load_genome)
+#
+#     return cluster(guides, direct, reref_substrate_id, low=low, high=high, howmany=howmany)
 
 
 ##########
@@ -90,29 +91,18 @@ def blast_and_score(direct, filenamenoext, blastdb, chunk_size=50, max_hsps=50,
 # genome    same, used when (correctly) blasting agaist whole geome
 #
 # TODO get rid of reref_substrate_id
-def digest_and_blast_and_score_coord(direct, coord, genome, blastdb, chunk_size=50, max_hsps=50,
+def digest_and_blast_and_score_coord(coord, genome='mm8', blastdb='mm8', direct='./', max_hsps=10, chunk_size=20,
                                      reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None,
                                      restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
-    """
-    :param direct:
-    :param coord:
-    :param genome:
-    :param blastdb:
-    :param chunk_size:
-    :param max_hsps:
-    :param reref_substrate_id:
-    :param low:
-    :param high:
-    :param load_genome:
-    :param howmany:
-    :param restriction_enzymes:
-    :return:
-    """
-    filenamenoext = digest_coord(direct, coord, genome, restriction_enzymes)
 
-    nbr = blast(direct, filenamenoext + '.prsp', blastdb, chunk_size=chunk_size, max_hsps=max_hsps)
+    filename = digest_coord(coord, genome, direct, restriction_enzymes)
 
-    guides = score(direct, filenamenoext + '.prsp', blastdb, chunk_size=chunk_size, nbrofchunks=nbr,
+    nbr = blast(filename + '.prsp', blastdb, direct, max_hsps=max_hsps, chunk_size=chunk_size)
+
+    guides = score(nbrofchunks=nbr, filename=filename + '.prsp', blastdb=blastdb, direct=direct,
+                   chunk_size=chunk_size,
                    reref_substrate_id='chr6', load_genome=load_genome)
 
-    return cluster(guides, direct, reref_substrate_id, low, high, howmany, filenamenoext + '.prsp')
+    guides, groups = cluster(guides, filename + '.prsp', direct, reref_substrate_id, low, high, howmany)
+
+    return guides, groups

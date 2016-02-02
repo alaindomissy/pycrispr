@@ -1,20 +1,8 @@
 import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
-from crispr.digest import coord_to_bedtuple_and_filename, digest_genome
+from crispr.digest import digest_genome
 
-
-def test_coord_to_bedtuple_filename():
-
-    # has_dash
-    assert(coord_to_bedtuple_and_filename('chr6:136640001-136680000') ==
-           ([('chr6', '136640000', '136680000')], 'chr6_136640001-136680000_40000')
-           )
-
-    # has_under()
-    assert(coord_to_bedtuple_and_filename('chr6:136640001_40000') ==
-           ([('chr6', '136640000', '136680000')], 'chr6_136640001-136680000_40000')
-           )
 
 
 

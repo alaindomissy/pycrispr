@@ -46,35 +46,12 @@ def payload(params_value, output_dir):
     restriction_enzymes =  params_value['input.blast_chunk_size']
     chunk_size = int(params_value['input.blast_chunk_size'])
     max_hsps = int(params_value['input.blast_max_hsps'])
-
     binding_interference_spacing = str(params_value['input.binding_interference_spacing'])
 
-    # cuts = cut_file(filepath)
-    # return cuts
+    digest_and_blast_and_score_coord(coord, genome, genome, SCRATCH, max_hsps=max_hsps, chunk_size=chunk_size,
+                                     reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None,
+                                     restriction_enzymes=restriction_enzymes)
 
-    # digest_genome(filepath)
-
-    # filename_noext = 'chr6+47599949-47640339_40391'
-    # digest_focused(str(SCAFFOLDS + genome + '/' + filename_noext),
-    #                str(SCAFFOLDS + genome + '/' + genome + '.fasta')
-    #                )
-
-
-    # coord = 'chr6:47599949-47640339'
-
-    # blast(SCRATCH, protosp_path(genome), genome,
-    #       chunk_size=chunk_size, max_hsps=max_hsps)
-    #
-    # digest_and_blast_coord(SCRATCH, coord, genome, genome,
-    #                        chunk_size=chunk_size, max_hsps=max_hsps)
-
-    digest_and_blast_and_score_coord(SCRATCH, coord, genome, genome,
-                                     chunk_size=chunk_size, max_hsps=max_hsps,
-                                     reref_substrate_id=None,
-                                     low=75, high=75, load_genome=False, howmany=None,
-                                     restriction_enzymes = restriction_enzymes)
-
-    datetime.now()
     # copytree(source, destination, ignore=_logpath)
     copytree(SCRATCH, output_dir + '../sessiondetails_' + datetime.now().isoformat('_') + '/')
 

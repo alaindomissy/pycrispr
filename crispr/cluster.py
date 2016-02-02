@@ -18,27 +18,31 @@ from config import clusterlog
 # MAIN API FUNCTION
 ###################
 
-def cluster(guides, direct, reref_substrate_id, low=75, high=75, howmany=None, fn_noext=None):
+def cluster(guides, filename='chr1', direct='./', reref_substrate_id='mm8', low=75, high=75, howmany=12):
 
     print('\nCLUSTER GOOD GUIDES')
     bedlines_s = scorebedlines(guides, reref_substrate_id, low, high)
-    savelinestofile(direct + fn_noext + '.scores.bed', bedlines_s)
+    savelinestofile(direct + filename + '.scores.bed', bedlines_s)
     # if reref_substrate_id:
-    #     guides_scorebedfile(direct, fn_noext + '.scores.abs', guides, reref_substrate_id, low, high)
+    #     guides_scorebedfile(direct, filename + '.scores.abs', guides, reref_substrate_id, low, high)
 
     groups = regroup(substr_pos_score(guides), high)
 
     bedlines_c = groupbedlines(groups, reref_substrate_id, howmany)
-    savelinestofile(direct + fn_noext + '.groups.bed', bedlines_c)
+    savelinestofile(direct + filename + '.groups.bed', bedlines_c)
 
     print_groups_info(groups, howmany)
 
     print('\nRANK CLUSTERS BY GUIDES YIELD')
     print_scores_info(scores(guides))
-    histo(direct, guides, fn_noext)
+    histo(direct, guides, filename)
 
     print('\nDESIGN PRIMERS')
     return guides, groups
+
+
+
+
 
 
 

@@ -42,11 +42,8 @@ def load_genome_dict(fastafilepath):
 # MAIN API FUNCTION
 ###################
 
-
-# #####
-
-def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
-          reref_substrate_id=None, load_genome=False):
+def score(nbrofchunks, filename, blastdb='mm8', direct='./', chunk_size=20,
+          reref_substrate_id=None, oad_genome=False):
 
     if load_genome:
         fastafilepath = direct +'dict.fasta'
@@ -58,14 +55,14 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
         print('pam look up via blastdbcmd')
 
     print('load unscored guides', end='')
-    with open(direct + fn_noext + '.fasta') as guidesfn:
+    with open(direct + filename + '.fasta') as guidesfn:
         guides = list(seqio.parse(guidesfn, "fasta"))
         print(' ...done')
 
     print('\nPARSE BLAST-RESULTS IN CHUNKS')
     blastrecords = []
     for chunknbr in range(1,nbrofchunks+1):
-        fn_withext = fn_noext + '.' + str(chunk_size) + 'seqs.' + str(chunknbr) + '.blast'
+        fn_withext = filename + '.' + str(chunk_size) + 'seqs.' + str(chunknbr) + '.blast'
         blastfn = direct + fn_withext
         try:
             with open(blastfn) as blasthndl:
@@ -115,7 +112,7 @@ def score(direct, fn_noext, blastdb_db, chunk_size, nbrofchunks,
                     scorelog('blastdb', end=' ')
                     fstring = ''
                     try:
-                        context_lookup_command = "blastdbcmd -db " + blastdb_db \
+                        context_lookup_command = "blastdbcmd -db " + blastdb \
                                              + " -dbtype nucl -entry " + alignment.accession \
                                              + " -range %s-%s" % pam_onebased_range
                         context_lookup_process = subprocess.Popen(context_lookup_command, stdout=subprocess.PIPE, shell = True)
