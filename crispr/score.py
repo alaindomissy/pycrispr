@@ -43,7 +43,9 @@ def load_genome_dict(fastafilepath):
 ###################
 
 def score(nbrofchunks, filename, blastdb='mm8', direct='./', chunk_size=20,
-          reref_substrate_id=None, oad_genome=False):
+          reref_substrate_id=None, load_genome=False):
+
+    filename = filename + '.prsp'
 
     if load_genome:
         fastafilepath = direct +'dict.fasta'

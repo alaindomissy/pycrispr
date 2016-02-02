@@ -15,7 +15,7 @@ from cut import cut_fastafile
 from config import digestlog, genomes_path, protosp_path
 from bedtuple import Bedtuple
 
-def genome_bedlines_save(cutbedlines, filepath):
+def genome_bedlines_save(cutbedlines,filepath):
     """
     saves a list of bed formatted strings as lines into a bed formatted file
     :param cutbedlines: list of bed formatted strings
@@ -97,7 +97,7 @@ def digest_genome(genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
 
 # THE WORKHORSE FUNCTION
 ########################
-def digest_bedfile(bedfile, genome='mm8', restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
+def digest_bedfile(bedfile, genome='mm8', restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
     """
     The core inner function handling digest. Saves 4 files
     :param bedfile:
@@ -121,7 +121,7 @@ def digest_bedfile(bedfile, genome='mm8', restriction_enzymes=[u'BfaI', u'ScrFI'
 # MAIN API FUNCTION
 ###################
 
-def digest_coord(coord, genome='mm8', dir='./', restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
+def digest_coord(coord, genome='mm8', dir='./', restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
     """
     You mast have run digest_genome genome already,
     thereby creating protospacers files .prsp.bed' and .prsp.fasta'
@@ -129,26 +129,26 @@ def digest_coord(coord, genome='mm8', dir='./', restriction_enzymes=[u'BfaI', u'
     :param coord: scaffold:start-end or scaffold:start_length
     :param genome:
     :return:cris
-    >>> digest_coord('chr6.fasta','chr6:136640001-136680000','.')
-    >>> digest_coord('chr6.fasta','chr6:136640001_40000','.')
-    >>> crispr.digest.digest_coord('./', 'phix:1-4000', './phix.fasta')
+    >>>digest_coord('chr6.fasta','chr6:136640001-136680000','.')
+    >>>digest_coord('chr6.fasta','chr6:136640001_40000','.')
+    >>>digest_coord('./', 'phix:1-4000', './phix.fasta')
     """
 
-    bdtpl = Bedtuple.from_coord(coord)
-    # bedtuplelist, filenamenoext = coord_to_bedtuple_and_filename(coord)
-    # bedfile = dir + filenamenoext + '.bed'
 
-    digestlog('\nDIGEST GENOMIC INTERVAL', filenamenoext, '\n')
+    bedt = Bedtuple.from_coord(coord)
+    bedfile = dir + bedt.filename + '.bed'
 
-    BedTool(bdtpl.bedlist).moveto(bedfile)
+    digestlog('\nDIGEST GENOMIC INTERVAL', bedt.filename, '\n')
+
+    BedTool(bedt.bedlist).moveto(bedfile)
     digestlog("> save target as", bedfile)
 
     fastapath = bed_to_fasta(bedfile, genomes_path(genome))
     digestlog("> save target as", fastapath)
 
-    digest_bedfile(bdtpl.filename, genome, restriction_enzymes)
+    digest_bedfile(bedt.filename, genome, restriction_enzymes)
 
-    return bdtpl.filename
+    return bedt.filename
 
 
 # interface to prime

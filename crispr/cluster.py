@@ -20,6 +20,8 @@ from config import clusterlog
 
 def cluster(guides, filename='chr1', direct='./', reref_substrate_id='mm8', low=75, high=75, howmany=12):
 
+    filename = filename + '.prsp'
+
     print('\nCLUSTER GOOD GUIDES')
     bedlines_s = scorebedlines(guides, reref_substrate_id, low, high)
     savelinestofile(direct + filename + '.scores.bed', bedlines_s)

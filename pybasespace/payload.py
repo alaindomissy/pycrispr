@@ -48,7 +48,7 @@ def payload(params_value, output_dir):
     max_hsps = int(params_value['input.blast_max_hsps'])
     binding_interference_spacing = str(params_value['input.binding_interference_spacing'])
 
-    digest_and_blast_and_score_coord(coord, genome, genome, SCRATCH, max_hsps=max_hsps, chunk_size=chunk_size,
+    digest_and_blast_and_score_coord(coord, genome, SCRATCH, max_hsps=max_hsps, chunk_size=chunk_size,
                                      reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None,
                                      restriction_enzymes=restriction_enzymes)
 

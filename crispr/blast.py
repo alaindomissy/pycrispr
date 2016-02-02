@@ -21,6 +21,9 @@ from config import blastlog
 ######################
 
 def blast1(filename, dir, blastdb, max_hsps=50):
+
+    filename = filename + '.prsp'
+
     # TODO max)hsps stopped working, now replaced with max_hsps_per_subject , but what is going on ?
     blastn_cline = NcbiblastnCommandline(
         query=dir + filename + '.fasta',
@@ -53,8 +56,6 @@ def blast1(filename, dir, blastdb, max_hsps=50):
 # def grouper(iterable, chunk_size):
 #     args = [iter(iterable)] * chunk_size
 #     return izip(*args)
-
-
 def grouper_longest(iterable, chunk_size, fillvalue=None):
     args = [iter(iterable)] * chunk_size
     return izip_longest(*args, fillvalue=fillvalue)
@@ -63,7 +64,6 @@ def grouper_longest(iterable, chunk_size, fillvalue=None):
 ###################
 # MAIN API FUNCTION
 ###################
-
 
 def blast(filename, blastdb='mm8', dir='./', max_hsps=10, chunk_size=50):
     """
@@ -74,6 +74,8 @@ def blast(filename, blastdb='mm8', dir='./', max_hsps=10, chunk_size=50):
     :param max_hsps:
     :return:
     """
+    filename = filename + '.prsp'
+
     blastlog("\nBLAST PROTOSPACERS\n")
     blastlog("\nload protospacers from", filename, end=' ')
     seqs = list(seqio.parse(dir + filename + '.fasta', 'fasta'))
@@ -120,5 +122,3 @@ def blast(filename, blastdb='mm8', dir='./', max_hsps=10, chunk_size=50):
             temp_hndl.write('all done - %s chunks' % nbr)
     blastlog('all', nbr, 'chunks blasted','with', nbrwrong, 'failed chunks' )
     return nbr
-
-
