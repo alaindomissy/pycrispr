@@ -16,7 +16,7 @@ from shutil import copytree
 from datetime import datetime
 from crispr.config import SCRATCH, genomes_path, protosp_path
 from crispr.main import digest_coord, blast, score, cluster
-from crispr.main import digest_and_blast_coord, digest_and_blast_and_score_coord
+from crispr.main import digest_and_blast_and_score_coord
 
 # main.blast(SCAFFOLDS, 'chr6:136640001-136641000_1000.prsp', 'mm8')
 # from crispr import cut

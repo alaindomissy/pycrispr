@@ -44,12 +44,17 @@
 # TODO bigBed bigWig
 
 
+from bedtuple import filename_from_coord
 from digest import digest_coord
 from blast import blast
 from score import score
 from cluster import cluster
 
-#
+
+def blast_coord(coord, blastdb='mm8', dir='./', max_hsps=10, chunk_size=50):
+    return blast(filename_from_coord(coord), blastdb='mm8', dir='./', max_hsps=10, chunk_size=50)
+
+
 # # DIGEST AND BLAST
 # ##################
 #

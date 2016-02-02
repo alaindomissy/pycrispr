@@ -2,7 +2,7 @@ from __future__ import print_function
 import argparse
 from config import genomes_path, protosp_path, genomes_list, protosp_list
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description='blast a protospacers bed file to shortlist psoiible off-targets locations')
 
 parser.add_argument('filetype',
                      help='filetype: genomes or protosp' )

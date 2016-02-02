@@ -3,7 +3,7 @@ import argparse
 from cluster import cluster
 from config import CLUSTER_LOG_ON
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description='blast a protospacers bed file to shortlist psoiible off-targets locations')
 
 
 parser.add_argument('blastdb',

@@ -120,3 +120,5 @@ def blast(filename, blastdb='mm8', dir='./', max_hsps=10, chunk_size=50):
             temp_hndl.write('all done - %s chunks' % nbr)
     blastlog('all', nbr, 'chunks blasted','with', nbrwrong, 'failed chunks' )
     return nbr
+
+
