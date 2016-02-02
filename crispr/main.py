@@ -78,7 +78,7 @@ def digest_and_blast_and_score_coord(coord, genome='mm8', dir='./', max_hsps=10,
     nbr = blast_coord(coord, blastdb=genome, dir=dir, max_hsps=max_hsps, chunk_size=chunk_size)
 
     guides = score_coord(nbr, coord, blastdb=genome, dir=dir, chunk_size=chunk_size,
-                   reref_substrate_id='chr6', load_genome=load_genome)
+                         reref_substrate_id='chr6', load_genome=load_genome)
 
     guides, groups = cluster_coord(guides, coord, dir, reref_substrate_id, low, high, howmany)
 

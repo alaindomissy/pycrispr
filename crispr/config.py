@@ -1,11 +1,10 @@
 from __future__ import print_function
-
 import os
 
-# BLASTDB = os.environ.get('BLASTDB', '/BLASTDB/')
 
 GENOMES = os.environ.get('GENOMES', '/GENOMES/')
-PROTOSP = os.environ.get('PROTOSPACERS','/PROTOSP/')
+BLASTDB = os.environ.get('BLASTDB', '/BLASTDB/')
+PROTOSP = os.environ.get('PROTOSP','/PROTOSP/')
 
 SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
 
@@ -77,20 +76,6 @@ PRIMER3_PARAMETERS = {
     }
 
 
-# GENOMES = {
-#     'hg38'   : '/genomes/Homo_sapiens/UCSC/hg38/Sequence/WholeGenomeFasta/genome.fa',
-#     'hg19'   : '/genomes/Homo_sapiens/UCSC/hg19/Sequence/WholeGenomeFasta/genome.fa',
-#     'hg18'   : '/genomes/Homo_sapiens/UCSC/hg18/Sequence/WholeGenomeFasta/genome.fa',
-#     'mm10'   : '/genomes/Homo_sapiens/UCSC/mm10/Sequence/WholeGenomeFasta/genome.fa',
-#     'mm9'    : '/genomes/Mus_musculus/UCSC/mm9/Sequence/WholeGenomeFasta/genome.fa',
-#     'mm8'    : '/genomes/scaffolds/mm8/mm8.fasta',
-#     'tair10' : '/genomes/Arabidopsis_thaliana/NCBI/TAIR10/Sequence/WholeGenomeFasta/genome.fa',
-#     'saccer3': '/genomes/Saccharomyces_cerevisiae/UCSC/sacCer3/Sequence/WholeGenomeFasta/genome.fa',
-#     'ecoli'  : '/genomes/Escherichia_coli_K_12_DH10B/NCBI/2008-03-17/Sequence/WholeGenomeFasta/genome.fa',
-#     'phix'   : '/genomes/PhiX/Illumina/RTA/Sequence/WholeGenomeFasta/genome.fa'
-# }
-
-
 
 def sorted_unique_firstdotsplit(filenammes):
     """
@@ -109,6 +94,11 @@ def genomes_list():
     """
     return sorted_unique_firstdotsplit(os.listdir(GENOMES))
 
+def blastdb_list():
+    """
+    :return:
+    """
+    return sorted_unique_firstdotsplit(os.listdir(BLASTDB))
 
 def protosp_list():
     """
@@ -126,6 +116,23 @@ def genomes_path(genome):
     """
     return GENOMES + genome + '.fasta'
 
+def genomes_path(genome):
+    """
+    >>>prsp_path('mm8')
+    /GENOMES/mm8.fasta
+    :param genome:
+    :return:
+    """
+    return GENOMES + genome + '.fasta'
+
+def blastdb_path(genome):
+    """
+    >>>prsp_path('mm8')
+    /GENOMES/mm8.fasta
+    :param genome:
+    :return:
+    """
+    return BLASTDB + genome + '.nal'
 
 def protosp_path(genome):
     """
