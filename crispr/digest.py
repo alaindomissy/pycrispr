@@ -97,7 +97,7 @@ def digest_genome(genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
 
 # THE WORKHORSE FUNCTION
 ########################
-def digest_bedfile(bedfile, genome='mm8', restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
+def digest_bedfile(filename, genome='mm8', direct='./', restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
     """
     The core inner function handling digest. Saves 4 files
     :param bedfile:
@@ -108,31 +108,27 @@ def digest_bedfile(bedfile, genome='mm8', restriction_enzymes=(u'BfaI', u'ScrFI'
     # root, ext = splitext(bedfile)
     # assert(ext == '.bed')
     # prspbefile = root + '.prsp.bed'
-    prspbedfile = bedfile + '.prsp.bed'
-    print('prspbedfile', ': ', prspbedfile)
+    bedpath = direct + filename + '.bed'
+    prspbedpath = direct + filename + '.prsp.bed'
+    print('prspbedfile', ': ', prspbedpath)
 
     digestlog("> load reference %s" % protosp_path(genome))
     digestlog("> intersect target with reference")
-    digestlog("> save protospacers as", prspbedfile)
-    bt1 = BedTool(protosp_path(genome))
-    print('bt1', ': ',bt1 )
-    bt2 = bt1.intersect(BedTool(bedfile))
-    print('bt2',': ', bt2)
-    bt3 = bt2.moveto(prspbedfile)
-    print('bt3', ': ', bt3)
+    digestlog("> save protospacers as", prspbedpath)
+    BedTool(protosp_path(genome)).intersect(BedTool(bedpath)).moveto(prspbedpath)
 
-    fastapath = bed_to_fasta(prspbedfile, genomes_path(genome))
+    fastapath = bed_to_fasta(prspbedpath, genomes_path(genome))
     digestlog("> save protospacers as", fastapath)
 
 
 # MAIN API FUNCTION
 ###################
 
-def digest_coord(coord, genome='mm8', dir='./', restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
+def digest_coord(coord, genome='mm8', direct='./', restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
     """
     You mast have run digest_genome genome already,
     thereby creating protospacers files .prsp.bed' and .prsp.fasta'
-    :param dir:
+    :param direct:
     :param coord: scaffold:start-end or scaffold:start_length
     :param genome:
     :return:cris
@@ -142,7 +138,7 @@ def digest_coord(coord, genome='mm8', dir='./', restriction_enzymes=(u'BfaI', u'
     """
 
     bedt = Bedtuple.from_coord(coord)
-    bedfile = dir + bedt.filename + '.bed'
+    bedfile = direct + bedt.filename + '.bed'
 
     digestlog('\nDIGEST GENOMIC INTERVAL', bedt.filename, '\n')
 
@@ -153,7 +149,7 @@ def digest_coord(coord, genome='mm8', dir='./', restriction_enzymes=(u'BfaI', u'
     digestlog("> save target as", fastapath)
 
     print('bedt.filename : ', bedt.filename)
-    digest_bedfile(bedt.filename, genome, restriction_enzymes)
+    digest_bedfile(bedt.filename, genome, direct, restriction_enzymes)
 
     return bedt.filename
 

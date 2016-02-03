@@ -75,15 +75,15 @@ def score(nbrofchunks, filename, genome='mm8', direct='./', chunk_size=20,
         except IOError as ioe:
             print('> miss chunk', chunknbr,  fn_withext, 'skip')
 
-        # print(blastrecords)
+    # print(blastrecords)
 
     for blastindex, blastrecord in enumerate(blastrecords):
 
         fullmatches = 0
         scorelist = []
-        scorelog('  >', 'blastrecord index: ', blastindex, 'blastrecord: ', len(blastrecord.alignments))
+        scorelog('  >', 'protospacers nb ', blastindex, 'hits ', len(blastrecord.alignments), 'chromosoomes/scaffolds')
 
-        for alignment in blastrecord.alignments:    # alignment corresponds to a hit in the blast file
+        for alignment in blastrecord.alignments:  # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
             scorelog('    > hitting:', alignment.title.split()[0], 'with', len(alignment.hsps), 'hsps'),
 
@@ -169,7 +169,7 @@ def score(nbrofchunks, filename, genome='mm8', direct='./', chunk_size=20,
         finalscore = int(10000.000 / (100.000 + float(sum(item["match_score"] for item in scorelist))))
         guides[blastindex].annotations['score'] = finalscore
         guides[blastindex].annotations["blastindex"] = blastindex
-        scorelog(' SCORE: ', finalscore)
+        scorelog('  final score: ', finalscore)
         # scorelog("seq: ", guides[blastindex].seq, "score: ", finalscore, "id: ", guides[blastindex].id)
         # scorelog(guides[blastindex].seq)
         # scorelog(alignment.hit_def)

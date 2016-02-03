@@ -18,7 +18,7 @@ from config import clusterlog
 # MAIN API FUNCTION
 ###################
 
-def cluster(guides, filename='chr1', direct='./', reref_substrate_id='mm8', low=75, high=75, howmany=12):
+def cluster(guides, filename, direct, reref_substrate_id='mm8', low=75, high=75, howmany=12):
 
     filename = filename + '.prsp'
 
@@ -41,8 +41,6 @@ def cluster(guides, filename='chr1', direct='./', reref_substrate_id='mm8', low=
 
     print('\nDESIGN PRIMERS')
     return guides, groups
-
-
 
 
 

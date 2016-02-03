@@ -12,7 +12,7 @@ SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
 APPSESS = os.environ.get('APPSESS', '/data/input/AppSession.json')
 
 RESTRICTION_ENZYMES_LIST = ['BfaI', 'HpaII', 'ScrFI']
-DIGEST_LOG_ON = True
+DIGEST_LOG_ON = False
 BLAST_LOG_ON = True
 SCORE_LOG_ON = True
 CLUSTER_LOG_ON = True
@@ -110,8 +110,8 @@ def protosp_list():
 
 def genomes_path(genome):
     """
-    >>>prsp_path('mm8')
-    /GENOMES/mm8.fasta
+    >>>genomes_path('mm8')
+    /RESTORE/mm8/mm8.fasta
     :param genome:
     :return:
     """
@@ -119,17 +119,17 @@ def genomes_path(genome):
 
 def blastdb_path(genome):
     """
-    >>>prsp_path('mm8')
-    /GENOMES/mm8.fasta
+    >>>blastdb_path('mm8')
+    /RESTORE/mm8/mm8.fasta
     :param genome:
     :return:
     """
-    return BLASTDB + genome + '/' + genome + '.nal'
+    return BLASTDB + genome + '/' + genome
 
 def protosp_path(genome):
     """
-    >>>prsp_path('mm8')
-    /PROTOSP/mm8.prsp.bed
+    >>>protosp_path('mm8')
+    /RESTORE/mm8/mm8.prsp.bed
     :param genome:
     :return:
     """
@@ -145,7 +145,7 @@ def backup_genome(genome):
 
 
 def restore_genome(genome):
-    print('RESTORE REFERENCE GENOME, BLASTDB AND PROTOSPACERS', end=' ')
+    print('REMOVE/RESTORE REFERENCE GENOME', genome,  end=' ')
     # print(check_output(['rm', '/RESTORE/' + genome + '/*']))
     # print(check_output(['rmdir', '/RESTORE/' + genome]))
     # os.remove('/RESTORE/' + genome + '/' + genome + '.*')

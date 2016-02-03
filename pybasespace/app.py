@@ -8,7 +8,7 @@
 #
 ########################################################################################################################
 
-
+from __future__ import print_function
 import os
 import json
 from datetime import datetime
@@ -103,10 +103,13 @@ def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
 # def process_sample(sample, sample_output_dir, param_values):
 def process_sample(output_dir, param_values):
 
+    print("start process sample time : ",  datetime.now().isoformat('_'))
+
     # the application payload - CAREFUL this also creates the output_dir
-    #########################
+    ####################################################################################################################
     result = payload(param_values, output_dir)
-    #
+    ####################################################################################################################
+
     with open(output_dir + '/payload_result.txt','w') as out:
           out.write(str(result))
     print('\npayload_result.txt printed to: %s' % output_dir)
@@ -131,13 +134,15 @@ def process_appsession(param_values):
     #     process_sample(sample, sample_output_dir, param_values)
     #     write_sample_metadata(sample['name'], 'Sample Description', appsessionhref, sampleshrefs, sample_output_dir)
 
-    output_dir = '/data/output/appresults/' + project_id + '%s/sessionsummary_' + datetime.now().isoformat('_') + '/'
+    output_dir = '/data/output/appresults/' + project_id + '/sessionsummary_' + datetime.now().isoformat('_') + '/'
 
     # see above output_dir get created by call to payload
     # os.system('mkdir -p "%s"' % output_dir)
 
     process_sample(output_dir, param_values)
     write_metadata('\nsessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)
+
+    print("end process sample time : ",  datetime.now().isoformat('_'))
 
 
 # this file executed as script
