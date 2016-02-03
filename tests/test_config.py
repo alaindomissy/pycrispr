@@ -5,11 +5,11 @@ from crispr.config import genomes_path, protosp_path, sorted_unique_firstdotspli
 
 
 def test_genomes_path():
-    assert(genomes_path('mm8') == '/GENOMES/mm8.fasta')
+    assert(genomes_path('mm8') == '/RESTORE/mm8/mm8.fasta')
 
 
 def test_protosp_path():
-    assert(protosp_path('mm8') == '/PROTOSP/mm8.prsp.bed')
+    assert(protosp_path('mm8') == '/RESTORE/mm8/mm8.prsp.bed')
 
 
 def test_sorted_unique_firstdotsplit():

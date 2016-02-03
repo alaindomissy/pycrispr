@@ -14,7 +14,7 @@ from score import score
 from cluster import cluster
 
 
-def blast_coord(coord, blastdb='mm8', dir='./', max_hsps=10, chunk_size=50):
+def blast_coord(coord, genome='mm8', dir='./', max_hsps=10, chunk_size=50):
     """
     Prerequisite is to have digested coord, therby created the corresponding file
     :param coord:
@@ -24,10 +24,10 @@ def blast_coord(coord, blastdb='mm8', dir='./', max_hsps=10, chunk_size=50):
     :param chunk_size:
     :return:
     """
-    return blast(filename_from_coord(coord), blastdb='mm8', dir='./', max_hsps=10, chunk_size=50)
+    return blast(filename_from_coord(coord), genome='mm8', dir='./', max_hsps=10, chunk_size=50)
 
 
-def score_coord(nbrofchunks, coord, blastdb='mm8', dir='./', chunk_size=20,
+def score_coord(nbrofchunks, coord, genome='mm8', dir='./', chunk_size=20,
           reref_substrate_id=None, load_genome=False):
     """
     Prerequisite is to have digested coord, therby created the corresponding file
@@ -40,7 +40,7 @@ def score_coord(nbrofchunks, coord, blastdb='mm8', dir='./', chunk_size=20,
     :param oad_genome:
     :return:
     """
-    score(nbrofchunks, filename_from_coord(coord), blastdb='mm8', direct='./', chunk_size=20,
+    score(nbrofchunks, filename_from_coord(coord), genome='mm8', direct='./', chunk_size=20,
           reref_substrate_id=None, load_genome=False)
 
 
@@ -75,9 +75,9 @@ def digest_and_blast_and_score_coord(coord, genome='mm8', dir='./', max_hsps=10,
 
     _ = digest_coord(coord, genome, dir, restriction_enzymes)
 
-    nbr = blast_coord(coord, blastdb=genome, dir=dir, max_hsps=max_hsps, chunk_size=chunk_size)
+    nbr = blast_coord(coord, genome=genome, dir=dir, max_hsps=max_hsps, chunk_size=chunk_size)
 
-    guides = score_coord(nbr, coord, blastdb=genome, dir=dir, chunk_size=chunk_size,
+    guides = score_coord(nbr, coord, genome=genome, dir=dir, chunk_size=chunk_size,
                          reref_substrate_id='chr6', load_genome=load_genome)
 
     guides, groups = cluster_coord(guides, coord, dir, reref_substrate_id, low, high, howmany)

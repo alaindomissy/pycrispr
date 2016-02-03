@@ -105,16 +105,23 @@ def digest_bedfile(bedfile, genome='mm8', restriction_enzymes=(u'BfaI', u'ScrFI'
     :param restriction_enzymes:
     :return:
     """
-    root, ext = splitext(bedfile)
-    assert(ext=='.bed')
-    prspbefile = root + '.prsp.bed'
+    # root, ext = splitext(bedfile)
+    # assert(ext == '.bed')
+    # prspbefile = root + '.prsp.bed'
+    prspbedfile = bedfile + '.prsp.bed'
+    print('prspbedfile', ': ', prspbedfile)
 
     digestlog("> load reference %s" % protosp_path(genome))
     digestlog("> intersect target with reference")
-    digestlog("> save protospacers as", prspbefile)
-    BedTool(protosp_path(genome)).intersect(BedTool(bedfile)).moveto(prspbefile)
+    digestlog("> save protospacers as", prspbedfile)
+    bt1 = BedTool(protosp_path(genome))
+    print('bt1', ': ',bt1 )
+    bt2 = bt1.intersect(BedTool(bedfile))
+    print('bt2',': ', bt2)
+    bt3 = bt2.moveto(prspbedfile)
+    print('bt3', ': ', bt3)
 
-    fastapath = bed_to_fasta(prspbefile, genomes_path(genome))
+    fastapath = bed_to_fasta(prspbedfile, genomes_path(genome))
     digestlog("> save protospacers as", fastapath)
 
 
@@ -134,7 +141,6 @@ def digest_coord(coord, genome='mm8', dir='./', restriction_enzymes=(u'BfaI', u'
     >>>digest_coord('./', 'phix:1-4000', './phix.fasta')
     """
 
-
     bedt = Bedtuple.from_coord(coord)
     bedfile = dir + bedt.filename + '.bed'
 
@@ -146,6 +152,7 @@ def digest_coord(coord, genome='mm8', dir='./', restriction_enzymes=(u'BfaI', u'
     fastapath = bed_to_fasta(bedfile, genomes_path(genome))
     digestlog("> save target as", fastapath)
 
+    print('bedt.filename : ', bedt.filename)
     digest_bedfile(bedt.filename, genome, restriction_enzymes)
 
     return bedt.filename

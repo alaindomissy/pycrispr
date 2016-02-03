@@ -14,8 +14,7 @@ from shutil import copytree
 #     return []   # nothing will be ignored
 
 from datetime import datetime
-from crispr.config import SCRATCH, genomes_path, protosp_path
-from crispr.main import digest_coord, blast, score, cluster
+from crispr.config import SCRATCH, restore_genome
 from crispr.main import digest_and_blast_and_score_coord
 
 # main.blast(SCAFFOLDS, 'chr6:136640001-136641000_1000.prsp', 'mm8')
@@ -26,6 +25,10 @@ from crispr.main import digest_and_blast_and_score_coord
 # from crispr import digest
 # digest.digest_file(SCAFFOLDS + 'hg38' + 'fasta')
 # digest.digest_coord(SCAFFOLDS +'chr21:42774475-42905100' + 'fasta' ,'mm8', SCAFFOLDS + 'mm8.fasta )
+
+
+
+
 
 
 ###################
@@ -47,6 +50,9 @@ def payload(params_value, output_dir):
     chunk_size = int(params_value['input.blast_chunk_size'])
     max_hsps = int(params_value['input.blast_max_hsps'])
     binding_interference_spacing = str(params_value['input.binding_interference_spacing'])
+
+
+    restore_genome(genome)
 
     digest_and_blast_and_score_coord(coord, genome, SCRATCH, max_hsps=max_hsps, chunk_size=chunk_size,
                                      reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None,

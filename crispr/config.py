@@ -1,10 +1,11 @@
 from __future__ import print_function
 import os
-
+from shutil import rmtree
+from subprocess import check_output
 
 GENOMES = os.environ.get('GENOMES', '/GENOMES/')
-BLASTDB = os.environ.get('BLASTDB', '/BLASTDB/')
-PROTOSP = os.environ.get('PROTOSP','/PROTOSP/')
+BLASTDB = os.environ.get('BLASTDB', '/RESTORE/')
+PROTOSP = os.environ.get('PROTOSP','/RESTORE/')
 
 SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
 
@@ -114,16 +115,7 @@ def genomes_path(genome):
     :param genome:
     :return:
     """
-    return GENOMES + genome + '.fasta'
-
-def genomes_path(genome):
-    """
-    >>>prsp_path('mm8')
-    /GENOMES/mm8.fasta
-    :param genome:
-    :return:
-    """
-    return GENOMES + genome + '.fasta'
+    return GENOMES + genome + '/' + genome + '.fasta'
 
 def blastdb_path(genome):
     """
@@ -132,7 +124,7 @@ def blastdb_path(genome):
     :param genome:
     :return:
     """
-    return BLASTDB + genome + '.nal'
+    return BLASTDB + genome + '/' + genome + '.nal'
 
 def protosp_path(genome):
     """
@@ -141,4 +133,23 @@ def protosp_path(genome):
     :param genome:
     :return:
     """
-    return(PROTOSP + genome + '.prsp.bed')
+    return(PROTOSP + genome + '/' + genome + '.prsp.bed')
+
+
+def status_genome(genome):
+    print(check_output(['duply', genome, 'status']))
+
+
+def backup_genome(genome):
+    print(check_output(['duply', genome, 'backup']))
+
+
+def restore_genome(genome):
+    print('RESTORE REFERENCE GENOME, BLASTDB AND PROTOSPACERS', end=' ')
+    # print(check_output(['rm', '/RESTORE/' + genome + '/*']))
+    # print(check_output(['rmdir', '/RESTORE/' + genome]))
+    # os.remove('/RESTORE/' + genome + '/' + genome + '.*')
+    # os.removedirs('/RESTORE/' + genome)
+    rmtree('/RESTORE/' + genome)
+    print(check_output(['duply', genome, 'restore', '/RESTORE/' + genome]))
+    print('done')

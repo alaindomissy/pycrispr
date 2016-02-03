@@ -42,10 +42,11 @@ def load_genome_dict(fastafilepath):
 # MAIN API FUNCTION
 ###################
 
-def score(nbrofchunks, filename, blastdb='mm8', direct='./', chunk_size=20,
+def score(nbrofchunks, filename, genome='mm8', direct='./', chunk_size=20,
           reref_substrate_id=None, load_genome=False):
 
     filename = filename + '.prsp'
+    blastdb = genome + '/' + genome
 
     if load_genome:
         fastafilepath = direct +'dict.fasta'

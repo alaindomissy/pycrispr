@@ -20,8 +20,9 @@ from config import blastlog
 # SINGLE FILE BLASTING
 ######################
 
-def blast1(filename, dir, blastdb, max_hsps=50):
+def blast1(filename, dir, genome, max_hsps=50):
 
+    blastdb = genome + '/' + genome
     filename = filename + '.prsp'
 
     # TODO max)hsps stopped working, now replaced with max_hsps_per_subject , but what is going on ?
@@ -65,7 +66,7 @@ def grouper_longest(iterable, chunk_size, fillvalue=None):
 # MAIN API FUNCTION
 ###################
 
-def blast(filename, blastdb='mm8', dir='./', max_hsps=10, chunk_size=50):
+def blast(filename, genome='mm8', dir='./', max_hsps=10, chunk_size=50):
     """
     :param dir:
     :param filename:
@@ -107,7 +108,7 @@ def blast(filename, blastdb='mm8', dir='./', max_hsps=10, chunk_size=50):
             blastlog('> blast chunk ', str(nbr).zfill(3), fn_code_noext, end=' ')
         with open(dir + fn_code_noext + '.fasta', "w") as temp_hndl:
             seqio.write(seqs_chunk, temp_hndl, "fasta")
-        failed = blast1(fn_code_noext, dir, blastdb, max_hsps)
+        failed = blast1(fn_code_noext, dir, genome, max_hsps)
         if failed:
             nbrwrong +=1
             os.rename(rightfasta, wrongfasta)
