@@ -17,14 +17,52 @@ from Bio import SeqIO as seqio    # TODO this is also imported from cut.py, ok?
 from config import blastlog, blastdb_path
 
 
+
+# -max_hsps is only available with blast version >= 2.2.29
+# prior that version there was an option -max_hsps_per_subject but it is buggy!
+
+"""
+user@y50:~$ blastn --help
+USAGE
+  blastn [-h] [-help] [-import_search_strategy filename]
+    [-export_search_strategy filename] [-task task_name] [-db database_name]
+    [-dbsize num_letters] [-gilist filename] [-seqidlist filename]
+    [-negative_gilist filename] [-entrez_query entrez_query]
+    [-db_soft_mask filtering_algorithm] [-db_hard_mask filtering_algorithm]
+    [-subject subject_input_file] [-subject_loc range] [-query input_file]
+    [-out output_file] [-evalue evalue] [-word_size int_value]
+    [-gapopen open_penalty] [-gapextend extend_penalty]
+    [-perc_identity float_value] [-xdrop_ungap float_value]
+    [-xdrop_gap float_value] [-xdrop_gap_final float_value]
+    [-searchsp int_value] [-max_hsps int_value] [-sum_statistics]
+    [-penalty penalty] [-reward reward] [-no_greedy]
+    [-min_raw_gapped_score int_value] [-template_type type]
+    [-template_length int_value] [-dust DUST_options]
+    [-filtering_db filtering_database]
+    [-window_masker_taxid window_masker_taxid]
+    [-window_masker_db window_masker_db] [-soft_masking soft_masking]
+    [-ungapped] [-culling_limit int_value] [-best_hit_overhang float_value]
+    [-best_hit_score_edge float_value] [-window_size int_value]
+    [-off_diagonal_range int_value] [-use_index boolean] [-index_name string]
+    [-lcase_masking] [-query_loc range] [-strand strand] [-parse_deflines]
+    [-outfmt format] [-show_gis] [-num_descriptions int_value]
+    [-num_alignments int_value] [-html] [-max_target_seqs num_sequences]
+    [-num_threads int_value] [-remote] [-version]
+
+DESCRIPTION
+   Nucleotide-Nucleotide BLAST 2.2.29+
+
+Use '-help' to print detailed descriptions of command line arguments
+========================================================================
+"""
+
+
+
 # SINGLE FILE BLASTING
 ######################
 
 def blast1(prspfilename, genome, direct, max_hsps):
-
     blastdb = blastdb_path(genome)
-
-    # TODO max)hsps stopped working, now replaced with max_hsps_per_subject , but what is going on ?
     blastn_cline = NcbiblastnCommandline(
         query=direct + prspfilename + '.fasta',
         out=direct + prspfilename + '.blast',
@@ -33,11 +71,10 @@ def blast1(prspfilename, genome, direct, max_hsps):
         max_target_seqs=25,
         num_threads=4,
         evalue=10,
-        max_hsps_per_subject=max_hsps,
+        max_hsps=max_hsps,
         task="blastn-short",
         dust="no",
         )
-    # print('\nblastn_cline: %s' % blastn_cline)
     try:
         stdout, stderr = blastn_cline()
     except ApplicationError as err:

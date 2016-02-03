@@ -13,9 +13,29 @@
 ## Installation
 
 ```
+// sudo apt-get install ncbi-blast+
+// results in an outdated version on ubuntu 14.04
+
+        // $ blastn -version
+        // blastn: 2.2.28+
+        // Package: blast 2.2.28, build Jun  3 2013 11:17:14
+// do this instead -actually no, not working either
+// conda install -c https://conda.anaconda.org/bioconda blast
+
+// so do this instead
+$ wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/ncbi-blast-2.3.0+-x64-linux.tar.gz
+$ tar xvfp ncbi-blast-2.3.0+-x64-linux.tar.gz
+$ export PATH=”$PATH:$HOME/ncbi-blast-2.2.29+/bin”
+$ mkdir ./ncbi-blast-2.2.29+/db
+$export BLASTDB=”$HOME/ncbi-blast-2.2.29+/db”
+
+        // $ blastn -version
+        // blastn: 2.2.31+
+        // Package: blast 2.2.31, build Dec  3 2015 17:28:17
+
 sudo apt-get install tree
 sudo apt-get install jq
-sudo apt-get install ncbi-blast+
+
 sudo apt-get install bedtools
 sudo apt-get install tabix
 sudo apt-get install igv 
@@ -23,7 +43,7 @@ pip install git+https://github.com/alaindomissy/buffet.git#egg=pycrispr
 pip install primer3-py
 ```
 
- pycrispr runs on Python 2.7, 3.3 and 3.4
+pycrispr runs on Python 2.7, 3.3 and 3.4
  
 ## Usage
 

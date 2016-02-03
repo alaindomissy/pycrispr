@@ -42,7 +42,7 @@ def load_genome_dict(fastafilepath):
 # MAIN API FUNCTION
 ###################
 
-def score(nbrofchunks, filename, genome='mm8', direct='./', chunk_size=20,
+def score(nbrofchunks, filename, genome, direct, chunk_size,
           reref_substrate_id=None, load_genome=False):
 
     filename = filename + '.prsp'
@@ -64,7 +64,7 @@ def score(nbrofchunks, filename, genome='mm8', direct='./', chunk_size=20,
 
     print('\nPARSE BLAST-RESULTS IN CHUNKS')
     blastrecords = []
-    for chunknbr in range(1,nbrofchunks+1):
+    for chunknbr in range(1, nbrofchunks + 1):
         fn_withext = filename + '.' + str(chunk_size) + 'seqs.' + str(chunknbr) + '.blast'
         blastfn = direct + fn_withext
         try:
@@ -81,7 +81,7 @@ def score(nbrofchunks, filename, genome='mm8', direct='./', chunk_size=20,
 
         fullmatches = 0
         scorelist = []
-        scorelog('  >', 'protospacers nb ', blastindex, 'hits ', len(blastrecord.alignments), 'chromosoomes/scaffolds')
+        scorelog('  >', 'protospacer nb', blastindex, '(out of', nbrofchunks, ') has', len(blastrecord.alignments), 'scaffold hits')
 
         for alignment in blastrecord.alignments:  # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
