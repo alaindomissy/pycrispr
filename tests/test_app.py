@@ -282,7 +282,6 @@ def test_parse_appsessionparams():
     # assert(appsessionparams== expected)
 
     assert(parse_appsessionparams(appsessionparams) == {
-                u'input.binding_interference_spacing': u'25',
                 u'input.blast_chunk_size': u'25',
                 u'input.blast_max_hsps': u'1000',
                 u'input.genome_id': u'Mouse8',
