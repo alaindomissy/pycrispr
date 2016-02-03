@@ -111,8 +111,8 @@ def process_sample(output_dir, param_values):
     result = payload(param_values, output_dir)
     ####################################################################################################################
 
-    with open(output_dir + '/payload_result.txt','w') as out:
-          out.write(str(result))
+    # with open(output_dir + '/payload_result.txt','w') as out:
+    #       out.write(str(result))
     # TODO get some results more interesting to save
     # print('\npayload_result.txt printed to: %s' % output_dir)
 
