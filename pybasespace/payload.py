@@ -59,6 +59,6 @@ def payload(params_value, output_dir):
                                      restriction_enzymes=restriction_enzymes)
 
     # copytree(source, destination, ignore=_logpath)
-    copytree(SCRATCH, output_dir + '../sessiondetails_' + datetime.now().isoformat('_') + '/')
+    copytree(SCRATCH, output_dir + '../sessiondetails/') # + datetime.now().isoformat('_') +
 
     return

@@ -96,8 +96,9 @@ def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
     metadata['Properties'][0]['Items'].extend(sampleshrefs)
     with open(output_dir + '/_metadata.json', 'w') as out:
         json.dump(metadata, out, indent=4, sort_keys=True)
-    with open(output_dir + '/metadata.json', 'w') as out:
-        json.dump(metadata, out, indent=4, sort_keys=True)
+    # TODO this is not pretty ptinting the object, fix
+    # with open(output_dir + '/metadata.json', 'w') as out:
+    #     json.dump(metadata, out, indent=4, sort_keys=True)
 
 
 # def process_sample(sample, sample_output_dir, param_values):
@@ -112,7 +113,8 @@ def process_sample(output_dir, param_values):
 
     with open(output_dir + '/payload_result.txt','w') as out:
           out.write(str(result))
-    print('\npayload_result.txt printed to: %s' % output_dir)
+    # TODO get some results more interesting to save
+    # print('\npayload_result.txt printed to: %s' % output_dir)
 
 
     # output of param_values table

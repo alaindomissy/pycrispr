@@ -15,11 +15,10 @@
 ```
 // sudo apt-get install ncbi-blast+
 // results in an outdated version on ubuntu 14.04
-
         // $ blastn -version
         // blastn: 2.2.28+
         // Package: blast 2.2.28, build Jun  3 2013 11:17:14
-// do this instead -actually no, not working either
+// do this instead - actually no! it is not working either
 // conda install -c https://conda.anaconda.org/bioconda blast
 
 // so do this instead
@@ -28,7 +27,7 @@ $ tar xvfp ncbi-blast-2.3.0+-x64-linux.tar.gz
 $ export PATH=”$PATH:$HOME/ncbi-blast-2.2.29+/bin”
 $ mkdir ./ncbi-blast-2.2.29+/db
 $export BLASTDB=”$HOME/ncbi-blast-2.2.29+/db”
-
+//results in a version of ncbi which supports -max_hsps (previously -max_hsps_per_target was buggy)
         // $ blastn -version
         // blastn: 2.2.31+
         // Package: blast 2.2.31, build Dec  3 2015 17:28:17
