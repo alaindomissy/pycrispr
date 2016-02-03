@@ -150,6 +150,6 @@ def restore_genome(genome):
     # print(check_output(['rmdir', '/RESTORE/' + genome]))
     # os.remove('/RESTORE/' + genome + '/' + genome + '.*')
     # os.removedirs('/RESTORE/' + genome)
-    rmtree('/RESTORE/' + genome)
+    rmtree('/RESTORE/' + genome,  ignore_errors=True)
     print(check_output(['duply', genome, 'restore', '/RESTORE/' + genome]))
     print('done')
