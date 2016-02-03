@@ -153,10 +153,10 @@ def blast(filename, genome, direct, max_hsps, chunk_size):
         ########################################################
         if failed:
             nbrwrong +=1
-            print('rightfasta',': ',rightfasta)
-            print('wrongfasta',': ',wrongfasta)
-            print('rightblast',': ',rightblast)
-            print('wrongblast',': ',wrongblast)
+            # print('rightfasta',': ',rightfasta)
+            # print('wrongfasta',': ',wrongfasta)
+            # print('rightblast',': ',rightblast)
+            # print('wrongblast',': ',wrongblast)
             os.rename(rightfasta, wrongfasta)
             os.rename(rightblast, wrongblast)
         else:
