@@ -42,8 +42,7 @@ def load_genome_dict(fastafilepath):
 # MAIN API FUNCTION
 ###################
 
-def score(nbrofchunks, filename, genome, direct, chunk_size,
-          reref_substrate_id=None, load_genome=False):
+def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
 
     filename = filename + '.prsp'
     blastdb = genome + '/' + genome
@@ -107,12 +106,14 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
                     pam_start = hsp.sbjct_end - hit_threeprime_offset
                     pam_onebased_range = (pam_start -3, pam_start -1)
                     pam_zerobased_range = (pam_start -4, pam_start -1)
-                # TODO *** get the correct substrate id for subject (not same as hit!) - should be alignment.hit_def
+
                 # TODO *** use betools and fai instead of loading full genome
                 # if load_genome: DISABLED FOR NOW
                 if False:
                     # scorelog('refgen', end=' ')
-                    lookup_context = genomedict[reref_substrate_id]
+                    # TODO *** get the correct substrate id for subject (not same as hit!) - should be alignment.hit_def
+                    substrate_id = 'TODO' #guide.id.split(':')[0]
+                    lookup_context = genomedict[substrate_id]
                     pam = lookup_context[pam_zerobased_range[0]:pam_zerobased_range[1]]
                 else:
                     # scorelog('blastdb', end=' ')

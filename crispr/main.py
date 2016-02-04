@@ -27,8 +27,7 @@ def blast_coord(coord, genome, direct, max_hsps, chunk_size):
     return blast(filename_from_coord(coord), genome, direct, max_hsps, chunk_size)
 
 
-def score_coord(nbrofchunks, coord, genome, direct, chunk_size,
-          reref_substrate_id=None, load_genome=False):
+def score_coord(nbrofchunks, coord, genome, direct, chunk_size, load_genome=False):
     """
     Prerequisite is to have digested coord, therby created the corresponding file
     :param nbrofchunks:
@@ -40,11 +39,10 @@ def score_coord(nbrofchunks, coord, genome, direct, chunk_size,
     :param oad_genome:
     :return:
     """
-    score(nbrofchunks, filename_from_coord(coord), genome, direct, chunk_size,
-          reref_substrate_id=None, load_genome=False)
+    score(nbrofchunks, filename_from_coord(coord), genome, direct, chunk_size, load_genome=False)
 
 
-def cluster_coord(guides, coord, direct, reref_substrate_id='mm8', low=75, high=75, howmany=12):
+def cluster_coord(guides, coord, direct, low=75, high=75, howmany=12):
     """
     Prerequisite is to have digested coord, therby created the corresponding file
     :param guides:
@@ -57,7 +55,7 @@ def cluster_coord(guides, coord, direct, reref_substrate_id='mm8', low=75, high=
     :return:
     """
 
-    cluster(guides, filename_from_coord(coord), direct, reref_substrate_id, low=75, high=75, howmany=12)
+    cluster(guides, filename_from_coord(coord), direct, low=75, high=75, howmany=12)
 
 
 ##########
@@ -77,8 +75,7 @@ def digest_and_blast_and_score_coord(coord, genome, direct, max_hsps, chunk_size
 
     nbr = blast_coord(coord, genome, direct, max_hsps, chunk_size)
 
-    guides = score_coord(nbr, coord, genome, direct, chunk_size,
-                         reref_substrate_id='chr6', load_genome=load_genome)
+    guides = score_coord(nbr, coord, genome, direct, chunk_size, load_genome=load_genome)
 
     #guides, groups =
     cluster_coord(guides, coord, direct, low, high, howmany)
