@@ -134,7 +134,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                 # Test for valid PAM adjacency
                 if len(pam) == 3:
                     if is_valid_pam(pam):
-                        scorelog(pam.seq, end=' ')
+
                         # scorelog('pam:', pam.seq, end=' ')
                         # scorelog('valid', end=' ')
                         # scorelog('+ padding', end=' ')
@@ -172,16 +172,16 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                                 matchdict["match_score"] = 100.0
                                 matchdict["match_factors"] = format_factors(1, 1, 1, 100.0)
                             fullmatches += 1
+                        scorelog('      %2s  sbjct %s ' % (hspnbr, hsp.sbjct), end ='')
+                        scorelog('pam', pam.seq)
+                        scorelog('          missm %s %s' % (mmstr, matchdict["match_factors"]))
+                        scorelog('          query %s' % (hsp. query))
 
-                        scorelog('      > %2squery ' % hspnbr, hsp.query)
-                        scorelog('        %2smissm %s %s' % (hspnbr, mmstr, matchdict["match_factors"]))
-                        scorelog('        %2ssbjct ' % hspnbr, hsp.sbjct)
                         scorelist.append(matchdict)
-                else:
-                    scorelog('      > %2squery ' % hspnbr, hsp.query)
-                    scorelog('        %2ssbjct ' % hspnbr, hsp.sbjct, end ='')
-                    scorelog('nopam', end=' ')
-                scorelog()
+                    else:
+                        scorelog('      %2s  sbjct %s ' % (hspnbr, hsp.sbjct), end ='')
+                        scorelog('nopam')
+                        #scorelog('           squery ' % hspnbr, hsp.query, end ='')
 
         finalscore = int(10000.000 / (100.000 + float(sum(item["match_score"] for item in scorelist))))
         guides[blastindex].annotations['score'] = finalscore
@@ -196,7 +196,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
         #       guides[blastindex].annotations['score']
         #       )
 
-        scorelog('  protospacer score: ', finalscore)
+        scorelog('  score: ', finalscore)
         # scorelog("seq: ", guides[blastindex].seq, "score: ", finalscore, "id: ", guides[blastindex].id)
         # scorelog(guides[blastindex].seq)
         # scorelog(alignment.hit_def)

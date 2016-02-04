@@ -71,7 +71,7 @@
 
 
         "Description": "Blast Max HSPs",
-        "Content": "50"
+        "Content": "10"
 
 
       },
@@ -99,7 +99,7 @@
         "Content3": "chr21:42711558-42742369",
         "Content4": "chr21:42462433-42497269",
 
-        "Content": "chr:101001-141000"
+        "Content": "chr:101001-105000"
 
 
       },
