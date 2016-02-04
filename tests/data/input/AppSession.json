@@ -169,15 +169,15 @@
       },
       {
         "Type": "string[]",
-        "Href": "v1pre3/appsessions/31951397/properties/Input.restriction_enzymes",
-        "Name": "Input.restriction_enzymes",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.restr_enzymes",
+        "Name": "Input.restr_enzymes",
         "Description": "Restriction Enzymes",
         "Items": [
           "BfaI",
           "ScrFI",
           "HpaII"
         ],
-        "HrefItems": "v1pre3/appsessions/31951397/properties/Input.restriction_enzymes/items",
+        "HrefItems": "v1pre3/appsessions/31951397/properties/Input.restr_enzymes/items",
         "ItemsDisplayedCount": 3,
         "ItemsTotalCount": 3
       },
