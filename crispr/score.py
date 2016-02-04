@@ -150,6 +150,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                         if hsp.query_end < 20:
                             mmstr = mmstr + list("." * (20 - hsp.query_end))
                         mmstr = "".join(mmstr)
+                        scorelog('\n        missm %2s:' % hspnbr, mmstr, end=' ')
                         matchdict = {"match_score": 0.0,
                                      "match_factors": '',
                                      "alignment": alignment.hit_def,
@@ -157,18 +158,22 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                                      "hit_sequence": hsp.sbjct,
                                      "pam": str(pam.seq),
                                      "match_bars": mmstr}
-                        if hsp.positives <=16:
+                        if hsp.positives <16:
                             matchdict["match_score"] = 0.0
-                            matchdict["match_factors"] = '0.0' #format_factors(0, 0, 0, 0.0)
-                        if hsp.positives >16 and hsp.positives < 20:
+                            matchdict["match_factors"] = '%s missmatches' % (20 - hsp.positives)
+                        if hsp.positives >=16 and hsp.positives < 20:
                             ########################################################################
                             matchdict["match_score"], matchdict["match_factors"] = zhangscore(mmstr)
                             #########################################################################
+
                         # "Zhang lab algorithm doesn't handle perfect matches: give it a 50 if it's perfect"
                         # I think we should give it a 100.0 !
                         # we dont want to count in scoring the first perfect match found,
                         # but we want to use all the others if any
                         if hsp.positives >= 20: # TODO safe to chane tp ==20 ?
+                            if fullmatches == 0:
+                                matchdict["match_score"] = 0.0
+                                matchdict["match_factors"] = 'first full match'
                             if fullmatches > 0:
                                 matchdict["match_score"] = 100.0
                                 matchdict["match_factors"] = format_factors(1, 1, 1, 100.0)
