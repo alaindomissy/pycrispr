@@ -81,16 +81,13 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
         fullmatches = 0
         scorelist = []
         # '(out of', nbrofchunks, ')   we dont know the number of prsps, although it is approx nbofchunks*chunk_size
-        scorelog('  >', 'protospacer nb', blastindex, 'has', len(blastrecord.alignments), 'scaffold hits')
+        scorelog('  >', 'prsp', blastindex, 'hits', len(blastrecord.alignments), 'scaffold(s)')
 
         for alignment in blastrecord.alignments:  # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
-            scorelog('    > hitting:', alignment.title.split()[0], 'with', len(alignment.hsps), 'hsps'),
+            scorelog('    > ', alignment.title.split()[0], 'is hit with', len(alignment.hsps), 'hsps'),
 
             for hspnbr, hsp in enumerate(alignment.hsps):
-                scorelog('      > query %2s:' % hspnbr, hsp.query)
-                scorelog('        sbjct %2s:' % hspnbr, hsp.sbjct, end=' ')
-
 
                 # getting the pam adjacent to the hsp's subject
                 # hit_threeprime_offset = len(guides[0]) - hsp.query_end
@@ -136,9 +133,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                 # TODO can this really not be the case? and then why do we not append a matchdit with score 0.0
                 # Test for valid PAM adjacency
                 if len(pam) == 3:
-                    if not is_valid_pam(pam):
-                        scorelog('nopam', end=' ')
-                    else:
+                    if is_valid_pam(pam):
                         scorelog(pam.seq, end=' ')
                         # scorelog('pam:', pam.seq, end=' ')
                         # scorelog('valid', end=' ')
@@ -150,7 +145,6 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                         if hsp.query_end < 20:
                             mmstr = mmstr + list("." * (20 - hsp.query_end))
                         mmstr = "".join(mmstr)
-                        scorelog('\n        missm %2s:' % hspnbr, mmstr, end=' ')
                         matchdict = {"match_score": 0.0,
                                      "match_factors": '',
                                      "alignment": alignment.hit_def,
@@ -178,8 +172,15 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                                 matchdict["match_score"] = 100.0
                                 matchdict["match_factors"] = format_factors(1, 1, 1, 100.0)
                             fullmatches += 1
-                        scorelog('hsp_score: ', matchdict["match_factors"], end=' ')
+
+                        scorelog('      > %2squery ' % hspnbr, hsp.query)
+                        scorelog('        %2smissm %s %s' % (hspnbr, mmstr, matchdict["match_factors"]))
+                        scorelog('        %2ssbjct ' % hspnbr, hsp.sbjct)
                         scorelist.append(matchdict)
+                else:
+                    scorelog('      > %2squery ' % hspnbr, hsp.query)
+                    scorelog('        %2ssbjct ' % hspnbr, hsp.sbjct, end ='')
+                    scorelog('nopam', end=' ')
                 scorelog()
 
         finalscore = int(10000.000 / (100.000 + float(sum(item["match_score"] for item in scorelist))))
