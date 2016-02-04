@@ -60,7 +60,7 @@
 
 
         "Description": "Blast Chunk Size",
-        "Content": "10"
+        "Content": "5"
 
 
       },
@@ -71,7 +71,7 @@
 
 
         "Description": "Blast Max HSPs",
-        "Content": "20"
+        "Content": "5"
 
 
       },

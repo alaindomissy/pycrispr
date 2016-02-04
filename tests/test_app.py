@@ -1,5 +1,6 @@
-import sys,os
-sys.path.insert(0,os.path.abspath(__file__+"/../.."))
+import sys
+import os
+sys.path.insert(0, os.path.abspath(__file__+"/../.."))
 
 from pybasespace.app import *
 
@@ -17,9 +18,9 @@ def test_parse_appsessionparams():
 
     appsession_location = testdir + '/data/input/AppSession.json'
 
-    appsessionhref, appsessionparams = read_appsession(appsession_location)
+    appsessionhref1, appsessionparams1 = read_appsession(appsession_location)
 
-    assert(appsessionhref == u'v1pre3/appsessions/31951397')
+    assert(appsessionhref1 == u'v1pre3/appsessions/31951397')
 
     expected = [{u'Content': u'False',
                    u'Description': u'',
@@ -280,9 +281,9 @@ def test_parse_appsessionparams():
                u'Type': u'project[]'}
             ]
     assert(expected)
-    # assert(appsessionparams== expected)
+    # assert(appsessionparams1== expected)
 
-    # assert(parse_appsessionparams(appsessionparams) == {
+    # assert(parse_appsessionparams(appsessionparams1) == {
     #             u'input.blast_chunk_size': u'10',
     #             u'input.blast_max_hsps': u'20',
     #             u'input.genome_id': u'mm8',
