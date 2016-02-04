@@ -110,8 +110,6 @@ def digest_bedfile(filename, genome='mm8', direct='./', restriction_enzymes=(u'B
     # prspbefile = root + '.prsp.bed'
     bedpath = direct + filename + '.bed'
     prspbedpath = direct + filename + '.prsp.bed'
-    print('prspbedfile', ': ', prspbedpath)
-
     digestlog("> load reference %s" % protosp_path(genome))
     digestlog("> intersect target with reference")
     digestlog("> save protospacers as", prspbedpath)
@@ -148,7 +146,6 @@ def digest_coord(coord, genome='mm8', direct='./', restriction_enzymes=(u'BfaI',
     fastapath = bed_to_fasta(bedfile, genomes_path(genome))
     digestlog("> save target as", fastapath)
 
-    print('bedt.filename : ', bedt.filename)
     digest_bedfile(bedt.filename, genome, direct, restriction_enzymes)
 
     return bedt.filename
