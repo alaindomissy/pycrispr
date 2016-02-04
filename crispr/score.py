@@ -87,9 +87,9 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
             scorelog('    > hitting:', alignment.title.split()[0], 'with', len(alignment.hsps), 'hsps'),
 
-            for hsp in alignment.hsps:
-                scorelog('      > query:', hsp.query)
-                scorelog('        sbjct:', hsp.sbjct, end=' ')
+            for hspnbr, hsp in enumerate(alignment.hsps):
+                scorelog('      > query %3s:' % hspnbr, hsp.query)
+                scorelog('        sbjct %3s:' % hspnbr, hsp.sbjct, end=' ')
 
 
                 # getting the pam adjacent to the hsp's subject
@@ -133,9 +133,10 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
                 # Test for valid PAM adjacency
                 if len(pam) == 3:
                     if not is_valid_pam(pam):
-                        scorelog('invalid', end=' ')
+                        scorelog('no pam', end=' ')
                     else:
-                        scorelog('valid', end=' ')
+                        scorelog('pam:', pam.seq, end=' ')
+                        #scorelog('valid', end=' ')
                         #scorelog('+ padding', end=' ')
                         # make match string padded to query length, where bar(|) is match and space( ) is non-match
                         mmstr = list(hsp.match)
@@ -162,7 +163,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
                             if fullmatches > 0:
                                 matchdict["match_score"] = 100.0
                             fullmatches += 1
-                        scorelog('score', matchdict["match_score"], end=' ')
+                        scorelog('score:', matchdict["match_score"], end=' ')
                         scorelist.append(matchdict)
                 scorelog()
 

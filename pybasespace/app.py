@@ -88,44 +88,58 @@ def json_deepcopy(obj):
     return json.loads(json.dumps(obj))
 
 
+
+
 def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
     metadata = json_deepcopy(metadatatemplate)
     metadata['Name'] = name
     metadata['Description'] = description
     metadata['HrefAppSession'] = appsessionhref
     metadata['Properties'][0]['Items'].extend(sampleshrefs)
+    print()
+    print('===========\n'
+          'APP RESULTS\n'
+          '===========\n')
+    print()
+    print('--------------\n'
+          '_metadata.json\n'
+          '--------------\n')
+    print(json.dump(metadata, out, indent=4, sort_keys=True))
+    print()
     with open(output_dir + '/_metadata.json', 'w') as out:
         json.dump(metadata, out, indent=4, sort_keys=True)
-    # TODO this is not pretty ptinting the object, fix
-    # with open(output_dir + '/metadata.json', 'w') as out:
-    #     json.dump(metadata, out, indent=4, sort_keys=True)
+    with open(output_dir + '/metadata.txt', 'w') as out:
+         json.dump(metadata, out, indent=4, sort_keys=True)
 
 
-# def process_sample(sample, sample_output_dir, param_values):
-def process_sample(output_dir, param_values):
-
-    print("start process sample time : ",  datetime.now().isoformat('_'))
-
-    # the application payload - CAREFUL this also creates the output_dir
-    ####################################################################################################################
-    result = payload(param_values, output_dir)
-    ####################################################################################################################
-
-    # with open(output_dir + '/payload_result.txt','w') as out:
-    #       out.write(str(result))
-    # TODO get some results more interesting to save
-    # print('\npayload_result.txt printed to: %s' % output_dir)
+def write_results(results, output_dir):
+    print('-------------------\n'
+          'payload_results.txt\n'
+          '-------------------\n')
+    print(str(results))
+    print()
+    with open(output_dir + '/payload_results.txt','w') as out:
+        out.write(str(results))
 
 
-    # output of param_values table
+def write_params(param_values, output_dir):
+    print('--------------------\n'
+          'appsessionparams.csv\n'
+          '--------------------\n')
     with open(output_dir + '/appsessionparams.csv','w') as out:
         for key, value in param_values.iteritems():
+            line = '%s\t\t%s\n' % (key,value)
             if key != 'input.samples':
-                out.write('%s\t\t%s\n' % (key,value))
-    print('\nappsessionparams.csv printed to %s' % output_dir)
+                out.write(line)
+                print(line)
+    print()
+
+
+
 
 
 def process_appsession(param_values):
+
     project_id = param_values.get('input.project_id')
     samples = param_values.get('input.samples')
     sampleshrefs = [sample['href'] for sample in samples]
@@ -138,19 +152,26 @@ def process_appsession(param_values):
 
     output_dir = '/data/output/appresults/' + project_id + '/sessionsummary_' + datetime.now().isoformat('_') + '/'
 
-    # see above output_dir get created by call to payload
+    ###########################################
+    print("process sample starts: ",  datetime.now().isoformat('_'))
+    results = payload(param_values, output_dir)
+    print("end process sample ends: ",  datetime.now().isoformat('_'))
+    ############################################
+    # ATN output_dir gets created by the call to payload     # TODO no longer true?
     # os.system('mkdir -p "%s"' % output_dir)
 
-    process_sample(output_dir, param_values)
     write_metadata('\nsessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)
+    write_params(param_values, output_dir)
+    if results:
+        write_results(results, output_dir)
 
-    print("end process sample time : ",  datetime.now().isoformat('_'))
 
 
 # this file executed as script
 ##############################
 
 if __name__ == '__main__':
+
     appsessionhref, appsessionparams = read_appsession(APPSESS)
     param_values = parse_appsessionparams(appsessionparams)
     process_appsession(param_values)

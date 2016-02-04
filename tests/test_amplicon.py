@@ -14,7 +14,7 @@ def test_mask_sequence():
 def test_amplicon():
     run = []
     guidelist = []
-    a = Amplicon
+    # _ = Amplicon
     # a1 = Amplicon(run, guidelist, 'hg38', 'chr21')
     assert(True)
 

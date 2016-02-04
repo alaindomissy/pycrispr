@@ -14,7 +14,7 @@ APPSESS = os.environ.get('APPSESS', '/data/input/AppSession.json')
 RESTRICTION_ENZYMES_LIST = ['BfaI', 'HpaII', 'ScrFI']
 DIGEST_LOG_ON = True
 BLAST_LOG_ON = True
-SCORE_LOG_ON = False
+SCORE_LOG_ON = True
 CLUSTER_LOG_ON = True
 PRIME_LOG_ON = True
 
@@ -145,7 +145,7 @@ def backup_genome(genome):
 
 
 def restore_genome(genome):
-    print('REMOVE/RESTORE REFERENCE GENOME', genome,  end=' ')
+    print('\nREMOVE/RESTORE REFERENCE GENOME', genome)
     # print(check_output(['rm', '/RESTORE/' + genome + '/*']))
     # print(check_output(['rmdir', '/RESTORE/' + genome]))
     # os.remove('/RESTORE/' + genome + '/' + genome + '.*')
@@ -153,4 +153,3 @@ def restore_genome(genome):
     rmtree('/RESTORE/' + genome,  ignore_errors=True)
     output = check_output(['duply', genome, 'restore', '/RESTORE/' + genome])
     # print(output)
-    print('done')

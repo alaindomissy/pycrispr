@@ -44,42 +44,63 @@
         "Href": "v1pre3/appsessions/31951397/properties/Input.app-session-name",
         "Name": "Input.app-session-name",
         "Description": "as analysis name",
-        "Content": "Crispr-Eating 01/17/2016 10:21:02"
+        "Content": "Crispr-Eating LOCAL TESTING"
       },
       {
         "Type": "string",
         "Href": "v1pre3/appsessions/31951397/properties/Input.binding_interference_spacing",
         "Name": "Input.binding_interference_spacing",
         "Description": "Binding Interference Spacing",
-        "Content": "25"
+        "Content": "20"
       },
       {
         "Type": "string",
         "Href": "v1pre3/appsessions/31951397/properties/Input.blast_chunk_size",
         "Name": "Input.blast_chunk_size",
+
+
         "Description": "Blast Chunk Size",
-        "Content": "25"
+        "Content": "10"
+
+
       },
       {
         "Type": "string",
         "Href": "v1pre3/appsessions/31951397/properties/Input.blast_max_hsps",
         "Name": "Input.blast_max_hsps",
+
+
         "Description": "Blast Max HSPs",
-        "Content": "1000"
+        "Content": "20"
+
+
       },
       {
         "Type": "string",
         "Href": "v1pre3/appsessions/31951397/properties/Input.genome_id",
         "Name": "Input.genome_id",
         "Description": "",
-        "Content": "Mouse8"
+        "Content1": "ecoli",
+        "Content": "mm8"
+
+
       },
       {
         "Type": "string",
         "Href": "v1pre3/appsessions/31951397/properties/Input.genomic_coord",
         "Name": "Input.genomic_coord",
         "Description": "",
-        "Content": "chr6:136640001-136680000"
+
+        "Content": "chr3:92280001-92280200",
+	    "Content0": "chr3:92280001-92281000",
+
+	    "Content1": "chr3:92280001-92320000",
+	    "Content2": "chr1:74080002-74120000",
+        "Content3": "chr21:42711558-42742369",
+        "Content4": "chr21:42462433-42497269",
+        "Content5": "chr:101003-102002"
+
+
       },
       {
         "Type": "project[]",
@@ -114,7 +135,7 @@
         "Name": "Input.project_id",
         "Description": "under project",
         "Content": {
-          "Id": "27855842",
+          "Id": "12345678",
           "UserOwnedBy": {
             "Id": "7036038",
             "Href": "v1pre3/users/7036038",

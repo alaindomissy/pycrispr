@@ -1,6 +1,6 @@
 
-{"$type": "Form",
- "fields": [
+{"$type":"Form",
+ "fields":[
 //////////
         {"$type": "SectionBreak","title": "Genome"},
         {"$type": "Select",
@@ -16,8 +16,8 @@
           {"value": "yeast","text": "S. Cerevisia (UCSC sacCer2)","selected": "false"},
           {"value": "ecoli","text": "E. Coli DH10B (NCBI 2008-03-17)","selected": "false"},
           {"value": "ecoli2","text": "E. Coli MG1655 (NCBI 2001-10-15 )","selected": "false"},
-          {"value": "phix","text": "Phi X (Illumina)","selected": "false"},
-/*,
+          {"value": "phix","text": "Phi X (Illumina)","selected": "false"}
+             /*,
           {"value": "Human", "text": "Human (UCSC HG19)","selected": "false"},
           {"value": "Mouse9","text": "Mouse (UCSC MM9)","selected": "false"},
           {"value": "B. Taurus","text": "B. Taurus  (Ensembl UMD3.1)","selected": "false"},
