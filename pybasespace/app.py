@@ -26,7 +26,7 @@ def read_appsession(appsession_jsonfilename):
 
 
 def parse_appsessionparams(appsessionparams):
-    arguments_with_content = ['input.interference_spacing',
+    arguments_with_content = ['input.interference_gap',
                               'input.blast_chunk_size',
                               'input.blast_max_hsps',
                               'input.refgenome_id',

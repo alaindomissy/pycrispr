@@ -159,7 +159,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                                      "match_bars": mmstr}
                         if hsp.positives <=16:
                             matchdict["match_score"] = 0.0
-                            matchdict["match_factors"] = '' #format_factors(0, 0, 0, 0.0)
+                            matchdict["match_factors"] = '0.0' #format_factors(0, 0, 0, 0.0)
                         if hsp.positives >16 and hsp.positives < 20:
                             ########################################################################
                             matchdict["match_score"], matchdict["match_factors"] = zhangscore(mmstr)
@@ -168,7 +168,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                         # I think we should give it a 100.0 !
                         # we dont want to count in scoring the first perfect match found,
                         # but we want to use all the others if any
-                        if hsp.positives >= 20: #changed from == 20; might be worth keeping in mind for bugs
+                        if hsp.positives >= 20: # TODO safe to chane tp ==20 ?
                             if fullmatches > 0:
                                 matchdict["match_score"] = 100.0
                                 matchdict["match_factors"] = format_factors(1, 1, 1, 100.0)

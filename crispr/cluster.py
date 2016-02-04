@@ -31,7 +31,7 @@ def cluster(guides, filename, direct, low=75, high=75, howmany=12):
 
     print('\nPLOT SCORES')
     print_scores_info(scores(guides))
-    # histo(direct, guides, filename)
+    histo(direct, guides, filename)
 
 
     print('\nCLUSTER GOOD GUIDES')

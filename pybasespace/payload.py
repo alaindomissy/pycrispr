@@ -26,7 +26,7 @@ def payload(params_value, output_dir):
     restriction_enzymes =  params_value['input.restr_enzymes']
     chunk_size = int(params_value['input.blast_chunk_size'])
     max_hsps = int(params_value['input.blast_max_hsps'])
-    # interference_spacing = str(params_value['input.interference_spacing'])
+    # interference_gap = str(params_value['input.interference_gap'])
 
 
     restore_genome(genome)
