@@ -88,8 +88,6 @@ def json_deepcopy(obj):
     return json.loads(json.dumps(obj))
 
 
-
-
 def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
     metadata = json_deepcopy(metadatatemplate)
     metadata['Name'] = name
@@ -100,17 +98,16 @@ def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
     print('===========\n'
           'APP RESULTS\n'
           '===========\n')
-
     print('--------------\n'
           '_metadata.json\n'
           '--------------\n')
-    print(metadata)
-    print(json.dumps(metadata, indent=4, sort_keys=True))
-    # 
+    jsonprettystring = json.dumps(metadata, indent=4, sort_keys=True)
+    print(jsonprettystring)
     with open(output_dir + '/_metadata.json', 'w') as out:
-        json.dumps(metadata, out, indent=4, sort_keys=True)
+        out.write(jsonprettystring)
     with open(output_dir + '/metadata.txt', 'w') as out:
-         json.dumps(metadata, out, indent=4, sort_keys=True)
+         out.write(jsonprettystring)
+    print()
 
 
 def write_results(results, output_dir):
@@ -129,14 +126,16 @@ def write_params(param_values, output_dir):
           '--------------------\n')
     with open(output_dir + '/appsessionparams.csv','w') as out:
         for key, value in param_values.iteritems():
-            line = '%s\t\t%s\n' % (key,value)
+            line = '%s\t%s\n' % (key,value)
             if key != 'input.samples':
                 out.write(line)
                 print(line)
     print()
 
 
-
+###################
+# MAIN API FUNCTION
+###################
 
 
 def process_appsession(param_values):
