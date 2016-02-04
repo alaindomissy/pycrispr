@@ -60,7 +60,7 @@
 
 
         "Description": "Blast Chunk Size",
-        "Content": "10"
+        "Content": "50"
 
 
       },
@@ -99,7 +99,7 @@
         "Content3": "chr21:42711558-42742369",
         "Content4": "chr21:42462433-42497269",
 
-        "Content": "chr:101003-102002"
+        "Content": "chr:101001-109000"
 
 
       },

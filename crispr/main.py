@@ -39,10 +39,10 @@ def score_coord(nbrofchunks, coord, genome, direct, chunk_size, load_genome=Fals
     :param oad_genome:
     :return:
     """
-    score(nbrofchunks, filename_from_coord(coord), genome, direct, chunk_size, load_genome=False)
+    return score(nbrofchunks, filename_from_coord(coord), genome, direct, chunk_size, load_genome=False)
 
 
-def cluster_coord(guides, coord, direct, low=75, high=75, howmany=12):
+def cluster_coord(guides, coord, direct, low, high, howmany):
     """
     Prerequisite is to have digested coord, therby created the corresponding file
     :param guides:
@@ -54,8 +54,7 @@ def cluster_coord(guides, coord, direct, low=75, high=75, howmany=12):
     :param howmany:
     :return:
     """
-
-    cluster(guides, filename_from_coord(coord), direct, low=75, high=75, howmany=12)
+    return cluster(guides, filename_from_coord(coord), direct, low, high, howmany)
 
 
 ##########
@@ -77,7 +76,8 @@ def digest_and_blast_and_score_coord(coord, genome, direct, max_hsps, chunk_size
 
     guides = score_coord(nbr, coord, genome, direct, chunk_size, load_genome=load_genome)
 
-    #guides, groups =
-    cluster_coord(guides, coord, direct, low, high, howmany)
+    guides, groups = cluster_coord(guides, coord, direct, low, high, howmany)
 
-    return guides #, groups
+    print('\nDESIGN PRIMERS')
+
+    return guides, groups

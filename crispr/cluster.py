@@ -22,27 +22,27 @@ def cluster(guides, filename, direct, low=75, high=75, howmany=12):
 
     filename = filename + '.prsp'
 
-    print('\nCLUSTER GOOD GUIDES')
+    print('\nSAVE SCORES')
     bedlines_s = scorebedlines(guides, low, high)
     savelinestofile(direct + filename + '.scores.bed', bedlines_s)
     # if reref_substrate_id:
     #     guides_scorebedfile(direct, filename + '.scores.abs', guides, reref_substrate_id, low, high)
 
 
-    #
-    # groups = regroup(substr_pos_score(guides), high)
-    #
-    # bedlines_c = groupbedlines(groups, howmany)
-    # savelinestofile(direct + filename + '.groups.bed', bedlines_c)
-    #
-    # print_groups_info(groups, howmany)
-    #
-    # print('\nRANK CLUSTERS BY GUIDES YIELD')
-    # print_scores_info(scores(guides))
+    print('\nPLOT SCORES')
+    print_scores_info(scores(guides))
     # histo(direct, guides, filename)
-    #
-    # print('\nDESIGN PRIMERS')
-    # return guides, groups
+
+
+    print('\nCLUSTER GOOD GUIDES')
+    groups = regroup(substr_pos_score(guides), high)
+    bedlines_c = groupbedlines(groups, howmany)
+    savelinestofile(direct + filename + '.groups.bed', bedlines_c)
+
+    print('\nRANK CLUSTERS')
+    print_groups_info(groups, howmany)
+
+    return guides, groups
 
 
 
@@ -57,6 +57,9 @@ def histo(direct, guides, fn_noext):
     plt.hist(scores, bins, color="gray")
     plt.tick_params(axis=u'both', labelsize=18)
     plt.savefig(direct + fn_noext + '.scores.pdf', format="pdf")
+
+
+
 
 
 # BED FILES
@@ -103,43 +106,8 @@ def savelinestofile(path, lines):
 
 
 
-def groupbedlines(groups, howmany=None):
-    if not howmany:
-        howmany = len(groups) // 2
-    return [groupbedline(group, howmany, index) for index, group in enumerate(groups)]
-
-def groupbedline(group, howmany, index):
-    substrate_id = group[0]
-    bedstart = group[1]
-    bedend = group[2]
-    score = group[4]
-    # TODO use gradual shades reflecting toatl good guide yield
-    if index < howmany:
-        color = '0,255,0'      # green
-    else:
-        color = '0,127,0'       # pale green
-    cutinfo = [substrate_id, bedstart, bedend, 'group', score, '.', bedstart, bedend, color]
-    bedline = tabbed_string_from_list(cutinfo)
-    return bedline
-
-
-###
-# def index_score(guides):
-#     return[(guide.annotations['blastindex'], guide.annotations['score'])
-#            for guide in guides]
-
-def scores(guides):
-    return [guide.annotations['score'] for guide in guides]
-
-def pos_score(guides):
-    return[(int(guide.name.split(':')[1].split('-')[0]) , guide.annotations['score'])
-           for guide in guides]
-
-def substr_pos_score(guides):
-    return[(guide.id.split(':')[0], int(guide.name.split(':')[1].split('-')[0]) , guide.annotations['score'])
-           for guide in guides]
-
-
+# GROUPS
+########
 
 def regroup(substr_pos_score_tuples, high=90):
     groups=[]
@@ -174,14 +142,54 @@ def regroup(substr_pos_score_tuples, high=90):
     return groups
 
 
+def groupbedline(group, howmany, index):
+    substrate_id = group[0]
+    bedstart = group[1]
+    bedend = group[2]
+    score = group[4]
+    # TODO use gradual shades reflecting toatl good guide yield
+    if index < howmany:
+        color = '0,255,0'      # green
+    else:
+        color = '0,127,0'       # pale green
+    cutinfo = [substrate_id, bedstart, bedend, 'group', score, '.', bedstart, bedend, color]
+    bedline = tabbed_string_from_list(cutinfo)
+    return bedline
+
+
+def groupbedlines(groups, howmany=None):
+    if not howmany:
+        howmany = len(groups) // 2
+    return [groupbedline(group, howmany, index) for index, group in enumerate(groups)]
 
 
 
-def print_scores_info(scores):
-    print()
-    print('distribution of scores among all', len(scores), 'guides (score, nb of guides with that score)')
-    print(sorted(collections.Counter(scores).items()))
 
+
+
+# GUIDES GET INFO UTILITIES
+###########################
+
+def scores(guides):
+    return [guide.annotations['score'] for guide in guides]
+
+def pos_score(guides):
+    return[(int(guide.name.split(':')[1].split('-')[0]) , guide.annotations['score'])
+           for guide in guides]
+
+def substr_pos_score(guides):
+    return[(guide.id.split(':')[0], int(guide.name.split(':')[1].split('-')[0]) , guide.annotations['score'])
+           for guide in guides]
+
+# def index_score(guides):
+#     return[(guide.annotations['blastindex'], guide.annotations['score'])
+#            for guide in guides]
+
+
+
+
+# GROUPS INFO
+###############
 # TODO add cumulative guide yield, cumulatibve bp length coverage for top n groups,
 # TODO create tabular data and export as CSV file
 # TODO view in ipython ? or in IGV?
@@ -209,8 +217,19 @@ def print_groups_info(groups, howmany=None):
     for group in groups[howmany:2*howmany]:
         print("%s:%s-%s (%s bps) yields %s guides (%s guides per 1000bps )" % group)
     print('')
-
     return groups
+
+
+# SCORES INFO
+#############
+def print_scores_info(scores):
+    print()
+    print('distribution of scores among all', len(scores), 'guides (score, nb of guides with that score)')
+    print(sorted(collections.Counter(scores).items()))
+    return scores
+
+
+
 #
 #
 #
