@@ -1,3 +1,4 @@
 #!/bin/bash
+
 export APPSESS=/root/AppSession.json
 #rm -rf /data/scratch
