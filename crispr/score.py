@@ -54,12 +54,12 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
         print('...done')
         scorelog('pam look up via genomedict')
     else:
-        print('pam look up via blastdbcmd')
+        scorelog('pam look up via blastdbcmd')
 
-    print('load unscored guides', end='')
+    scorelog('load unscored guides', end='')
     with open(direct + filename + '.fasta') as guidesfn:
         guides = list(seqio.parse(guidesfn, "fasta"))
-        print(' ...done')
+        scorelog(' ...done')
 
     print('\nPARSE BLAST-RESULTS IN CHUNKS')
     blastrecords = []

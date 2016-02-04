@@ -145,12 +145,15 @@ def backup_genome(genome):
     print(check_output(['duply', genome, 'backup']))
 
 
-def restore_genome(genome):
-    print('\nREMOVE/RESTORE REFERENCE GENOME', genome)
-    # print(check_output(['rm', '/RESTORE/' + genome + '/*']))
-    # print(check_output(['rmdir', '/RESTORE/' + genome]))
-    # os.remove('/RESTORE/' + genome + '/' + genome + '.*')
-    # os.removedirs('/RESTORE/' + genome)
-    rmtree('/RESTORE/' + genome,  ignore_errors=True)
-    output = check_output(['duply', genome, 'restore', '/RESTORE/' + genome])
-    # print(output)
+def restore_genome(genome, force=False):
+    is_available = os.path.isdir('/RESTORE/' + genome)
+    if not is_available or force:
+        print('\nREMOVE/RESTORE REFERENCE GENOME', genome)
+        # print(check_output(['rm', '/RESTORE/' + genome + '/*']))
+        # print(check_output(['rmdir', '/RESTORE/' + genome]))
+        # os.remove('/RESTORE/' + genome + '/' + genome + '.*')
+        # os.removedirs('/RESTORE/' + genome)
+        rmtree('/RESTORE/' + genome,  ignore_errors=True)
+        output = check_output(['duply', genome, 'restore', '/RESTORE/' + genome])
+        # print(output)
+        
