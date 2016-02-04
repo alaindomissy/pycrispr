@@ -81,8 +81,8 @@
         "Name": "Input.refgenome_id",
         "Description": "",
         "Content1": "ecoli",
-        "Content": "mm8"
-
+        "Content2": "mm8",
+        "Content": "hg18"
 
       },
       {
@@ -91,13 +91,12 @@
         "Name": "Input.genomic_coord",
         "Description": "",
 
+        "Content": "chr1:74080002-74080400",
+        "Content": "chr21:42711558-42711999",
 
         "Content0": "chr3:92280001-92284000",
-        "Content": "chr1:74080002-74080400",
-
 	    "Content8-3-1000": "chr3:92280001-92281000",
         "Content8-3-1000": "chr3:101001-102000",
-
 	    "Content8-3-40000": "chr3:92280001-92320000",
 	    "Content8-1-40000": "chr1:74080002-74120000",
 

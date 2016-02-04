@@ -196,7 +196,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
         #       guides[blastindex].annotations['score']
         #       )
 
-        scorelog('    prsp%s' % blastindex, 'score:', finalscore)
+        scorelog('  prsp%s' % blastindex, 'score:', finalscore)
         # scorelog("seq: ", guides[blastindex].seq, "score: ", finalscore, "id: ", guides[blastindex].id)
         # scorelog(guides[blastindex].seq)
         # scorelog(alignment.hit_def)

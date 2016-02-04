@@ -6,7 +6,7 @@
 export PATH="$PATH:/opt/blast/bin"
 
 export BLASTDB=/RESTORE/
-export GENOMES=/RESTORE/
+export GENOMES=/GENOMES/
 export PROTOSP=/RESTORE/
 export SCRATCH=/data/scratch/
 export APPSESS=/data/input/AppSession.json
