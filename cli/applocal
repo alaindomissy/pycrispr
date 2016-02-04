@@ -1,0 +1,32 @@
+#!/bin/bash
+
+export PATH="$PATH:/opt/blast/bin"
+
+export BLASTDB=/RESTORE/
+export GENOMES=/RESTORE/
+export PROTOSP=/RESTORE/
+export SCRATCH=/data/scratch/
+
+#export APPSESS=/root/AppSession.json
+export APPSESS=/data/dev/tests/data/AppSession.json
+
+echo
+echo BLASTDB is now $BLASTDB
+echo GENOMES is now $GENOMES
+echo PROROSP is now $PROTOSP
+
+echo SCRATCH is now $SCRATCH
+echo APPSESS is now $APPSESS
+echo
+
+cat /root/hello.txt
+
+echo pip uninstall -y pycrispr
+pip uninstall -y pycrispr
+echo pip install -e /data/dev/
+pip install -e /data/dev/
+# pip install  git+https://github.com/alaindomissy/buffet.git#egg=pycrispr
+# pip install primer3-py
+
+/root/bin/app
+

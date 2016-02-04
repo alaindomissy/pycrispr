@@ -1,0 +1,28 @@
+#!/bin/bash
+
+rootDir=$1
+appresultDir=$2
+
+mkdir -p $appresultDir
+
+echo "Creating list of files for $rootDir"
+tree -ilfDs $rootDir > "$appresultDir/file-list.txt"
+
+
+
+## use this for the callback.js for the basespace input form
+
+#function launchSpec(dataProvider)
+#{
+#    var project = dataProvider.GetProperty("Input.project-id");
+#    var appResultPathArg = "/data/output/appresults/" + project.Id + "/results";
+#
+#    var retval = {
+#        //commandLine: ["/opt/illumina/list-genomes/app.sh", "/genomes", appResultPathArg],
+#        commandLine: ["/opt/illumina/list-genomes/app.sh", "/data", appResultPathArg],
+#        containerImageId: "rwentzel/list-genomes"
+#    };
+#    
+#    return retval;
+#}
+
