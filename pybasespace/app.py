@@ -100,13 +100,13 @@ def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
     print('===========\n'
           'APP RESULTS\n'
           '===========\n')
-    print()
+
     print('--------------\n'
           '_metadata.json\n'
           '--------------\n')
-    print()
     print(metadata)
-    # json.dumps(metadata, indent=4, sort_keys=True)
+    print(json.dumps(metadata, indent=4, sort_keys=True))
+    # 
     with open(output_dir + '/_metadata.json', 'w') as out:
         json.dumps(metadata, out, indent=4, sort_keys=True)
     with open(output_dir + '/metadata.txt', 'w') as out:
