@@ -41,7 +41,7 @@ def parse_appsessionparams(appsessionparams):
     param_values.update(
         {param.get('Name').lower(): param.get('Items')
          for param in appsessionparams
-         if param.get('Name').lower() == 'input.restriction_enzymes'
+         if param.get('Name').lower() == 'input.restr_enzymes'
         }
     )
     param_values.update(
