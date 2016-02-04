@@ -84,7 +84,7 @@ def sorted_unique_firstdotsplit(filenammes):
     :return:
     >>>filenames = ['phix.fasta', 'phix.fasta.fai', 'hg38.fasta.fai', 'hg38.fasta','saccer3.fasta', 'saccer3.fasta.fai']
     >>>sorted_unique_firstdotsplit(filenammes)
-    ['hg38', 'phix', 'saccer3']
+    ['hg38', 'phix', 'saccer3']cd /GE
     """
     return sorted(list(set([file.split('.')[0] for file in filenammes])))
 
@@ -115,6 +115,7 @@ def genomes_path(genome):
     :param genome:
     :return:
     """
+    print("accessing genome at ", GENOMES + genome + '/' + genome + '.fasta')
     return GENOMES + genome + '/' + genome + '.fasta'
 
 def blastdb_path(genome):
