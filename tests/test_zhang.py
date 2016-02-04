@@ -16,8 +16,8 @@ def test_mean_pairwise_distance_between_mismatches():
 
 
 def test_zhangscore():
-    assert(zhangscore(' '*20 ) == 8.6097000381855906e-08 )
-    assert(zhangscore('|'*20 ) == 100.0)
+    assert(zhangscore(' '*20 ) == (8.6097000381855906e-08, '  0.0 *  20.9 *   0.2 =   0.0') )
+    assert(zhangscore('|'*20 ) == (100.0, '100.0 * 100.0 * 100.0 = 100.0') )
 
 def test_ontarget_likelyhoods_from_pam():
     mm = np.zeros(20)

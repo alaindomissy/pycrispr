@@ -101,6 +101,10 @@ def effect3(np_mismatches):
     return 1.0 if nbr_of_pos==0 else 1.0 / (nbr_of_pos ** 2)
 
 
+def format_factors(t1, t2 ,t3, score):
+    # formatted = 't1:%5.3f t2:%5.3f t3:%5.3f score:%5.1f' % (t1*100, t2*100, t3*100, score)
+    formatted = '%5.1f * %5.1f * %5.1f = %5.1f' % (t1*100, t2*100, t3*100, score)
+    return formatted
 
 def single_offtarget_score(mismatches):
     """
@@ -112,8 +116,8 @@ def single_offtarget_score(mismatches):
     t2 = effect2(np_mismatches)
     t3 = effect3(np_mismatches)
     score = 100.0 * t1 * t2 * t3
-    # print('t1:%5.1f t2:%5.1f t3:%5.1f score:%5.1f' % (t1*100, t2*100, t3*100, score))
-    return 100.0 * t1 * t2 * t3
+    factors = format_factors(t1, t2, t3, score)
+    return score, factors
 
 
 ###################

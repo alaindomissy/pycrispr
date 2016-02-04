@@ -16,7 +16,7 @@ def test_parse_appsessionparams():
 
     testdir = os.path.dirname(os.path.abspath(__file__))
 
-    appsession_location = testdir + '/data/input/AppSession.json'
+    appsession_location = testdir + '/data/AppSession.json'
 
     appsessionhref1, appsessionparams1 = read_appsession(appsession_location)
 

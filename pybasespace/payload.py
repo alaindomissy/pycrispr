@@ -22,7 +22,7 @@ def payload(params_value, output_dir):
     coord = str(params_value.get('input.genomic_coord'))
     assert(coord)
 
-    genome = str(params_value['input.genome_id'])
+    genome = str(params_value['input.refgenome_id'])
     restriction_enzymes =  params_value['input.restr_enzymes']
     chunk_size = int(params_value['input.blast_chunk_size'])
     max_hsps = int(params_value['input.blast_max_hsps'])
@@ -36,6 +36,6 @@ def payload(params_value, output_dir):
                                      restriction_enzymes=restriction_enzymes)
 
     # copytree(source, destination, ignore=_logpath)
-    copytree(SCRATCH, output_dir + '../sessiondetails' + datetime.now().isoformat('_'))
+    copytree(SCRATCH, output_dir + '../sessiondetails_' + datetime.now().isoformat('_'))
 
     return

@@ -14,7 +14,7 @@ from Bio.Application import ApplicationError
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from Bio import SeqIO as seqio # TODO this is also imported from cut.py, ok?
 from config import scorelog
-from zhang import zhangscore
+from zhang import zhangscore, format_factors
 try:
     from io import StringIO        # python3
 except ImportError:
@@ -94,7 +94,9 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
 
 
                 # getting the pam adjacent to the hsp's subject
-                hit_threeprime_offset = len(guides[0]) - hsp.query_end
+                # hit_threeprime_offset = len(guides[0]) - hsp.query_end
+                # TODO de-harcode the 20, above no longer working as guides i a generator now, not a list
+                hit_threeprime_offset = 20 - hsp.query_end
                 pamstart = hsp.sbjct_end + hit_threeprime_offset
                 # if sbjct_is_on_forward_strand, equivalent to (hsp.sbjct_end > hsp.sbjct_start)
                 if (hsp.frame[1] > 0):
@@ -148,15 +150,19 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
                             mmstr = mmstr + list("." * (20 - hsp.query_end))
                         mmstr = "".join(mmstr)
                         matchdict = {"match_score": 0.0,
-                                    "alignment": alignment.hit_def,
-                                    "hit_location": hsp.sbjct_start,
-                                    "hit_sequence": hsp.sbjct,
-                                    "pam": str(pam.seq),
-                                    "match_bars": mmstr}
-
-                        if (hsp.positives >16 and hsp.positives < 20):
-                            zhangscore(mmstr)
-                            matchdict["match_score"] = zhangscore(mmstr)
+                                     "match_factors": '',
+                                     "alignment": alignment.hit_def,
+                                     "hit_location": hsp.sbjct_start,
+                                     "hit_sequence": hsp.sbjct,
+                                     "pam": str(pam.seq),
+                                     "match_bars": mmstr}
+                        if hsp.positives <=16:
+                            matchdict["match_score"] = 0.0
+                            matchdict["match_factors"] = '' #format_factors(0, 0, 0, 0.0)
+                        if hsp.positives >16 and hsp.positives < 20:
+                            ########################################################################
+                            matchdict["match_score"], matchdict["match_factors"] = zhangscore(mmstr)
+                            #########################################################################
                         # "Zhang lab algorithm doesn't handle perfect matches: give it a 50 if it's perfect"
                         # I think we should give it a 100.0 !
                         # we dont want to count in scoring the first perfect match found,
@@ -164,15 +170,26 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
                         if hsp.positives >= 20: #changed from == 20; might be worth keeping in mind for bugs
                             if fullmatches > 0:
                                 matchdict["match_score"] = 100.0
+                                matchdict["match_factors"] = format_factors(1, 1, 1, 100.0)
                             fullmatches += 1
-                        scorelog('score:', matchdict["match_score"], end=' ')
+                        scorelog('hsp_score: ', matchdict["match_factors"], end=' ')
                         scorelist.append(matchdict)
                 scorelog()
 
         finalscore = int(10000.000 / (100.000 + float(sum(item["match_score"] for item in scorelist))))
-        guides[blastindex].annotations['score'] = finalscore
-        guides[blastindex].annotations["blastindex"] = blastindex
-        scorelog('  final score: ', finalscore)
+        # guides[blastindex].annotations['score'] = finalscore
+        # guides[blastindex].annotations['blastindex'] = blastindex
+
+        guides[blastindex].description += ' blastindex %s prsp_score %s %%' % (blastindex, finalscore)
+        # print(guides[blastindex].format('fasta'))
+
+        # print(guides[blastindex],
+        #       blastindex,guides[blastindex].
+        #       annotations["blastindex"] ,
+        #       guides[blastindex].annotations['score']
+        #       )
+
+        scorelog('  protospacer score: ', finalscore)
         # scorelog("seq: ", guides[blastindex].seq, "score: ", finalscore, "id: ", guides[blastindex].id)
         # scorelog(guides[blastindex].seq)
         # scorelog(alignment.hit_def)
@@ -197,6 +214,17 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
     print('\nSORTING SCORED GUIDES')
     # sort guides by position, using the seqrecord id
     # guides.sort(key=lambda x: int(x.id.split(':')[2].split('-')[0]))
-    guides.sort(key=lambda x: int(x.id.split(':')[1].split('-')[0]))
+
+    guides.sort(key=lambda x: int( x.id.split(':')[1].split('-')[0]))
+
+    with  open(direct + filename + ".scored.fasta", "w") as output_handle:
+        seqio.write(guides, output_handle, "fasta")
+
+    # print(guides.format('fasta'))
+
+    # for guide in guides:
+    #     print()
+    #     # print(guide.format('gb'))   # TODO why this? Locus identifier 'chr:101153-101173(+)' is too long
+    #     print(guide.format('fasta'))
 
     return guides

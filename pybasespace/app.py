@@ -29,7 +29,7 @@ def parse_appsessionparams(appsessionparams):
     arguments_with_content = ['input.interference_spacing',
                               'input.blast_chunk_size',
                               'input.blast_max_hsps',
-                              'input.genome_id',
+                              'input.refgenome_id',
                               'input.genomic_coord']
     param_values = {}
     param_values.update(

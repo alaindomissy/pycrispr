@@ -60,7 +60,7 @@
 
 
         "Description": "Blast Chunk Size",
-        "Content": "50"
+        "Content": "10"
 
 
       },
@@ -71,14 +71,14 @@
 
 
         "Description": "Blast Max HSPs",
-        "Content": "50"
+        "Content": "10"
 
 
       },
       {
         "Type": "string",
-        "Href": "v1pre3/appsessions/31951397/properties/Input.genome_id",
-        "Name": "Input.genome_id",
+        "Href": "v1pre3/appsessions/31951397/properties/Input.refgenome_id",
+        "Name": "Input.refgenome_id",
         "Description": "",
         "Content": "ecoli",
         "Content8": "mm8"
