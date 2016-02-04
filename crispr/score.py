@@ -177,8 +177,8 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
                 scorelog()
 
         finalscore = int(10000.000 / (100.000 + float(sum(item["match_score"] for item in scorelist))))
-        # guides[blastindex].annotations['score'] = finalscore
-        # guides[blastindex].annotations['blastindex'] = blastindex
+        guides[blastindex].annotations['score'] = finalscore
+        guides[blastindex].annotations['blastindex'] = blastindex
 
         guides[blastindex].description += ' blastindex %s prsp_score %s %%' % (blastindex, finalscore)
         # print(guides[blastindex].format('fasta'))

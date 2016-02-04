@@ -70,7 +70,7 @@ def cluster_coord(guides, coord, direct, reref_substrate_id='mm8', low=75, high=
 #
 # TODO get rid of reref_substrate_id
 def digest_and_blast_and_score_coord(coord, genome, direct, max_hsps, chunk_size,
-                                     reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None,
+                                     low=75, high=75, load_genome=False, howmany=None,
                                      restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
 
     _ = digest_coord(coord, genome, direct, restriction_enzymes)
@@ -80,6 +80,7 @@ def digest_and_blast_and_score_coord(coord, genome, direct, max_hsps, chunk_size
     guides = score_coord(nbr, coord, genome, direct, chunk_size,
                          reref_substrate_id='chr6', load_genome=load_genome)
 
-    #guides, groups = cluster_coord(guides, coord, direct, reref_substrate_id, low, high, howmany)
+    #guides, groups =
+    cluster_coord(guides, coord, direct, low, high, howmany)
 
     return guides #, groups

@@ -32,7 +32,7 @@ def payload(params_value, output_dir):
     restore_genome(genome)
 
     digest_and_blast_and_score_coord(coord, genome, direct=SCRATCH, max_hsps=max_hsps, chunk_size=chunk_size,
-                                     reref_substrate_id=None, low=75, high=75, load_genome=False, howmany=None,
+                                     low=75, high=75, load_genome=False, howmany=None,
                                      restriction_enzymes=restriction_enzymes)
 
     # copytree(source, destination, ignore=_logpath)

@@ -18,29 +18,31 @@ from config import clusterlog
 # MAIN API FUNCTION
 ###################
 
-def cluster(guides, filename, direct, reref_substrate_id='mm8', low=75, high=75, howmany=12):
+def cluster(guides, filename, direct, low=75, high=75, howmany=12):
 
     filename = filename + '.prsp'
 
     print('\nCLUSTER GOOD GUIDES')
-    bedlines_s = scorebedlines(guides, reref_substrate_id, low, high)
+    bedlines_s = scorebedlines(guides, low, high)
     savelinestofile(direct + filename + '.scores.bed', bedlines_s)
     # if reref_substrate_id:
     #     guides_scorebedfile(direct, filename + '.scores.abs', guides, reref_substrate_id, low, high)
 
-    groups = regroup(substr_pos_score(guides), high)
 
-    bedlines_c = groupbedlines(groups, reref_substrate_id, howmany)
-    savelinestofile(direct + filename + '.groups.bed', bedlines_c)
-
-    print_groups_info(groups, howmany)
-
-    print('\nRANK CLUSTERS BY GUIDES YIELD')
-    print_scores_info(scores(guides))
-    histo(direct, guides, filename)
-
-    print('\nDESIGN PRIMERS')
-    return guides, groups
+    #
+    # groups = regroup(substr_pos_score(guides), high)
+    #
+    # bedlines_c = groupbedlines(groups, howmany)
+    # savelinestofile(direct + filename + '.groups.bed', bedlines_c)
+    #
+    # print_groups_info(groups, howmany)
+    #
+    # print('\nRANK CLUSTERS BY GUIDES YIELD')
+    # print_scores_info(scores(guides))
+    # histo(direct, guides, filename)
+    #
+    # print('\nDESIGN PRIMERS')
+    # return guides, groups
 
 
 
@@ -60,24 +62,13 @@ def histo(direct, guides, fn_noext):
 # BED FILES
 ############
 
-def savelinestofile(outputdirpath, bedlines):
-    with open(outputdirpath, 'w') as bedpath:
-       for bedline in bedlines:
-          bedpath.write(bedline)
-
-
-def scorebedlines(guides, reref_substrate_id, low, high):
-    return [scorebedline(guide, reref_substrate_id, low, high) for guide in guides]
-
-
-def scorebedline(guide, reref_substrate_id,low, high):
+def scorebedline(guide, low, high):
     substrate_id = guide.id.split(':')[0]
     bedstart = guide.id.split(':')[1].split('-')[0]
     # rename scaffold field and make coord 'absolute' (ie based on higher level)
     # if reref_substrate_id:
     #     substrate_id = reref_substrate_id
     #     bedstart = str(int(bedstart) + int(guide.id.split(':')[1].split('-')[0]))
-
     bedend = str(int(bedstart) + 20)
     sense = guide.id[-2]
     try:
@@ -98,12 +89,26 @@ def scorebedline(guide, reref_substrate_id,low, high):
     return bedline
 
 
-def groupbedlines(groups, reref_substrate_id, howmany=None):
+def scorebedlines(guides, low, high):
+    return [scorebedline(guide, low, high) for guide in guides]
+
+
+def savelinestofile(path, lines):
+    with open(path, 'w') as handle:
+       for line in lines:
+          handle.write(line)
+
+
+
+
+
+
+def groupbedlines(groups, howmany=None):
     if not howmany:
         howmany = len(groups) // 2
-    return [groupbedline(group, reref_substrate_id, howmany, index) for index, group in enumerate(groups)]
+    return [groupbedline(group, howmany, index) for index, group in enumerate(groups)]
 
-def groupbedline(group, reref_substrate_id, howmany, index):
+def groupbedline(group, howmany, index):
     substrate_id = group[0]
     bedstart = group[1]
     bedend = group[2]
