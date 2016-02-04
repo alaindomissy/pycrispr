@@ -81,7 +81,8 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
 
         fullmatches = 0
         scorelist = []
-        scorelog('  >', 'protospacer nb', blastindex, '(out of', nbrofchunks, ') has', len(blastrecord.alignments), 'scaffold hits')
+        # '(out of', nbrofchunks, ')   we dont know the number of prsps, although it is approx nbofchunks*chunk_size
+        scorelog('  >', 'protospacer nb', blastindex, 'has', len(blastrecord.alignments), 'scaffold hits')
 
         for alignment in blastrecord.alignments:  # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit

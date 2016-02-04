@@ -60,7 +60,7 @@
 
 
         "Description": "Blast Chunk Size",
-        "Content": "5"
+        "Content": "50"
 
 
       },
@@ -71,7 +71,7 @@
 
 
         "Description": "Blast Max HSPs",
-        "Content": "5"
+        "Content": "50"
 
 
       },
@@ -80,8 +80,8 @@
         "Href": "v1pre3/appsessions/31951397/properties/Input.genome_id",
         "Name": "Input.genome_id",
         "Description": "",
-        "Content1": "ecoli",
-        "Content": "mm8"
+        "Content": "ecoli",
+        "Content8": "mm8"
 
 
       },
@@ -91,14 +91,15 @@
         "Name": "Input.genomic_coord",
         "Description": "",
 
-        "Content": "chr3:92280001-92280200",
-	    "Content0": "chr3:92280001-92281000",
+        "Content8-200": "chr3:92280001-92280200",
+	    "Content8-1000": "chr3:92280001-92281000",
 
 	    "Content1": "chr3:92280001-92320000",
 	    "Content2": "chr1:74080002-74120000",
         "Content3": "chr21:42711558-42742369",
         "Content4": "chr21:42462433-42497269",
-        "Content5": "chr:101003-102002"
+
+        "Content": "chr:101003-102002"
 
 
       },
