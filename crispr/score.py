@@ -68,7 +68,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
         blastfn = direct + fn_withext
         try:
             with open(blastfn) as blasthndl:
-                print('\n> parse chunk ', str(chunknbr).zfill(3), fn_withext, end='')
+                print('> parse chunk ', str(chunknbr).zfill(3), fn_withext, end='')
                 blastrecords.extend(list(NCBIXML.parse(blasthndl)))
                 print(' done')
         except IOError as ioe:
@@ -81,11 +81,11 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
         fullmatches = 0
         scorelist = []
         # '(out of', nbrofchunks, ')   we dont know the number of prsps, although it is approx nbofchunks*chunk_size
-        scorelog('  >', 'prsp', blastindex, 'hits', len(blastrecord.alignments), 'scaffold(s)')
+        scorelog('  prsp%s' % blastindex, 'hits', len(blastrecord.alignments), 'scaffold(s)')
 
         for alignment in blastrecord.alignments:  # alignment corresponds to a hit in the blast file
                                                   # a hit is a whole seq from  blastdb, many hsps can exist for 1 hit
-            scorelog('    > ', alignment.title.split()[0], 'is hit with', len(alignment.hsps), 'hsps'),
+            scorelog('    ' + alignment.title.split()[0], 'with', len(alignment.hsps), 'hsps'),
 
             for hspnbr, hsp in enumerate(alignment.hsps):
 
@@ -196,7 +196,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
         #       guides[blastindex].annotations['score']
         #       )
 
-        scorelog('  score: ', finalscore)
+        scorelog('    prsp%s' % blastindex, 'score:', finalscore)
         # scorelog("seq: ", guides[blastindex].seq, "score: ", finalscore, "id: ", guides[blastindex].id)
         # scorelog(guides[blastindex].seq)
         # scorelog(alignment.hit_def)

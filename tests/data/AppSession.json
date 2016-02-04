@@ -80,8 +80,8 @@
         "Href": "v1pre3/appsessions/31951397/properties/Input.refgenome_id",
         "Name": "Input.refgenome_id",
         "Description": "",
-        "Content0": "ecoli",
-        "Content": "mm8"
+        "Content": "ecoli",
+        "Content8": "mm8"
 
 
       },
@@ -100,7 +100,7 @@
         "Content3": "chr21:42711558-42742369",
         "Content4": "chr21:42462433-42497269",
 
-        "Content": "chr3:101001-105000"
+        "Content": "chr:101001-105000"
 
 
       },

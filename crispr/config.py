@@ -156,4 +156,3 @@ def restore_genome(genome, force=False):
         rmtree('/RESTORE/' + genome,  ignore_errors=True)
         output = check_output(['duply', genome, 'restore', '/RESTORE/' + genome])
         # print(output)
-        
