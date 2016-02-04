@@ -88,8 +88,8 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
             scorelog('    > hitting:', alignment.title.split()[0], 'with', len(alignment.hsps), 'hsps'),
 
             for hspnbr, hsp in enumerate(alignment.hsps):
-                scorelog('      > query %3s:' % hspnbr, hsp.query)
-                scorelog('        sbjct %3s:' % hspnbr, hsp.sbjct, end=' ')
+                scorelog('      > query %2s:' % hspnbr, hsp.query)
+                scorelog('        sbjct %2s:' % hspnbr, hsp.sbjct, end=' ')
 
 
                 # getting the pam adjacent to the hsp's subject
@@ -108,11 +108,11 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
                 # TODO *** use betools and fai instead of loading full genome
                 # if load_genome: DISABLED FOR NOW
                 if False:
-                    scorelog('refgen', end=' ')
+                    # scorelog('refgen', end=' ')
                     lookup_context = genomedict[reref_substrate_id]
                     pam = lookup_context[pam_zerobased_range[0]:pam_zerobased_range[1]]
                 else:
-                    scorelog('blastdb', end=' ')
+                    # scorelog('blastdb', end=' ')
                     fstring = ''
                     try:
                         context_lookup_command = "blastdbcmd -db " + blastdb \
@@ -126,18 +126,19 @@ def score(nbrofchunks, filename, genome, direct, chunk_size,
                     pam = seqio.read(fstring, "fasta") # if len(fstring)>0 else None
                 if pam and not (hsp.frame[1] > 0):
                     pam = pam.reverse_complement()
-                scorelog('pam', pam.seq, end=' ')
+                # scorelog('pam', pam.seq, end=' ')
 
 
                 # TODO can this really not be the case? and then why do we not append a matchdit with score 0.0
                 # Test for valid PAM adjacency
                 if len(pam) == 3:
                     if not is_valid_pam(pam):
-                        scorelog('no pam', end=' ')
+                        scorelog('nopam', end=' ')
                     else:
-                        scorelog('pam:', pam.seq, end=' ')
-                        #scorelog('valid', end=' ')
-                        #scorelog('+ padding', end=' ')
+                        scorelog(pam.seq, end=' ')
+                        # scorelog('pam:', pam.seq, end=' ')
+                        # scorelog('valid', end=' ')
+                        # scorelog('+ padding', end=' ')
                         # make match string padded to query length, where bar(|) is match and space( ) is non-match
                         mmstr = list(hsp.match)
                         if hsp.query_start > 1:
