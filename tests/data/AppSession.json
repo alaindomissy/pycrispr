@@ -60,7 +60,7 @@
 
 
         "Description": "Blast Chunk Size",
-        "Content": "20"
+        "Content": "10"
 
 
       },
@@ -71,7 +71,7 @@
 
 
         "Description": "Blast Max HSPs",
-        "Content": "50"
+        "Content": "10"
 
 
       },
@@ -80,8 +80,8 @@
         "Href": "v1pre3/appsessions/31951397/properties/Input.refgenome_id",
         "Name": "Input.refgenome_id",
         "Description": "",
-        "Content": "ecoli",
-        "Content8": "mm8"
+        "Content1": "ecoli",
+        "Content": "mm8"
 
 
       },
@@ -92,15 +92,24 @@
         "Description": "",
 
 
-        "Content": "chr3:92280001-92280200",
-	    "Content8-1000": "chr3:92280001-92281000",
+        "Content0": "chr3:92280001-92284000",
+        "Content": "chr1:74080002-74080400",
 
-	    "Content1": "chr3:92280001-92320000",
-	    "Content2": "chr1:74080002-74120000",
+	    "Content8-3-1000": "chr3:92280001-92281000",
+        "Content8-3-1000": "chr3:101001-102000",
+
+	    "Content8-3-40000": "chr3:92280001-92320000",
+	    "Content8-1-40000": "chr1:74080002-74120000",
+
+
         "Content3": "chr21:42711558-42742369",
         "Content4": "chr21:42462433-42497269",
 
-        "Content": "chr:101001-105000"
+
+        "Content61": "chr6:47000001-47000200",
+        "Content62": "chr6:47599949-47640339",
+        "Content60": "chr6:47000001-47000200"
+
 
 
       },

@@ -4,7 +4,7 @@
 #
 # API functions:
 #
-# intended to be run as a scipt (if __name__ == '__main__': code)
+# intended to be run as a script (if __name__ == '__main__': code)
 #
 ########################################################################################################################
 
@@ -95,9 +95,9 @@ def write_metadata(name, description, appsessionhref, sampleshrefs, output_dir):
     metadata['HrefAppSession'] = appsessionhref
     metadata['Properties'][0]['Items'].extend(sampleshrefs)
     print()
-    print('===========\n'
-          'APP RESULTS\n'
-          '===========\n')
+    # print('===========\n'
+    #       'APP RESULTS\n'
+    #       '===========\n')
     print('--------------\n'
           '_metadata.json\n'
           '--------------\n')
@@ -152,6 +152,8 @@ def process_appsession(param_values):
 
     output_dir = '/data/output/appresults/' + project_id + '/sessionsummary_' + datetime.now().isoformat('_') + '/'
 
+
+
     ###########################################
     print("process sample starts: ",  datetime.now().isoformat('_'))
     results = payload(param_values, output_dir)
@@ -160,11 +162,11 @@ def process_appsession(param_values):
     # ATN output_dir gets created by the call to payload     # TODO no longer true?
     # os.system('mkdir -p "%s"' % output_dir)
 
+    # TODO check why the output_dir is created inside the payload call,then move print metadatqa to before the payload
     write_metadata('\nsessionsummary','Session Description', appsessionhref, sampleshrefs, output_dir)
     write_params(param_values, output_dir)
     if results:
         write_results(results, output_dir)
-
 
 
 # this file executed as script

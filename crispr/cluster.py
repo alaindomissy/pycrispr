@@ -5,6 +5,7 @@
 #
 ########################################################################################################################
 
+from __future__ import print_function
 import matplotlib as mpl
 # Agg is a backend allowing to create plots without a running X server
 mpl.use('Agg')

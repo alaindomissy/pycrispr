@@ -148,6 +148,7 @@ def digest_coord(coord, genome='mm8', direct='./', restriction_enzymes=(u'BfaI',
 
     digest_bedfile(bedt.filename, genome, direct, restriction_enzymes)
 
+    # TODO handle case when no prsp found, for ex if chosen coord is NNNN... only
     return bedt.filename
 
 
