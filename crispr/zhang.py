@@ -130,9 +130,10 @@ def zhangscore(matchbars):
     :param macthbars: a 20-long string of bars(|) and spaces ( ) for an alignement match resp. mismatch positions
     :return: a list of 0 and 1 representing the same match resp. mismatch positions
     """
+    matchbars = matchbars.encode('utf8')
+    if len(matchbars) != 20:
+        return 100 , "********************** lem(matchbars)!=20   100 %"
     assert(len(matchbars)==20)
     mismatches = list(map(lambda char : 0 if char=='|' else 1, matchbars))
     return single_offtarget_score(mismatches)
-
-
 

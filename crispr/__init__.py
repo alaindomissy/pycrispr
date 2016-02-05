@@ -1,9 +1,9 @@
-from . import config, main, analyse, cut, digest, blast, zhang, score, cluster, amplicon, primers_screen, prime
+from . import config, main, analyse, cut, digest, blast, zhang, score, cluster, amplicon, pcr, prime
 
 __all__ = [config, main] \
           + [analyse, cut, digest] \
           +  [blast, zhang, score, cluster] \
-          + [amplicon, primers_screen, prime]
+          + [amplicon, pcr, prime]
 
 __version__ = '0.0.1'
 

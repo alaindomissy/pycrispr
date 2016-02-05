@@ -1,5 +1,0 @@
-#!/bin/bash
-
-find /data > data.ls
-cat /data/input/AppSession.json > AppSession.json
-

@@ -60,7 +60,7 @@
 
 
         "Description": "Blast Chunk Size",
-        "Content": "10"
+        "Content": "20"
 
 
       },
@@ -91,7 +91,7 @@
         "Name": "Input.genomic_coord",
         "Description": "",
 
-        "Content": "chr1:74080002-74080400",
+        "Content1": "chr1:74080002-74080400",
         "Content": "chr21:42711558-42711999",
 
         "Content0": "chr3:92280001-92284000",

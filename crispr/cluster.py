@@ -130,7 +130,7 @@ def regroup(substr_pos_score_tuples, high=90):
                     substr = tuple[0]
         else:
             tryfrom = tuple[1] + 21
-            # TODO fix with bedtools arithmetic, start with set of good guides not verlapping bad guides, and loop
+            # TODO fix with bedtools arithmetic, start with set of good guides not overlapping bad guides, and loop
             end = min(end,  tuple[1])
             # if we were in a good stretch until now, reset goodones to 0 and save the just finished good interval
             if goodones>0:
@@ -215,7 +215,7 @@ def print_groups_info(groups, howmany=None):
     for group in groups[0:howmany]:
         print("%s:%s-%s (%s bps) yields %s guides (%s guides per 1000bps )" % group)
     print('')
-    for group in groups[howmany:2*howmany]:
+    for group in groups[howmany:]:
         print("%s:%s-%s (%s bps) yields %s guides (%s guides per 1000bps )" % group)
     print('')
     return groups

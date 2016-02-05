@@ -1,8 +1,9 @@
 import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
-import crispr.main as main
+from crispr.main import digest_blast_score_cluster_prime
 
 
-def test_main():
+def test_digest_blast_score_cluster_prime():
+    digest_blast_score_cluster_prime
     pass

@@ -65,8 +65,8 @@ def cluster_coord(guides, coord, direct, low, high, howmany):
 # dict      a genome fasta file against which pam lookup is optionnaly done for guides candidates
 # genome    same, used when (correctly) blasting agaist whole geome
 #
-# TODO get rid of reref_substrate_id
-def digest_and_blast_and_score_coord(coord, genome, direct, max_hsps, chunk_size,
+
+def digest_blast_score_cluster_prime(coord, genome, direct, max_hsps, chunk_size,
                                      low=75, high=75, load_genome=False, howmany=None,
                                      restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
 

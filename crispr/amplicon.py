@@ -5,7 +5,6 @@ from Bio.Seq import Seq
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 
 
-
 # mask_sequence and screen_primer aren't directly called by the user.
 def mask_sequence(item):
     '''
@@ -24,7 +23,6 @@ def mask_sequence(item):
     masked_sequence = copy.copy(item)
     masked_sequence.seq = Seq(masked_string, IUPACAmbiguousDNA())
     return masked_sequence
-
 
 
 class Amplicon:

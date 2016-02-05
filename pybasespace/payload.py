@@ -9,7 +9,7 @@
 from shutil import copytree
 from datetime import datetime
 from crispr.config import SCRATCH, restore_genome
-from crispr.main import digest_and_blast_and_score_coord
+from crispr.main import digest_blast_score_cluster_prime
 
 
 ###################
@@ -31,7 +31,7 @@ def payload(params_value, output_dir):
 
     restore_genome(genome)
 
-    digest_and_blast_and_score_coord(coord, genome, direct=SCRATCH, max_hsps=max_hsps, chunk_size=chunk_size,
+    digest_blast_score_cluster_prime(coord, genome, direct=SCRATCH, max_hsps=max_hsps, chunk_size=chunk_size,
                                      low=75, high=75, load_genome=False, howmany=None,
                                      restriction_enzymes=restriction_enzymes)
 

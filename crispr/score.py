@@ -91,7 +91,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
 
                 # getting the pam adjacent to the hsp's subject
                 # hit_threeprime_offset = len(guides[0]) - hsp.query_end
-                # TODO de-harcode the 20, above no longer working as guides i a generator now, not a list
+                # TODO de-hardcode the 20, above no longer working as guides i a generator now, not a list
                 hit_threeprime_offset = 20 - hsp.query_end
                 pamstart = hsp.sbjct_end + hit_threeprime_offset
                 # if sbjct_is_on_forward_strand, equivalent to (hsp.sbjct_end > hsp.sbjct_start)
@@ -129,22 +129,22 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                     pam = pam.reverse_complement()
                 # scorelog('pam', pam.seq, end=' ')
 
+                # make match string padded to query length, where bar(|) is match and space( ) is non-match
+                # mmstr = list(hsp.match)
+                leftpad = ''
+                rightpad = ''
+                if hsp.query_start > 1:
+                    # leftpad = list("." * (hsp.query_start - 1))
+                    leftpad = "." * (hsp.query_start - 1)
+                if hsp.query_end < 20:
+                    # rightpad =list("." * (20 - hsp.query_end))
+                    rightpad = "." * (20 - hsp.query_end)
+                mmstr = (leftpad + hsp.match + rightpad)
 
                 # TODO can this really not be the case? and then why do we not append a matchdit with score 0.0
                 # Test for valid PAM adjacency
                 if len(pam) == 3:
                     if is_valid_pam(pam):
-
-                        # scorelog('pam:', pam.seq, end=' ')
-                        # scorelog('valid', end=' ')
-                        # scorelog('+ padding', end=' ')
-                        # make match string padded to query length, where bar(|) is match and space( ) is non-match
-                        mmstr = list(hsp.match)
-                        if hsp.query_start > 1:
-                            mmstr = list("." * (hsp.query_start - 1)) + mmstr
-                        if hsp.query_end < 20:
-                            mmstr = mmstr + list("." * (20 - hsp.query_end))
-                        mmstr = "".join(mmstr)
                         matchdict = {"match_score": 0.0,
                                      "match_factors": '',
                                      "alignment": alignment.hit_def,
@@ -164,7 +164,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                         # I think we should give it a 100.0 !
                         # we dont want to count in scoring the first perfect match found,
                         # but we want to use all the others if any
-                        if hsp.positives >= 20: # TODO safe to chane tp ==20 ?
+                        if hsp.positives >= 20: # TODO safe to chane to ==20 ?
                             if fullmatches == 0:
                                 matchdict["match_score"] = 0.0
                                 matchdict["match_factors"] = 'first full match'
@@ -172,15 +172,15 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
                                 matchdict["match_score"] = 100.0
                                 matchdict["match_factors"] = format_factors(1, 1, 1, 100.0)
                             fullmatches += 1
-                        scorelog('      %2s  sbjct %s ' % (hspnbr, hsp.sbjct), end ='')
+                        scorelog('      %2s  sbjct %s ' % (hspnbr, leftpad + hsp.sbjct + rightpad), end ='')
                         scorelog('pam', pam.seq)
                         scorelog('          missm %s %s' % (mmstr, matchdict["match_factors"]))
-                        scorelog('          query %s' % (hsp. query))
+                        scorelog('          query %s' % (leftpad + hsp. query + rightpad))
 
                         scorelist.append(matchdict)
                     else:
-                        scorelog('      %2s  sbjct %s ' % (hspnbr, hsp.sbjct), end ='')
-                        scorelog('nopam')
+                        scorelog('      %2s  sbjct %s ' % (hspnbr, leftpad + hsp.sbjct + rightpad), end ='')
+                        scorelog('no pam')
                         #scorelog('           squery ' % hspnbr, hsp.query, end ='')
 
         finalscore = int(10000.000 / (100.000 + float(sum(item["match_score"] for item in scorelist))))
