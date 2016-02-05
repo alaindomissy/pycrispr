@@ -1,0 +1,61 @@
+sudo apt-get install git
+sudo apt-get install nano
+sudo apt-get install jq
+
+
+# NOT NEEDED
+#sudo apt-get install ia32-libs-gtk ia32-lib
+
+# WAS NEEDED IN DOCKER CONTAINER (for installing primer3-py)
+# suso apt-get install gcc make
+
+# NEEDED in ubuntu docker container (really?)
+# fix error  "ImportError: libgthread-2.0.so.0: cannot open shared object file"
+# when trying to import pyplot
+# see https://github.com/ContinuumIO/docker-images/issues/8
+# apt-get install libglib2.0-0
+
+
+# NEEDED in ubuntu docker container (indeed!)
+# fix ther errors trying to import pyplot
+# see https://github.com/conda/conda/issues/1051
+
+apt-get install libsm6 libxrender1 libfontconfig1
+
+
+sudo apt-get install ncbi-blast+
+# version installed with apt-get
+# version 2.2.31-4 available on https://launchpad.net/ubuntu/+source/ncbi-blast%2B 
+# version 2.3.0 available at ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
+
+
+
+sudo apt-get install ncbi-blast+
+sudo apt-get install bedtools
+sudo apt-get install tabix
+sudo apt-get install igv   # not available on docker ubuntu ??
+
+
+
+wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda3-2.4.1-Linux-x86_64.sh
+bash Anaconda3-2.4.1-Linux-x86_64.sh
+source anaconda3/bin/activate root
+conda update conda
+conda create -n pycrispr python=2.7
+source anaconda3/bin/activate pycrispr
+
+
+
+conda install matplotlib
+conda install pyqt
+conda install cython
+conda install biopython
+conda install -c https://conda.anaconda.org/bioconda pybedtools
+
+pip install primer3-py
+
+# dev env only
+# conda install ipython
+# conda install pytest
+
+
