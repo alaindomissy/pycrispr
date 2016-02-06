@@ -48,6 +48,7 @@ source anaconda3/bin/activate pycrispr
 
 conda install matplotlib
 conda install pyqt
+
 conda install cython
 conda install biopython
 conda install -c https://conda.anaconda.org/bioconda pybedtools
