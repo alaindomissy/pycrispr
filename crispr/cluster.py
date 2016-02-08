@@ -5,9 +5,7 @@
 #
 ########################################################################################################################
 
-from __future__ import print_function
-from __future__ import absolute_import
-from __future__ import division
+from __future__ import absolute_import, division, print_function
 # from __future__ import unicode_literals
 import matplotlib as mpl
 # Agg is a backend allowing to create plots without a running X server

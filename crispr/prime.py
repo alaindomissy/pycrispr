@@ -1,11 +1,10 @@
-from __future__ import print_function
-from __future__ import absolute_import
-from __future__ import division
+
+from __future__ import absolute_import, division, print_function
 # from __future__ import unicode_literals
 import time
 # import primer3
 from os.path import isfile
-from config import PRIMER3_PARAMETERS
+from .config import PRIMER3_PARAMETERS
 from .amplicon import mask_sequence, Amplicon
 from .pcr import epcr_screen_primers, dumb_screen_primer
 from .digest import nonoverlapping_guidecount

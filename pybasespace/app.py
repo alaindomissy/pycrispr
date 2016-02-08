@@ -8,8 +8,8 @@
 #
 ########################################################################################################################
 
-from __future__ import print_function
-import os
+from __future__ import absolute_import, division, print_function
+# from __future__ import unicode_literals
 import json
 from datetime import datetime
 
@@ -125,7 +125,7 @@ def write_params(param_values, output_dir):
           'appsessionparams.csv\n'
           '--------------------\n')
     with open(output_dir + '/appsessionparams.csv','w') as out:
-        for key, value in param_values.iteritems():
+        for key, value in iteritems(param_values):
             line = '%s\t%s\n' % (key,value)
             if key != 'input.samples':
                 out.write(line)

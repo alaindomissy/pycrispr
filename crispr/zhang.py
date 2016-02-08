@@ -33,9 +33,7 @@
 # t3 = float(1)/ float(pow(len(mmscore), 2))
 # match_score = 100.0 * t1 * t2 * t3
 
-from __future__ import print_function
-from __future__ import absolute_import
-from __future__ import division
+from __future__ import absolute_import, division, print_function
 # from __future__ import unicode_literals
 import numpy as np
 

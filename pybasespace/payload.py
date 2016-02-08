@@ -6,6 +6,8 @@
 #
 ########################################################################################################################
 
+from __future__ import absolute_import, division, print_function
+# from __future__ import unicode_literals
 from shutil import copytree
 from datetime import datetime
 from crispr.config import SCRATCH, restore_genome
