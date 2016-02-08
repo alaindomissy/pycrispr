@@ -6,15 +6,17 @@
 #
 ########################################################################################################################
 
-
 from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+# from __future__ import unicode_literals
 import subprocess
 from Bio.Blast import NCBIXML
 from Bio.Application import ApplicationError
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from Bio import SeqIO as seqio # TODO this is also imported from cut.py, ok?
-from config import scorelog
-from zhang import zhangscore, format_factors
+from .config import scorelog
+from .zhang import zhangscore, format_factors
 try:
     from io import StringIO        # python3
 except ImportError:

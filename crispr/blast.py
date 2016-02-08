@@ -4,8 +4,10 @@
 # API functions:  blast
 #
 ########################################################################################################################
-
 from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+# from __future__ import unicode_literals
 import os
 try:                                     # Python 2
     from itertools import izip_longest
@@ -14,7 +16,7 @@ except ImportError:                      # Python 3
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Application import ApplicationError
 from Bio import SeqIO as seqio    # TODO this is also imported from cut.py, ok?
-from config import blastlog, blastdb_path
+from .config import blastlog, blastdb_path
 
 
 

@@ -6,12 +6,15 @@
 #
 ########################################################################################################################
 
-
-from bedtuple import filename_from_coord
-from digest import digest_coord
-from blast import blast
-from score import score
-from cluster import cluster
+from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+# from __future__ import unicode_literals
+from .bedtuple import filename_from_coord
+from .digest import digest_coord
+from .blast import blast
+from .score import score
+from .cluster import cluster
 
 
 def blast_coord(coord, genome, direct, max_hsps, chunk_size):

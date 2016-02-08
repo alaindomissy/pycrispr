@@ -9,6 +9,9 @@
 #######################################################################################################################
 
 from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+# from __future__ import unicode_literals
 try:
     from io import StringIO        # python3
 except ImportError:
@@ -16,8 +19,8 @@ except ImportError:
 from os.path import splitext
 import gzip
 from Bio import SeqIO as seqio
-from config import RESTRICTION_ENZYMES_LIST
-from analyse import analyse
+from .config import RESTRICTION_ENZYMES_LIST
+from .analyse import analyse
 
 
 

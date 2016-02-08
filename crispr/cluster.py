@@ -6,14 +6,17 @@
 ########################################################################################################################
 
 from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+# from __future__ import unicode_literals
 import matplotlib as mpl
 # Agg is a backend allowing to create plots without a running X server
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 from numpy import mean
 import collections
-from cut import tabbed_string_from_list
-from config import clusterlog
+from .cut import tabbed_string_from_list
+from .config import clusterlog
 
 ###################
 # MAIN API FUNCTION

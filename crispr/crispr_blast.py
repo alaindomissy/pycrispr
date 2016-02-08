@@ -1,7 +1,10 @@
 from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+# from __future__ import unicode_literals
 import argparse
-from blast import blast
-from config import BLAST_LOG_ON
+from .blast import blast
+from .config import BLAST_LOG_ON
 
 parser = argparse.ArgumentParser(description='blast a protospacers bed file to shortlist psosible off-targets locations')
 

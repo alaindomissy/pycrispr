@@ -14,6 +14,10 @@
 #
 ########################################################################################################################
 
+from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+# from __future__ import unicode_literals
 from functools import reduce
 from Bio.Restriction import Analysis
 from Bio.Restriction import Restriction

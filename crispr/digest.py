@@ -9,11 +9,14 @@
 ########################################################################################################################
 
 from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+# from __future__ import unicode_literals
 from os.path import splitext
-from  pybedtools import BedTool
-from cut import cut_fastafile
-from config import digestlog, genomes_path, protosp_path
-from bedtuple import Bedtuple
+from pybedtools import BedTool
+from .cut import cut_fastafile
+from .config import digestlog, genomes_path, protosp_path
+from .bedtuple import Bedtuple
 
 def genome_bedlines_save(cutbedlines,filepath):
     """

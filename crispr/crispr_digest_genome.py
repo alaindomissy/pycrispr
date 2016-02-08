@@ -1,7 +1,10 @@
 from __future__ import print_function
+from __future__ import absolute_import
+from __future__ import division
+# from __future__ import unicode_literals
 import argparse
-from digest import digest_genome
-from config import DIGEST_LOG_ON
+from .digest import digest_genome
+from .config import DIGEST_LOG_ON
 
 parser = argparse.ArgumentParser(description='blast a protospacers bed file to shortlist psoiible off-targets locations')
 
