@@ -91,7 +91,7 @@
         "Name": "Input.genomic_coord",
         "Description": "",
 
-         "Content": "chr:101001-101200",
+         "Content": "chr:101001-102000",
 
         "Content1": "chr1:74080002-74080400",
         "Content18": "chr21:42711558-42711999",
