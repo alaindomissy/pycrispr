@@ -1,6 +1,7 @@
 
 from __future__ import absolute_import, division, print_function
 # from __future__ import unicode_literals
+from six import iteritems
 import os
 from Bio import SeqIO
 from Bio.Seq import Seq
@@ -103,7 +104,7 @@ def screen_hits(priming_dict):
     :return:
     """
     viableproducts = []
-    for chromosome_hits in priming_dict.iteritems():
+    for chromosome_hits in iteritems(priming_dict):
         product_counter = 0
         # print chromosome_hits[0]
         # Get the intervals between binding sites on a scaffold
