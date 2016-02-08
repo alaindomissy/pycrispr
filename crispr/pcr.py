@@ -137,8 +137,8 @@ def screen_hits(priming_dict):
 def dumb_screen_primer(primer_string, genome):
     blast_record = blast_seqstring(primer_string, genome)
     positives_values = [hsp.positives for alignment in blast_record.alignments for hsp in alignment.hsps]
-    number_above_14 = len([value for value in positives_values if value > 14])
-    number_above_15 = len([value for value in positives_values if value > 15])
+    number_above_14 = sum([value > 14 for value in positives_values])
+    number_above_15 = sum([value > 15  for value in positives_values])
     is_bad = number_above_14 > 40 or number_above_15 > 30
     return is_bad
 
