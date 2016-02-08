@@ -24,6 +24,6 @@ pytest==2.8.5
 
 
 simplegeneric==0.8.1
-six==1.10.0
+#six==1.10.0            # already there ?
 traitlets==4.1.0
 wheel==0.26.0

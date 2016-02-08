@@ -1,4 +1,5 @@
 from __future__ import absolute_import, division, print_function
+from __future__ import unicode_literals
 import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
@@ -84,16 +85,16 @@ def test_create_analysis():
     an4 = create_analysis(bioseq, ['BfaI'])
 
     assert(repr(an1) ==
-           "Analysis(RestrictionBatch(['BfaI', 'HpaII', 'ScrFI']),Seq(u'GAACGTTCTCTAGGA', Alphabet()),True)"
+           "Analysis(RestrictionBatch(['BfaI', 'HpaII', 'ScrFI']),Seq('GAACGTTCTCTAGGA', Alphabet()),True)"
           )
     assert(repr(an2) ==
-           "Analysis(RestrictionBatch(['BfaI', 'HpaII', 'ScrFI']),Seq(u'GAACGTTCTCTAGGA', Alphabet()),True)"
+           "Analysis(RestrictionBatch(['BfaI', 'HpaII', 'ScrFI']),Seq('GAACGTTCTCTAGGA', Alphabet()),True)"
           )
     assert(repr(an3) ==
-           "Analysis(RestrictionBatch(['BfaI', 'HpaII']),Seq(u'GAACGTTCTCTAGGA', Alphabet()),True)"
+           "Analysis(RestrictionBatch(['BfaI', 'HpaII']),Seq('GAACGTTCTCTAGGA', Alphabet()),True)"
            )
     assert(repr(an4) ==
-           "Analysis(RestrictionBatch(['BfaI']),Seq(u'GAACGTTCTCTAGGA', Alphabet()),True)"
+           "Analysis(RestrictionBatch(['BfaI']),Seq('GAACGTTCTCTAGGA', Alphabet()),True)"
            )
 
 

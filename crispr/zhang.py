@@ -8,7 +8,6 @@
 ###############################################################
 
 
-
 # this module replaced the following code :
 ###########################################
 # # make a list of mistmatching positions, 1based reverse indexed, starting from base next to Pam
@@ -32,6 +31,7 @@
 # t2 = 1 / ((((19.0 - d)/19.0) * 4) + 1)
 # t3 = float(1)/ float(pow(len(mmscore), 2))
 # match_score = 100.0 * t1 * t2 * t3
+
 
 from __future__ import absolute_import, division, print_function
 # from __future__ import unicode_literals
@@ -131,10 +131,9 @@ def zhangscore(matchbars):
     :param macthbars: a 20-long string of bars(|) and spaces ( ) for an alignement match resp. mismatch positions
     :return: a list of 0 and 1 representing the same match resp. mismatch positions
     """
-    matchbars = matchbars.encode('utf8')
+    matchbars = bytearray(matchbars, 'utf8')
     if len(matchbars) != 20:
         return 100 , "********************** lem(matchbars)!=20   100 %"
     assert(len(matchbars)==20)
-    mismatches = list(map(lambda char : 0 if char=='|' else 1, matchbars))
+    mismatches = [ int(eachbyte!=ord(b'|')) for eachbyte in matchbars]
     return single_offtarget_score(mismatches)
-
