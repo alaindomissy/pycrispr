@@ -1,6 +1,5 @@
 # TODO LIST
-
-
+# #########
 # TODO design primers
 # TODO implement choice of enzymes
 # TODO exclude redundant overlapping good guides from cluster yield count
@@ -12,7 +11,7 @@
 # TODO parameter chosen coord defined by length, common length menu
 # TODO input bedfile as coord input
 # TODO multi run (severeal coord, alternative enzyme choices, ...
-# TODO cache all results to speed up furure use
+# TODO cache all results to speed up future use
 # TODO logging utility function
 # TODO adapt logs to basespace monitoring log: line length, emphasis
 # TODO parameter logging options
@@ -34,11 +33,21 @@
 # TODO doctest
 # TODO gui to input number of good guides desired
 # TODO max length of a cluster 2kb
-# TODO figure out which ecoli K12 or ?
 # TODO use human blast data from igenomes
 # TODO check plastid, metaseq, bioconda, track
 # TODO bigBed bigWig
 
+# TODO check hg18 amd mm9
+# TODO uplift mm8 to mm9 ?
+# TODO isolate dumb from invitro primer screen with epcr
+# TODO upload to pypi
+# TODO bed to IGV display
+# TODO basespace reports
+# TODO speedup : use igenomes more ?mm8 ? used blast from igemomes?, switch to bowtie ?
+# TODO redo container with smaller linux distro, less python packages and cli tools
+# TODO basespace multinode
+# TODO blast or was it bowtie based crispr on gpu ?
+# TODO check launch space
 
 
 

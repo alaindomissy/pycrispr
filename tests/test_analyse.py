@@ -121,7 +121,7 @@ def test_create_analysis():
 
 def test_analyse_42():
 
-    bioseq = Seq(u'ACGT' +u'CTAG' + u'ACGT')
+    bioseq = Seq('ACGT' +'CTAG' + 'ACGT')
 
     assert(str(analyse(bioseq)) == '{BfaI: [6], HpaII: [], ScrFI: []}')
 
