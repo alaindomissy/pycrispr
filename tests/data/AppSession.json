@@ -80,9 +80,9 @@
         "Href": "v1pre3/appsessions/31951397/properties/Input.refgenome_id",
         "Name": "Input.refgenome_id",
         "Description": "",
-        "Content": "ecoli",
-        "Content2": "mm8",
-        "Content18": "hg18"
+        "Content___": "ecoli",
+        "Content___": "mm8",
+        "Content": "hg18"
 
       },
       {
@@ -91,7 +91,7 @@
         "Name": "Input.genomic_coord",
         "Description": "",
 
-         "Content": "chr:101001-140000",
+         "Content_ecoli": "chr:101001-140000",
 
         "Content1": "chr1:74080002-74080400",
         "Content18": "chr21:42711558-42711999",
@@ -103,16 +103,16 @@
 	    "Content8-1-40000": "chr1:74080002-74120000",
 
 
-        "Content3": "chr21:42711558-42742369",
-        "Content4": "chr21:42462433-42497269",
+        "Content_hg18": "chr21:42711558-42742369",
+        "Content_hg18": "chr21:42462433-42497269",
 
 
         "Content61": "chr6:47000001-47000200",
         "Content62": "chr6:47599949-47640339",
-        "Content60": "chr6:47000001-47000200"
+        "Content60": "chr6:47000001-47000200",
 
 
-
+        "Content": "chr21:42711001-42712000"
       },
       {
         "Type": "project[]",
