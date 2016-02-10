@@ -180,7 +180,10 @@ if __name__ == '__main__':
     assert(APPSESS == '/data/input/AppSession.json')
     import os
     print(">>>os.listdir('/data/input/AppSession.json')")
-    print(os.listdir('/data/input/AppSession.json'))
+    print(">>>os.listdir('/data/input/AppSession.json')")
+    print(os.listdir('/'))
+    print(os.listdir('/data/'))
+    print(os.listdir('/data/input/'))
 
     appsessionhref1, appsessionparams1 = read_appsession('/data/input/AppSession.json')
     appsessionhref, appsessionparams = read_appsession(APPSESS)
