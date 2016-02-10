@@ -80,10 +80,9 @@
         "Href": "v1pre3/appsessions/31951397/properties/Input.refgenome_id",
         "Name": "Input.refgenome_id",
         "Description": "",
-        "Content___": "ecoli",
-        "Content___": "mm8",
-        "Content": "hg18"
-
+        "Content": "ecoli",
+        "Content1": "mm8",
+        "Content2": "hg18"
       },
       {
         "Type": "string",
@@ -91,28 +90,26 @@
         "Name": "Input.genomic_coord",
         "Description": "",
 
-         "Content_ecoli": "chr:101001-140000",
+        "Content": "chr:101001-105000",
+        "Content0": "chr:101001-140000",
 
         "Content1": "chr1:74080002-74080400",
-        "Content18": "chr21:42711558-42711999",
+        "Content2": "chr21:42711558-42711999",
 
-        "Content0": "chr3:92280001-92284000",
-	    "Content8-3-1000": "chr3:92280001-92281000",
-        "Content8-3-1000": "chr3:101001-102000",
+        "Content8": "chr3:92280001-92284000",
+	    "Content8-3-1000_a": "chr3:92280001-92281000",
+        "Content8-3-1000_b": "chr3:101001-102000",
 	    "Content8-3-40000": "chr3:92280001-92320000",
 	    "Content8-1-40000": "chr1:74080002-74120000",
 
-
-        "Content_hg18": "chr21:42711558-42742369",
-        "Content_hg18": "chr21:42462433-42497269",
-
+        "Content_hg18a": "chr21:42711558-42742369",
+        "Content_hg18b": "chr21:42462433-42497269",
+        "Content_hg18c": "chr21:42711001-42712000",
 
         "Content61": "chr6:47000001-47000200",
         "Content62": "chr6:47599949-47640339",
-        "Content60": "chr6:47000001-47000200",
+        "Content60": "chr6:47000001-47000200"
 
-
-        "Content": "chr21:42711001-42712000"
       },
       {
         "Type": "project[]",

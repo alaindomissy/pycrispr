@@ -97,7 +97,8 @@ GENOMESPATHS = {
     'mm8'      : '/RESTORE/mm8.mm8.fasta',
     'mm9'      : '/genomes/Mus_musculus/UCSC/mm9/Sequence/WholeGenomeFasta/genome.fa',
     'mm10'     : '/genomes/Mus_musculus/UCSC/mm10/Sequence/WholeGenomeFasta/genome.fa',
-    'ecoli'    :'/RESTORE/ecoli/ecoli.fasta',
+    'ecoli'    : '/genomes/Escherichia_coli_K_12_DH10B/NCBI/2008-03-17/Sequence/WholeGenomeFasta/genome.fa',
+    #'ecoli'    : '/RESTORE/ecoli/ecoli.fasta',
     'mycotube' : '/genomes/Mycobacterium_tuberculosis_H37RV/NCBI/2001-09-07/Sequence/WholeGenomeFasta/genome.fa',
     'phix'     : '/genomes/PhiX/Illumina/RTA/Sequence/WholeGenomeFasta/genome.fa',
     'saccer3'  : '/genomes/Saccharomyces_cerevisiae/UCSC/sacCer3/Sequence/WholeGenomeFasta/genome.fa'
@@ -130,7 +131,7 @@ def genomes_path(genome):
     :param genome:
     :return:
     """
-    # print("accessing genome at ", GENOMES + genome + '/' + genome + '.fasta')
+    print("> load refernce genome at", GENOMESPATHS[genome] + '.fasta')
     # return GENOMES + genome + '/' + genome + '.fasta'
     return GENOMESPATHS[genome]
 

@@ -111,7 +111,7 @@ def digest_bedfile(filename, genome='mm8', direct='./', restriction_enzymes=(u'B
     # prspbefile = root + '.prsp.bed'
     bedpath = direct + filename + '.bed'
     prspbedpath = direct + filename + '.prsp.bed'
-    digestlog("> load reference %s" % protosp_path(genome))
+    digestlog("> load reference prsps as %s" % protosp_path(genome))
     digestlog("> intersect target with reference")
     digestlog("> save protospacers as", prspbedpath)
     BedTool(protosp_path(genome)).intersect(BedTool(bedpath)).moveto(prspbedpath)
