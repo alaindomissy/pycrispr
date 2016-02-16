@@ -1,6 +1,6 @@
 from setuptools import setup  #, find_packages
 
-setup(name='pycrispr',
+setup(name='crispr',
       version='0.1.2',
       description='Crispr Eating and other tools.',
       url='https://github.com/alaindomissy/crispr',
@@ -8,7 +8,7 @@ setup(name='pycrispr',
       author_email='alaindomissy@gmail.com',
       license='MIT',
       # packages=find_packages(exclude=["tests"]),
-      packages=['crispr', 'pybasespace'],
+      packages=['crispr'],
       install_requires=[
             'biopython==1.66',
             # 'coverage==4.0.3',
@@ -17,7 +17,6 @@ setup(name='pycrispr',
             'decorator==4.0.6',
             # 'ipython==4.0.3',
             # 'ipython-genutils==0.1.0',
-            # 'nose==1.3.7',
 
             #'numpy==1.10.4',      # gets installed by conda, would need gcc if done here
                                    # 1.10.2 would be a downgrade from what conda has: 1.10.4
@@ -45,7 +44,6 @@ setup(name='pycrispr',
             # 'simplegeneric==0.8.1',  # gets installed by conda
 
             # 'traitlets==4.1.0',
-            # 'wheel==0.26.0',
              ],
       classifiers=[
         "Development Status :: 4 - Beta",
