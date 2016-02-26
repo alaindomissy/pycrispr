@@ -10,7 +10,7 @@ from __future__ import absolute_import, division, print_function   # , unicode_l
 from shutil import copytree
 from datetime import datetime
 from basespaceapp.app import main
-from .config import SCRATCH, restore_genome
+from .config import SCRATCH, restore_genome, ARGUMENTS_WITH_CONTENT, ARGUMENTS_WITH_ITEMS
 from .main import digest_blast_score_cluster_prime
 
 
@@ -51,4 +51,4 @@ def payload(params_value, output_dir):
 # this file executed as script
 ##############################
 if __name__ == '__main__':
-    main('/data/', payload)
+    main('/data/', payload, ARGUMENTS_WITH_CONTENT, ARGUMENTS_WITH_ITEMS)
