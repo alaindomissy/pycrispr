@@ -39,9 +39,9 @@ def payload(params_value, output_dir):
     datetimenow = datetime.now().isoformat('_')
     # copytree(source, destination, ignore=_logpath)
     # copytree(SCRATCH, output_dir + '../sessiondetails_' + datetimenow)
-    copytree(SCRATCH, output_dir + '../sessiondetails/')
+    copytree(SCRATCH, output_dir + '../sessiondetails_' + datetimenow + '/')
 
-    return "success _ results copied to putput directory at " + datetimenow
+    return "success _ results copied to output directory at " + datetimenow
 
 
 # to call from basespace
