@@ -45,6 +45,7 @@ def payload(params_value, output_dir):
 # to call from basespace
 ##############################
 # commandLine: ["python", "-m", "crispr.payload.main", "/data/", "crispr.payload.payload"],
+# commandLine: ["python", "-m", "crispr.payload"],
 
 
 # this file executed as script
