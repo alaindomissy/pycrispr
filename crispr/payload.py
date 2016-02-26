@@ -9,7 +9,7 @@
 from __future__ import absolute_import, division, print_function   # , unicode_literals
 from shutil import copytree
 from datetime import datetime
-from basespaceapp import main
+from basespaceapp.app import main
 from .config import SCRATCH, restore_genome
 from .main import digest_blast_score_cluster_prime
 
@@ -44,7 +44,7 @@ def payload(params_value, output_dir):
 
 # to call from basespace
 ##############################
-# commandLine: ["python", "-m", "crispr.payload.main", "/data/", "crispr.payload.payload"],
+# commandLine: ["python", "-m", "crispr.payload.main", "/data/", "payload"],
 # commandLine: ["python", "-m", "crispr.payload"],
 
 
