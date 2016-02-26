@@ -36,10 +36,12 @@ def payload(params_value, output_dir):
                                      low=75, high=75, load_genome=False, howmany=None,
                                      restriction_enzymes=restriction_enzymes)
 
+    datetimenow = datetime.now().isoformat('_')
     # copytree(source, destination, ignore=_logpath)
-    copytree(SCRATCH, output_dir + '../sessiondetails_' + datetime.now().isoformat('_'))
+    # copytree(SCRATCH, output_dir + '../sessiondetails_' + datetimenow)
+    copytree(SCRATCH, output_dir + '../sessiondetails/')
 
-    return
+    return "success _ results copied to putput directory at " + datetimenow
 
 
 # to call from basespace
