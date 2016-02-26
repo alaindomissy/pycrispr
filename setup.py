@@ -10,40 +10,29 @@ setup(name='crispr',
       # packages=find_packages(exclude=["tests"]),
       packages=['crispr'],
       install_requires=[
-            'biopython==1.66',
-            # 'coverage==4.0.3',
-            # 'cycler==0.9.0',
-            # 'Cython==0.23.4',
-            'decorator==4.0.6',
-            # 'ipython==4.0.3',
-            # 'ipython-genutils==0.1.0',
 
             #'numpy==1.10.4',      # gets installed by conda, would need gcc if done here
                                    # 1.10.2 would be a downgrade from what conda has: 1.10.4
+            # 'pybedtools==0.7',     # gets installed by conda
+
+            # 'cycler==0.9.0',
+            # 'Cython==0.23.4',
+            # 'decorator==4.0.6',
+
+            'biopython==1.66',
 
             'matplotlib==1.5.1',
-            # 'pandas==0.17.1',
-
             'path.py==8.1.2',
-
-            # 'pexpect==3.3',
-            # 'pickleshare==0.5',
-
-            'py==1.4.31',
-
-            # 'pybedtools==0.7',     # gets installed by conda
 
             'pyparsing==2.0.3',
             'pysam==0.8.4',
-            # 'pytest==2.8.5',
+
             'python-dateutil==2.4.2',
             'pytz==2015.7',
+
             'six==1.10.0',
 
-
-            # 'simplegeneric==0.8.1',  # gets installed by conda
-
-            # 'traitlets==4.1.0',
+            'basespaceapp'
              ],
       classifiers=[
         "Development Status :: 4 - Beta",

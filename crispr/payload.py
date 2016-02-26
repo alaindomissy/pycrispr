@@ -6,18 +6,17 @@
 #
 ########################################################################################################################
 
-from __future__ import absolute_import, division, print_function
-# from __future__ import unicode_literals
+from __future__ import absolute_import, division, print_function   # , unicode_literals
 from shutil import copytree
 from datetime import datetime
-from crispr.config import SCRATCH, restore_genome
-from crispr.main import digest_blast_score_cluster_prime
+from basespaceapp import main
+from .config import SCRATCH, restore_genome
+from .main import digest_blast_score_cluster_prime
 
 
 ###################
 # MAIN API FUNCTION
 ###################
-
 
 def payload(params_value, output_dir):
 
@@ -41,3 +40,14 @@ def payload(params_value, output_dir):
     copytree(SCRATCH, output_dir + '../sessiondetails_' + datetime.now().isoformat('_'))
 
     return
+
+
+# to call from basespace
+##############################
+# commandLine: ["python", "-m", "crispr.payload.main", "/data/", "crispr.payload.payload"],
+
+
+# this file executed as script
+##############################
+if __name__ == '__main__':
+    main('/data/', payload)

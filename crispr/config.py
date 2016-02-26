@@ -1,5 +1,4 @@
-from __future__ import absolute_import, division, print_function
-# from __future__ import unicode_literals
+from __future__ import absolute_import, division, print_function   # , unicode_literals
 import os
 from shutil import rmtree
 from subprocess import check_output
@@ -11,6 +10,14 @@ PROTOSP = os.environ.get('PROTOSP','/RESTORE/')
 SCRATCH = os.environ.get('SCRATCH','/data/scratch/')
 
 APPSESS = os.environ.get('APPSESS', '/data/input/AppSession.json')
+
+ARGUMENTS_WITH_CONTENT = ['input.interference_gap',
+                          'input.blast_chunk_size',
+                          'input.blast_max_hsps',
+                          'input.refgenome_id',
+                          'input.genomic_coord']
+
+ARGUMENTS_WITH_ITEMS = ['input.restr_enzymes']
 
 RESTRICTION_ENZYMES_LIST = ['BfaI', 'HpaII', 'ScrFI']
 DIGEST_LOG_ON = True
