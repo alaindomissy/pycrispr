@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# GENOMIC COORDOINATES INTERFACE for digestion
+# GENOMIC COORDINATES INTERFACE for digestion
 #
 # - accept bed format string input to specify and retrieve fasta scaffold to process
 # - export and save bed formatted data for found protospacers

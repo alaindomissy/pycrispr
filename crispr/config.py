@@ -98,7 +98,8 @@ def sorted_unique_firstdotsplit(filenammes):
 
 
 GENOMESPATHS = {
-    'hg18'     : '/genomes/Homo_sapiens/UCSC/hg18/Sequence/WholeGenomeFasta/genome.fa',
+    # 'hg18'     : '/genomes/Homo_sapiens/UCSC/hg18/Sequence/WholeGenomeFasta/genome.fa',
+    'hg18'     : '/RESTORE/hg18/hg18.fasta'
     'hg19'     : '/genomes/Homo_sapiens/UCSC/hg19/Sequence/WholeGenomeFasta/genome.fa',
     'hg38'     : '/genomes/Homo_sapiens/UCSC/hg38/Sequence/WholeGenomeFasta/genome.fa',
     'mm8'      : '/RESTORE/mm8/mm8.fasta',
