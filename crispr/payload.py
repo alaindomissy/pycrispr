@@ -41,7 +41,7 @@ def payload(params_value, output_dir):
     sessiondetails_dir = output_dir + '../sessiondetails_' + datetimenow + '/'
 
     # copytree(source, destination, ignore=_logpath)
-    copytree(SCRATCH, sessiondetails_dir)
+    # copytree(SCRATCH, sessiondetails_dir)
 
     return "success: results copied to output directory: " + sessiondetails_dir + "at datetime: " + datetimenow
 
