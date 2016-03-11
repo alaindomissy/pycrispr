@@ -9,7 +9,7 @@
 from __future__ import absolute_import, division, print_function   # , unicode_literals
 from shutil import copytree
 from datetime import datetime
-from basespaceapp.app import main
+from basespaceapp.app import main as appmain
 from .config import SCRATCH, restore_genome, ARGUMENTS_WITH_CONTENT, ARGUMENTS_WITH_ITEMS
 from .main import digest_blast_score_cluster_prime
 
@@ -37,11 +37,13 @@ def payload(params_value, output_dir):
                                      restriction_enzymes=restriction_enzymes)
 
     datetimenow = datetime.now().isoformat('_')
-    # copytree(source, destination, ignore=_logpath)
-    # copytree(SCRATCH, output_dir + '../sessiondetails_' + datetimenow)
-    copytree(SCRATCH, output_dir + '../sessiondetails_' + datetimenow + '/')
+    # sessiondetails_dir = output_dir + '../sessiondetails/'
+    sessiondetails_dir = output_dir + '../sessiondetails_' + datetimenow + '/'
 
-    return "success: results copied to output directory at " + datetimenow
+    # copytree(source, destination, ignore=_logpath)
+    copytree(SCRATCH, sessiondetails_dir)
+
+    return "success: results copied to output directory: sessiondetails_dir at datetime: " + datetimenow
 
 
 # to call from basespace
@@ -53,4 +55,4 @@ def payload(params_value, output_dir):
 # this file executed as script
 ##############################
 if __name__ == '__main__':
-    main('/data/', payload, ARGUMENTS_WITH_CONTENT, ARGUMENTS_WITH_ITEMS)
+    appmain('/data/', payload, ARGUMENTS_WITH_CONTENT, ARGUMENTS_WITH_ITEMS)
