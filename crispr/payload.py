@@ -41,7 +41,7 @@ def payload(params_value, output_dir):
     # copytree(SCRATCH, output_dir + '../sessiondetails_' + datetimenow)
     copytree(SCRATCH, output_dir + '../sessiondetails_' + datetimenow + '/')
 
-    return "success _ results copied to output directory at " + datetimenow
+    return "success: results copied to output directory at " + datetimenow
 
 
 # to call from basespace
