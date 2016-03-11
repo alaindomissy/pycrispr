@@ -13,6 +13,7 @@ from .digest import digest_coord
 from .blast import blast
 from .score import score
 from .cluster import cluster
+from .prime import prime
 
 
 def blast_coord(coord, genome, direct, max_hsps, chunk_size):
@@ -80,5 +81,7 @@ def digest_blast_score_cluster_prime(coord, genome, direct, max_hsps, chunk_size
     guides, groups = cluster_coord(guides, coord, direct, low, high, howmany)
 
     print('\nDESIGN PRIMERS')
+
+    prime(["ampl1", "ampl2", "ampl3"])
 
     return guides, groups

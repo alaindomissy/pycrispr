@@ -41,6 +41,7 @@ def payload(params_value, output_dir):
     sessiondetails_dir = output_dir + '../sessiondetails_' + datetimenow + '/'
 
     # copytree(source, destination, ignore=_logpath)
+    # TODO why copytree is not working from here? currently it is called from basespaceapp.app.process_appsession
     # copytree(SCRATCH, sessiondetails_dir)
 
     return "success: results copied to output directory: " + sessiondetails_dir + "at datetime: " + datetimenow

@@ -183,5 +183,5 @@ def prime(amplicon_list, filename = "datetime", method = "dumb", tm=40):
     if filename == "datetime":
         filename = str("primerlist_" + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".tsv")
     for index, amplicon in enumerate(amplicon_list):
-        print("\nAmplicon %s" % index)
-        primer_search(amplicon, filename=filename, method=method, tm=tm)
+        print("\nAmplicon %s : %s" % index, amplicon)
+        # primer_search(amplicon, filename=filename, method=method, tm=tm)
