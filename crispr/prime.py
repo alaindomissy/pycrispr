@@ -11,7 +11,26 @@ from .digest import nonoverlapping_guidecount
 from .config import primelog
 
 
-def primer_search(current_amp, filename="primerlist.tsv", method="dumb", tm=40, global_parameters=PRIMER3_PARAMETERS):
+def initialize_primers_list_file(filename):
+    """
+    Initialize a file with headers if it doesn't exist
+    """
+    headers_string ='\t'.join([
+        "Sequence_id",
+        "forward_seq", "forward_start", "forward_length", "forward_tm", "forward_gc",
+        "reverse_seq", "reverse_start", "reverse_length", "reverse_tm", "reverse_gc",
+        "input_seq_length",
+        "PCR_product_length",
+        "Guides_Contained",
+        "Expanded priming distance",
+        "Actual Non-overlapping Guide Count"])
+
+    if not isfile(filename):
+        with open(filename, "w") as handle:
+            handle.write(headers_string)
+
+
+def primer_search(current_amp, filename="primers_list.tsv", method="dumb", tm=40, global_parameters=PRIMER3_PARAMETERS):
     '''
     Returns a dict of candidate primers and their parameters, calculated against an Amplicon instance.
 
@@ -26,22 +45,8 @@ def primer_search(current_amp, filename="primerlist.tsv", method="dumb", tm=40, 
 
     Primer parameters can be supplied with the global_parameters argument, or left as defaults.
     '''
-    # Initialize a file with headers if it doesn't exist
-
-    headers_string ='\t'.join[
-        "Sequence_id",
-        "forward_seq", "forward_start", "forward_length", "forward_tm", "forward_gc",
-        "reverse_seq", "reverse_start", "reverse_length", "reverse_tm", "reverse_gc",
-        "input_seq_length",
-        "PCR_product_length",
-        "Guides_Contained",
-        "Expanded priming distance",
-        "Actual Non-overlapping Guide Count"]
-
-    if not isfile(filename):
-        with open(filename, "w") as handle:
-            handle.write(headers_string)
-
+    #
+    initialize_primers_list_file()
 
     # Work on a "masked" version of the sequence where lowercase letters are converted to Ns
     sequence_string = str(mask_sequence(current_amp.permissible_region).seq)
@@ -182,6 +187,6 @@ def prime(amplicon_list, filename = "datetime", method = "dumb", tm=40):
     """
     if filename == "datetime":
         filename = str("primerlist_" + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".tsv")
-    for index, amplicon in enumerate(amplicon_list):
-        print("\nAmplicon %s : %s" % (index, amplicon))
-        # primer_search(amplicon, filename=filename, method=method, tm=tm)
+    result = "\n".join([ "Amplicon %s : %s" % (index, amplicon) for index, amplicon in enumerate(amplicon_list)])
+    return result
+    # primer_search(amplicon, filename=filename, method=method, tm=tm)
