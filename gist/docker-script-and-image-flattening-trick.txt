@@ -1,0 +1,17 @@
+ 1747  apt-get install python-pip
+ 1748  pip install docker-scripts
+
+ 1751  docker-scripts layers alaindomissy/crispreating
+ 1752  docker-scripts layers alaindomissy/crispreating -t
+ 1753  docker-scripts layers alaindomissy/crispreating -tm
+ 1754  docker-scripts layers alaindomissy/crispreating -tmc
+ 1762  docker rmi $(docker images --quiet --filter "dangling=true")
+
+ 1770  docker history local
+ 1771  docker history alaindomissy/crispreating
+ 1772  docker images --tree alaindomissy/crispreating
+ 1773  docker images alaindomissy/crispreating
+
+
+ 1775  docker export local | docker import - local:flat
+
