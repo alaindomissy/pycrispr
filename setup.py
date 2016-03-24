@@ -33,7 +33,10 @@ setup(name='crispr',
             'six==1.10.0',
 
             'basespaceapp'
-             ],
+
+            'primer3-py'       # needed for travis CI
+
+            ],
       classifiers=[
         "Development Status :: 4 - Beta",
         "Topic :: Utilities",
