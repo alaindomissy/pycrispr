@@ -15,6 +15,7 @@ from .config import PRIMER3_GLOBAL_ARGS
 from .amplicon import amplicon
 from .pcr import epcr_screen_primers, dumb_screen_primer
 from .digest import nonoverlapping_guidecount
+from .score import get_position
 from .config import primelog
 
 
@@ -51,6 +52,8 @@ def initialize_primers_list_file(filename):
         "Expanded priming distance",
         "Actual Non-overlapping Guide Count"])
 
+    headers_string = headers_string + "\n"
+
     if not isfile(filename):
         with open(filename, "w") as handle:
             handle.write(headers_string)
@@ -72,6 +75,7 @@ def primer_search(ampl, filename, method="dumb", tm=40, primer3_global_args=PRIM
     Primer parameters can be supplied with the primer3_global_args argument, or left as defaults.
     '''
     #
+    print("INITIALIZE AMPLIFICATIONPRINMERS.TSV FILE")
     initialize_primers_list_file(filename)
 
     # Work on a "masked" version of the sequence where lowercase letters are converted to Ns
@@ -112,6 +116,7 @@ def primer_search(ampl, filename, method="dumb", tm=40, primer3_global_args=PRIM
 
             ########################################################################
             primerdict = primer3.bindings.designPrimers(primer3_seq_args, primer3_global_args)
+            print("\nPRIMER DICT:", primerdict)
             # prirmerdict = {}
             ########################################################################
 
@@ -144,18 +149,23 @@ def primer_search(ampl, filename, method="dumb", tm=40, primer3_global_args=PRIM
                 ########################################################
                 is_left_bad = dumb_screen_primer(leftprimer, genome)
                 is_right_bad = dumb_screen_primer(rightprimer, genome)
+                # is_left_bad = False
+                # is_right_bad = False
                 ##########################################################
                 if not is_left_bad and not is_right_bad:
-                    bad = False
+                    is_bad = False
+
                 if is_left_bad:
-                    None
-                    #print("iteration" + str(i) + "left primer" + leftprimer + "is bad")
+                    # None
+                    print("iteration" + str(i) + "left primer" + leftprimer + "is bad")
                 if is_right_bad:
-                    None
-                    #print("iteration" + str(i) + "right primer" + rightprimer + "is bad")
+                    # None
+                    print("iteration" + str(i) + "right primer" + rightprimer + "is bad")
                 if is_bad and i == primerdict["PRIMER_PAIR_NUM_RETURNED"]:
                     with open(filename, "a") as handle:
+                        #############################################################
                         handle.write("All the primers were bad for this amplicon!\n")
+                        #############################################################
 
             if method == "epcr":
                 #print(leftprimer, rightprimer)
@@ -166,42 +176,51 @@ def primer_search(ampl, filename, method="dumb", tm=40, primer3_global_args=PRIM
 
             j += 1
 
-
         if is_bad:
             primerdict["PRIMER_PAIR_NUM_RETURNED"] = 0
         else:
             # good primer pair(no off-target amplification) is found, add it to the output tsv
-            target = ampl.permissible_region[int(leftprimer_start):int(rightprimer_start)+int(rightprimer_length)]
+            print("\nampl.permissible_region", ampl.permissible_region)
+            print("leftprimer_start", leftprimer_start)
+            print("rightprimer_start", rightprimer_start)
+            print("rightprimer_length", rightprimer_length)
+            target = ampl.permissible_region.seq[int(leftprimer_start):int(rightprimer_start)+int(rightprimer_length)]
+
             product_nonoverlapping_guidecount = nonoverlapping_guidecount(target)
-            tsv_list = [ampl.guides[0].name,
+            tsv_list = [str(get_position(ampl.guides[0])),
                         leftprimer,leftprimer_start, leftprimer_length, leftprimer_tm, leftprimer_gc,
                         rightprimer, rightprimer_start, rightprimer_length, rightprimer_tm, rightprimer_gc,
-                        ampl.max_length,
+                        str(ampl.max_length),
                         str(product_len),
-                        ampl.guidecount,
+                        str(ampl.guides_count),
                         str(primerdict["expandedpriming"]),
                         str(product_nonoverlapping_guidecount)]
             with open(filename, "a") as handle:
-                handle.write("\t".join(tsv_list))
+                #################################
+                print("tsv_list", tsv_list)
+                handle.write("\t".join(tsv_list)  + "\n")
+                #################################
 
-            ampl.primers = { "name": ampl.guides[0].name,
-                                    "leftprimer": leftprimer,
-                                    "leftprimer_start": leftprimer_start,
-                                    "leftprimer_length": leftprimer_length,
-                                    "leftprimer_tm": leftprimer_tm,
-                                    "leftprimer_gc": leftprimer_gc,
-                                    "rightprimer": rightprimer,
-                                    "rightprimer_start": rightprimer_start,
-                                    "rightprimer_length": rightprimer_length,
-                                    "rightprimer_tm": rightprimer_tm,
-                                    "rightprimer_gc": rightprimer_gc,
-                                    "template_length": ampl.max_length,
-                                    "product_length": product_len,
-                                    "guidecount": ampl.guidecount,
-                                    "expandedpriming": primerdict["expandedpriming"],
-                                    "product_nonoverlapping_guidecount": product_nonoverlapping_guidecount
-                                }
+            ampl.primers = {"name": ampl.guides[0].name,
+                            "leftprimer": leftprimer,
+                            "leftprimer_start": leftprimer_start,
+                            "leftprimer_length": leftprimer_length,
+                            "leftprimer_tm": leftprimer_tm,
+                            "leftprimer_gc": leftprimer_gc,
+                            "rightprimer": rightprimer,
+                            "rightprimer_start": rightprimer_start,
+                            "rightprimer_length": rightprimer_length,
+                            "rightprimer_tm": rightprimer_tm,
+                            "rightprimer_gc": rightprimer_gc,
+                            "template_length": ampl.max_length,
+                            "product_length": product_len,
+                            "guidecount": ampl.guides_count,
+                            "expandedpriming": primerdict["expandedpriming"],
+                            "product_nonoverlapping_guidecount": product_nonoverlapping_guidecount
+                            }
+            ########################################
             primelog("Primer added to output file.")
+            ########################################
 
 ###################
 # MAIN API FUNCTION

@@ -160,7 +160,7 @@ def blast(filename, genome, directory, max_hsps, chunk_size):
             if os.path.isfile(wrongblast):
                  os.rename(wrongblast, rescuedblast)
     fn_code_noext = nameformat % (filename, chunk_size, nbr)
-    with open(directory + fn_code_noext + '.maxHSPs.' + str(max_hsps) + '.nbrofchunks.' + str(nbr) , "w") as temp_hndl:
+    with open(directory + fn_code_noext + '.maxHSPs.' + str(max_hsps) + '.nbrofchunks.' + str(nbr) + ".txt" , "w") as temp_hndl:
         # temp_hndl.write('all done - %s chunks' % nbr)
         temp_hndl.write(str(nbr))
     blastlog('all', nbr, 'chunks blasted','with', nbrwrong, 'failed chunks' )

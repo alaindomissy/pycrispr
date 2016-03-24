@@ -89,6 +89,19 @@ def prime_coord(coord, directory, genome, high):
     """
     return prime(filename_from_coord(coord), directory, genome, high)
 
+
+# def digest_blast_score_cluster_prime_coord(coord, genome, directory, max_hsps, chunk_size, high):
+#     """
+#     Prerequisite is to have digested coord, therby created the corresponding file
+#     :param guides:
+#     :param coord:
+#     :param directory:
+#     :param high:
+#     :return:
+#     """
+#     return digest_blast_score_cluster_prime(filename_from_coord(coord), genome, directory, max_hsps, chunk_size,  high)
+
+
 ##########
 # MAIN API
 ##########
