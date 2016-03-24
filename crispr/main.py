@@ -113,6 +113,6 @@ def digest_blast_score_cluster_prime(coord, genome, directory, max_hsps, chunk_s
 
     # guides, runs = run_coord(coord, directory, high)
     # amplicons = amplicon_coord(coord, directory, genome, high)      # TODO de-hardcode substrate
-    prime(coord, directory, genome, high)
+    prime_coord(coord, directory, genome, high)
 
     return guides, stretches  #, amplicons
