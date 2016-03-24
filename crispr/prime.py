@@ -1,14 +1,40 @@
-
-from __future__ import absolute_import, division, print_function
-# from __future__ import unicode_literals
+########################################################################################################################
+# PRIME
+#
+# API functions:  prime
+#
+########################################################################################################################
+from __future__ import absolute_import, division, print_function    # , unicode_literals
+import copy
 import time
-# import primer3
+import primer3
 from os.path import isfile
-from .config import PRIMER3_PARAMETERS
-from .amplicon import mask_sequence, Amplicon
+from Bio.Seq import Seq
+from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
+from .config import PRIMER3_GLOBAL_ARGS
+from .amplicon import amplicon
 from .pcr import epcr_screen_primers, dumb_screen_primer
 from .digest import nonoverlapping_guidecount
 from .config import primelog
+
+
+def mask_sequence(item):
+    '''
+    Rewrites lowercase parts of a Seq object into Ns;
+    Primer3 can be told to avoid Ns, but not lowercase sequence.
+    Lowercase is often used in genomics data to indicate repetitive/non-complex sequence,
+    so these regions are often poor choices for primer binding sites.
+    '''
+    masked_list = []
+    for nucleotide in list(item.seq):
+        if nucleotide.isupper():
+            masked_list.append(nucleotide)
+        else:
+            masked_list.append("N")
+    masked_string = "".join(masked_list)
+    masked_sequence = copy.copy(item)
+    masked_sequence.seq = Seq(masked_string, IUPACAmbiguousDNA())
+    return masked_sequence
 
 
 def initialize_primers_list_file(filename):
@@ -30,7 +56,7 @@ def initialize_primers_list_file(filename):
             handle.write(headers_string)
 
 
-def primer_search(current_amp, filename="primers_list.tsv", method="dumb", tm=40, global_parameters=PRIMER3_PARAMETERS):
+def primer_search(ampl, filename, method="dumb", tm=40, primer3_global_args=PRIMER3_GLOBAL_ARGS):
     '''
     Returns a dict of candidate primers and their parameters, calculated against an Amplicon instance.
 
@@ -43,47 +69,50 @@ def primer_search(current_amp, filename="primers_list.tsv", method="dumb", tm=40
     Depending on the primer pair chosen, the number of guides contained in a product will vary.
     The next function screens primers, and when the final pair is chosen the total number of primers is reported.
 
-    Primer parameters can be supplied with the global_parameters argument, or left as defaults.
+    Primer parameters can be supplied with the primer3_global_args argument, or left as defaults.
     '''
     #
-    initialize_primers_list_file()
+    initialize_primers_list_file(filename)
 
     # Work on a "masked" version of the sequence where lowercase letters are converted to Ns
-    sequence_string = str(mask_sequence(current_amp.permissible_region).seq)
+    sequence_string = str(mask_sequence(ampl.permissible_region).seq)
+    # print("sequence_string:" , sequence_string)
 
     increment_bases = 4 # number of nucleotides by which priming window is expanded at each round
     expand = 0 # Number of nucleotides current attempt shifts priming window by
     loopround = 0 # Round of primer attempts
-    expansion_limit = current_amp.length/8
+    expansion_limit = ampl.max_length/8
 
     primerdict = {}
     primerdict["PRIMER_PAIR_NUM_RETURNED"] = 0
     i = 0
     is_bad = True
-    genomename = current_amp.genomename
+    genome = ampl.genome
 
     # Do this until a good primer is found.
     while is_bad and expand < expansion_limit:
         while primerdict["PRIMER_PAIR_NUM_RETURNED"] == 0 and expand < expansion_limit:
             expand = increment_bases * loopround
+            # print("expand:" , expand)
             primeableregionleft_start = 0 + expand
-            primeableregionleft_length = current_amp.required_start_relative #+ expand #remove?
-            primeableregionright_start = current_amp.required_end_relative - expand
-            primeableregionright_length = len(current_amp.permissible_region)-current_amp.required_end_relative #+ expand #remove?
-            seq_args = {"SEQUENCE_ID": current_amp.guides[0].id,
-                     "SEQUENCE_TEMPLATE": sequence_string,
-                     "SEQUENCE_PRIMER_PAIR_OK_REGION_LIST": [[primeableregionleft_start,primeableregionleft_length,
-                                                             primeableregionright_start,primeableregionright_length]],
-                     }
-            global_parameters["PRIMER_PRODUCT_OPT_SIZE"] = int(current_amp.length)
-            #print(seq_args["SEQUENCE_PRIMER_PAIR_OK_REGION_LIST"])
+            primeableregionleft_length = ampl.required_start_relative # + expand  # TODO remove the expand ?
+            primeableregionright_start = ampl.required_end_relative - expand
+            primeableregionright_length = len(ampl.permissible_region)-ampl.required_end_relative # + expand #TODO remove the expand ?
+            primer3_seq_args = {
+                "SEQUENCE_ID": ampl.guides[0].id,
+                "SEQUENCE_TEMPLATE": sequence_string,
+                "SEQUENCE_PRIMER_PAIR_OK_REGION_LIST": [[primeableregionleft_start, primeableregionleft_length,
+                                                         primeableregionright_start,primeableregionright_length]],
+                }
+            primer3_global_args["PRIMER_PRODUCT_OPT_SIZE"] = int(ampl.max_length)
+            # print("SEQUENCE_PRIMER_PAIR_OK_REGION_LIST:" , primer3_seq_args["SEQUENCE_PRIMER_PAIR_OK_REGION_LIST"])
             # Don't try priming if it's all Ns in the primeable region:
             # leftNs = sequence_string[primeableregionleft_start:primeableregionleft_start+primeableregionleft_length].
             # if
 
             ########################################################################
-            # primerdict = primer3.bindings.designPrimers(seq_args, global_parameters)
-            prirmerdict = {}
+            primerdict = primer3.bindings.designPrimers(primer3_seq_args, primer3_global_args)
+            # prirmerdict = {}
             ########################################################################
 
             if primerdict["PRIMER_PAIR_NUM_RETURNED"] == 0:
@@ -95,7 +124,7 @@ def primer_search(current_amp, filename="primers_list.tsv", method="dumb", tm=40
         # Loop through found primers and screen for specificity
         j = 0
         while j < primerdict["PRIMER_PAIR_NUM_RETURNED"] and is_bad:
-            primelog(j)
+            # primelog(j)
             leftprimer =  primerdict[str("PRIMER_LEFT_" + str(j) + "_SEQUENCE")]
             leftprimer_start =  str(primerdict[str("PRIMER_LEFT_"+ str(j))][0])
             leftprimer_length =  str(primerdict[str("PRIMER_LEFT_"+ str(j))][1])
@@ -107,14 +136,14 @@ def primer_search(current_amp, filename="primers_list.tsv", method="dumb", tm=40
             rightprimer_length =  str(primerdict[str("PRIMER_RIGHT_"+ str(j))][1])
             rightprimer_gc =  str(primerdict[str("PRIMER_RIGHT_"+ str(j) + "_GC_PERCENT")])
             rightprimer_tm =  str(primerdict[str("PRIMER_RIGHT_"+ str(j) + "_TM")])
-            primelog("Testing " + leftprimer + " " + rightprimer)
+            primelog("Testing primer pair " + str(j) + " : " + leftprimer + " " + rightprimer)
             product_len = int(rightprimer_start) - int(leftprimer_start) #rightprimer_start is already right edge of primer
 
             if method == "dumb":
                 is_bad = True
                 ########################################################
-                is_left_bad = dumb_screen_primer(leftprimer, genomename)
-                is_right_bad = dumb_screen_primer(rightprimer, genomename)
+                is_left_bad = dumb_screen_primer(leftprimer, genome)
+                is_right_bad = dumb_screen_primer(rightprimer, genome)
                 ##########################################################
                 if not is_left_bad and not is_right_bad:
                     bad = False
@@ -131,7 +160,7 @@ def primer_search(current_amp, filename="primers_list.tsv", method="dumb", tm=40
             if method == "epcr":
                 #print(leftprimer, rightprimer)
                 ###########################################################################################
-                (is_bad, viableproducts) = epcr_screen_primers((leftprimer, rightprimer), genomename, tm=tm)
+                (is_bad, viableproducts) = epcr_screen_primers((leftprimer, rightprimer), genome, tm=tm)
                 # print(viableproducts)
                 ###########################################################################################
 
@@ -142,20 +171,20 @@ def primer_search(current_amp, filename="primers_list.tsv", method="dumb", tm=40
             primerdict["PRIMER_PAIR_NUM_RETURNED"] = 0
         else:
             # good primer pair(no off-target amplification) is found, add it to the output tsv
-            target = current_amp.permissible_region[int(leftprimer_start):int(rightprimer_start)+int(rightprimer_length)]
+            target = ampl.permissible_region[int(leftprimer_start):int(rightprimer_start)+int(rightprimer_length)]
             product_nonoverlapping_guidecount = nonoverlapping_guidecount(target)
-            tsv_list = [current_amp.guides[0].name,
+            tsv_list = [ampl.guides[0].name,
                         leftprimer,leftprimer_start, leftprimer_length, leftprimer_tm, leftprimer_gc,
                         rightprimer, rightprimer_start, rightprimer_length, rightprimer_tm, rightprimer_gc,
-                        current_amp.length,
+                        ampl.max_length,
                         str(product_len),
-                        current_amp.guidecount,
+                        ampl.guidecount,
                         str(primerdict["expandedpriming"]),
                         str(product_nonoverlapping_guidecount)]
             with open(filename, "a") as handle:
                 handle.write("\t".join(tsv_list))
 
-            current_amp.primers = { "name": current_amp.guides[0].name,
+            ampl.primers = { "name": ampl.guides[0].name,
                                     "leftprimer": leftprimer,
                                     "leftprimer_start": leftprimer_start,
                                     "leftprimer_length": leftprimer_length,
@@ -166,27 +195,40 @@ def primer_search(current_amp, filename="primers_list.tsv", method="dumb", tm=40
                                     "rightprimer_length": rightprimer_length,
                                     "rightprimer_tm": rightprimer_tm,
                                     "rightprimer_gc": rightprimer_gc,
-                                    "template_length": current_amp.length,
+                                    "template_length": ampl.max_length,
                                     "product_length": product_len,
-                                    "guidecount": current_amp.guidecount,
+                                    "guidecount": ampl.guidecount,
                                     "expandedpriming": primerdict["expandedpriming"],
                                     "product_nonoverlapping_guidecount": product_nonoverlapping_guidecount
                                 }
             primelog("Primer added to output file.")
 
+###################
+# MAIN API FUNCTION
+###################
+# def prime(amplicon_list, ouputfilename = "datetime", method = "dumb", tm=40):
 
-
-def prime(amplicon_list, filename = "datetime", method = "dumb", tm=40):
+def prime(filename, directory, genome, threshold, method = "dumb", tm=40):
     """
     Design good (specific) primer pairs to pcr ampify a given list of amplicons
-    :param amplicon_list:
-    :param filename:
+    :param ouputfilename:
     :param method:
     :param tm:
     :return:
     """
-    if filename == "datetime":
-        filename = str("primerlist_" + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".tsv")
-    result = "\n".join([ "Amplicon %s : %s" % (index, amplicon) for index, amplicon in enumerate(amplicon_list)])
-    return result
-    # primer_search(amplicon, filename=filename, method=method, tm=tm)
+    amplicons_list = amplicon(filename, directory, genome, threshold)
+
+    # if ouputfilename == "datetime":
+    #     ouputfilename = str("primerlist_" + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".tsv")
+    ouputfilename = filename + '.amplificationprimers.tsv'
+
+    print('\nPRINT PRIMERS')
+    # result = "\n".join([ "Amplicon %s :\n%s" % (index, ampl) for index, ampl in enumerate(amplicons_list)])
+    # print(result)
+    # primer_search(amplicons_list[0], ouputfilename, method, tm)
+
+    for i, ampl in enumerate(amplicons_list):
+        print("\nAmplicon %s :" % i)
+        primer_search(ampl, ouputfilename, method, tm)
+
+    # return result

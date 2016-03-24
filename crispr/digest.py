@@ -98,7 +98,7 @@ def digest_genome(genome, restriction_enzymes=[u'BfaI', u'ScrFI', u'HpaII']):
 
 # THE WORKHORSE FUNCTION
 ########################
-def digest_bedfile(filename, genome='mm8', direct='./', restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
+def digest_bedfile(filename, genome='mm8', directory='./', restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
     """
     The core inner function handling digest. Saves 4 files
     :param bedfile:
@@ -109,9 +109,9 @@ def digest_bedfile(filename, genome='mm8', direct='./', restriction_enzymes=(u'B
     # root, ext = splitext(bedfile)
     # assert(ext == '.bed')
     # prspbefile = root + '.prsp.bed'
-    bedpath = direct + filename + '.bed'
-    prspbedpath = direct + filename + '.prsp.bed'
-    digestlog("> load reference prsps as %s" % protosp_path(genome))
+    bedpath = directory + filename + '.bed'
+    prspbedpath = directory + filename + '.prsp.bed'
+    digestlog("> load reference prsps at %s" % protosp_path(genome))
     digestlog("> intersect target with reference")
     digestlog("> save protospacers as", prspbedpath)
     BedTool(protosp_path(genome)).intersect(BedTool(bedpath)).moveto(prspbedpath)
@@ -123,21 +123,22 @@ def digest_bedfile(filename, genome='mm8', direct='./', restriction_enzymes=(u'B
 # MAIN API FUNCTION
 ###################
 
-def digest_coord(coord, genome='mm8', direct='./', restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
+def digest_coord(coord, genome='mm8', directory='./', restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
     """
-    You mast have run digest_genome genome already,
+    You must have run digest_genome genome already,
     thereby creating protospacers files .prsp.bed' and .prsp.fasta'
-    :param direct:
+    :param directory:
     :param coord: scaffold:start-end or scaffold:start_length
     :param genome:
     :return:cris
-    >>>digest_coord('chr6.fasta','chr6:136640001-136680000','.')
-    >>>digest_coord('chr6.fasta','chr6:136640001_40000','.')
-    >>>digest_coord('./', 'phix:1-4000', './phix.fasta')
+    >>>digest_coord('chr6:136640001-136680000', 'mm8')
+    >>>digest_coord('chr6:136640001_40000', 'mm8')
+    >>>digest_coord('phix:1-4000', 'phix')
+    >>>digest_coord('chr:101001-105000', 'ecoli')
     """
 
     bedt = Bedtuple.from_coord(coord)
-    bedfile = direct + bedt.filename + '.bed'
+    bedfile = directory + bedt.filename + '.bed'
 
     digestlog('\nDIGEST GENOMIC INTERVAL', bedt.filename, '\n')
 
@@ -147,7 +148,7 @@ def digest_coord(coord, genome='mm8', direct='./', restriction_enzymes=(u'BfaI',
     fastapath = bed_to_fasta(bedfile, genomes_path(genome))
     digestlog("> save target as", fastapath)
 
-    digest_bedfile(bedt.filename, genome, direct, restriction_enzymes)
+    digest_bedfile(bedt.filename, genome, directory, restriction_enzymes)
 
     # TODO handle case when no prsp found, for ex if chosen coord is NNNN... only
     return bedt.filename

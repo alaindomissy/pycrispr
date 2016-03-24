@@ -4,8 +4,7 @@
 # API functions:  blast
 #
 ########################################################################################################################
-from __future__ import absolute_import, division, print_function
-# from __future__ import unicode_literals
+from __future__ import absolute_import, division, print_function   # , unicode_literals
 import os
 try:                                     # Python 2
     from itertools import izip_longest
@@ -61,11 +60,11 @@ Use '-help' to print detailed descriptions of command line arguments
 # SINGLE FILE BLASTING
 ######################
 
-def blast1(prspfilename, genome, direct, max_hsps):
+def blast1(prspfilename, genome, directory, max_hsps):
     blastdb = blastdb_path(genome)
     blastn_cline = NcbiblastnCommandline(
-        query=direct + prspfilename + '.fasta',
-        out=direct + prspfilename + '.blast',
+        query=directory + prspfilename + '.fasta',
+        out=directory + prspfilename + '.blast',
         outfmt=5,
         db=blastdb,
         max_target_seqs=25,
@@ -104,28 +103,28 @@ def grouper_longest(iterable, chunk_size, fillvalue=None):
 # MAIN API FUNCTION
 ###################
 
-def blast(filename, genome, direct, max_hsps, chunk_size):
+def blast(filename, genome, directory, max_hsps, chunk_size):
     """
-    :param direct:
+    blast
+    :param directory:
     :param filename:
     :param blastdb:
     :param chunk_size:
     :param max_hsps:
-    :return:
+    :return: nbr: the nbr of chunks of protospacers processed by blast and blast ouput files saved
     """
     filename = filename + '.prsp'
 
-
     blastlog("\nBLAST PROTOSPACERS\n")
     blastlog("\nload protospacers from", filename, end=' ')
-    seqs = list(seqio.parse(direct + filename + '.fasta', 'fasta'))
+    seqs = list(seqio.parse(directory + filename + '.fasta', 'fasta'))
     blastlog('done')
     nbr_of_prsps = len(seqs)
-    nbr_of_chunks = 1+ len(seqs) // chunk_size
+    nbr_of_chunks = 1 + len(seqs) // chunk_size
     blastlog("%s protospacers in total - will blast %s chunks of %s prsps each\n" % (nbr_of_prsps, nbr_of_chunks, chunk_size))
     nbr = 0
     nbrwrong = 0
-    nameformat = '%s.%sseqs.%s'     # TODO add '.max%sHSPs.' % max_hsps
+    nameformat = '%s.fasta.%sseqs.%s'     # TODO add '.max%sHSPs.' % max_hsps
     for seqs_chunk in grouper_longest(seqs, chunk_size, None):
         # turn seqs_chunk into a list, not including the None fill-values
         seqs_chunk = [seq for seq in seqs_chunk if seq]
@@ -133,12 +132,12 @@ def blast(filename, genome, direct, max_hsps, chunk_size):
         # fn_code_noext = filename + + 'hsps.'+  str(chunk_size) + 'x'  + str(nbr)
 
         fn_code_noext = nameformat % (filename, chunk_size, nbr)
-        rightfasta = direct + fn_code_noext + '.fasta'
-        rightblast = direct + fn_code_noext + '.blast'
-        wrongfasta = direct + fn_code_noext + '.fasta.FAILED'
-        wrongblast = direct + fn_code_noext + '.blast.FAILED'
-        rescuedfasta = direct + fn_code_noext + '.fasta.FAILED.RESCUED'
-        rescuedblast = direct + fn_code_noext + '.blast.FAILED.RESCUED'
+        rightfasta = directory + fn_code_noext + '.fasta'
+        rightblast = directory + fn_code_noext + '.blast'
+        wrongfasta = directory + fn_code_noext + '.fasta.FAILED'
+        wrongblast = directory + fn_code_noext + '.blast.FAILED'
+        rescuedfasta = directory + fn_code_noext + '.fasta.FAILED.RESCUED'
+        rescuedblast = directory + fn_code_noext + '.blast.FAILED.RESCUED'
         if os.path.isfile(rightfasta) and os.path.isfile(rightblast):
             blastlog('> skip chunk ', str(nbr).zfill(3), fn_code_noext)
             continue
@@ -146,10 +145,10 @@ def blast(filename, genome, direct, max_hsps, chunk_size):
             blastlog('> rescue chunk ', str(nbr).zfill(3), fn_code_noext, end=' ')
         else:
             blastlog('> blast chunk ', str(nbr).zfill(3), fn_code_noext, end=' ')
-        with open(direct + fn_code_noext + '.fasta', "w") as temp_hndl:
+        with open(directory + fn_code_noext + '.fasta', "w") as temp_hndl:
             seqio.write(seqs_chunk, temp_hndl, "fasta")
         ########################################################
-        failed = blast1(fn_code_noext, genome, direct, max_hsps)
+        failed = blast1(fn_code_noext, genome, directory, max_hsps)
         ########################################################
         if failed:
             nbrwrong +=1
@@ -161,7 +160,9 @@ def blast(filename, genome, direct, max_hsps, chunk_size):
             if os.path.isfile(wrongblast):
                  os.rename(wrongblast, rescuedblast)
     fn_code_noext = nameformat % (filename, chunk_size, nbr)
-    with open(direct + fn_code_noext + '@' + str(max_hsps) + 'maxHSPs' + '.txt', "w") as temp_hndl:
-            temp_hndl.write('all done - %s chunks' % nbr)
+    with open(directory + fn_code_noext + '.maxHSPs.' + str(max_hsps) + '.nbrofchunks.' + str(nbr) , "w") as temp_hndl:
+        # temp_hndl.write('all done - %s chunks' % nbr)
+        temp_hndl.write(str(nbr))
     blastlog('all', nbr, 'chunks blasted','with', nbrwrong, 'failed chunks' )
+    # TODO at this stage nbr should == nbr_of_chunks, correct ? simplify ?
     return nbr

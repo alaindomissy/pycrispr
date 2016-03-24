@@ -1,6 +1,10 @@
-
-from __future__ import absolute_import, division, print_function
-# from __future__ import unicode_literals
+########################################################################################################################
+# PCR
+#
+# API functions:  epcr_screen_primers
+#
+########################################################################################################################
+# from __future__ import absolute_import, division, print_function   # , unicode_literals
 from six import iteritems
 import os
 from Bio import SeqIO
@@ -9,6 +13,7 @@ from Bio.SeqRecord import SeqRecord
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from Bio.Blast import NCBIXML
 from Bio.Blast.Applications import NcbiblastnCommandline
+from .config import blastdb_path
 
 
 # TODO check emboss primersearch
@@ -32,7 +37,7 @@ def blast_seqstring(seqstring, genome):
         handle.write(">" + str(seqstring) + "\n")
         handle.write(str(seqstring))
     blastn_cline = NcbiblastnCommandline(query="primer.fasta",
-                                         db=genome,
+                                         db= blastdb_path(genome),
                                          task="blastn-short",
                                          outfmt=5,
                                          out="primer.blast",

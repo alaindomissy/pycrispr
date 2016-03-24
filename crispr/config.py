@@ -23,7 +23,7 @@ RESTRICTION_ENZYMES_LIST = ['BfaI', 'HpaII', 'ScrFI']
 DIGEST_LOG_ON = True
 BLAST_LOG_ON = True
 SCORE_LOG_ON = True
-CLUSTER_LOG_ON = True
+STRETCH_LOG_ON = True
 PRIME_LOG_ON = True
 
 
@@ -39,8 +39,8 @@ def scorelog(*args, **kwargs):
     if SCORE_LOG_ON:
         print(*args, **kwargs)
 
-def clusterlog(*args, **kwargs):
-    if CLUSTER_LOG_ON:
+def stretchlog(*args, **kwargs):
+    if STRETCH_LOG_ON:
         print(*args, **kwargs)
 
 def primelog(*args, **kwargs):
@@ -48,10 +48,8 @@ def primelog(*args, **kwargs):
         print(*args, **kwargs)
 
 
-# Default parameters for primer3 primer design
-# You ccan supply your own by copying this and modifyin
-# These defaults were intended for NEB's Q5 HotStart polymerase
-PRIMER3_PARAMETERS = {
+# Default parameters for primer3 primer design, intended for NEB's Q5 HotStart polymerase
+PRIMER3_GLOBAL_ARGS = {
     'PRIMER_NUM_RETURN': 20,
     'PRIMER_OPT_SIZE': 20,
     'PRIMER_PICK_INTERNAL_OLIGO': 0,
@@ -70,14 +68,19 @@ PRIMER3_PARAMETERS = {
     'PRIMER_MAX_NS_ACCEPTED': 0,
     'PRIMER_MAX_SELF_ANY': 12,
     'PRIMER_MAX_SELF_END': 8,
-    'PRIMER_WT_SELF_ANY': 1, # added
-    'PRIMER_PAIR_WT_COMPL_ANY':1, #added
-    'PRIMER_PAIR_WT_COMPL_END':1, #added
-    'PRIMER_PAIR_WT_SELF_END':1, #added
-    'PRIMER_PAIR_WT_SELF_ANY':1, #added
     'PRIMER_PAIR_MAX_COMPL_ANY': 12,
     'PRIMER_PAIR_MAX_COMPL_END': 8,
-    'PRIMER_PRODUCT_SIZE_RANGE': [26, 18000],
+
+    # 'PRIMER_PRODUCT_SIZE_RANGE': [[75,100],[100,125],[125,150],[150,175],[175,200],[200,225]],
+    # 'PRIMER_PRODUCT_SIZE_RANGE': [[26, 180]],
+    'PRIMER_PRODUCT_SIZE_RANGE': [[26, 18000]],
+
+    # 'PRIMER_WT_SELF_ANY': 1, # added
+    # 'PRIMER_PAIR_WT_COMPL_ANY':1, #added
+    # 'PRIMER_PAIR_WT_COMPL_END':1, #added
+    # 'PRIMER_PAIR_WT_SELF_END':1, #added
+    # 'PRIMER_PAIR_WT_SELF_ANY':1, #added
+
     'PRIMER_MIN_THREE_PRIME_DISTANCE':3,
     'PRIMER_PAIR_MAX_DIFF_TM':5, #added
     'PRIMER_PAIR_WT_DIFF_TM':1, #added
@@ -96,6 +99,7 @@ def sorted_unique_firstdotsplit(filenammes):
     """
     return sorted(list(set([file.split('.')[0] for file in filenammes])))
 
+# GENOMESPATHS = {}
 
 GENOMESPATHS = {
     # 'hg18'     : '/genomes/Homo_sapiens/UCSC/hg18/Sequence/WholeGenomeFasta/genome.fa',

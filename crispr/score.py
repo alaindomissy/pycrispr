@@ -9,11 +9,13 @@
 from __future__ import absolute_import, division, print_function
 # from __future__ import unicode_literals
 import subprocess
+import pickle
 from Bio.Blast import NCBIXML
 from Bio.Application import ApplicationError
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from Bio import SeqIO as seqio # TODO this is also imported from cut.py, ok?
-from .config import scorelog
+from .config import scorelog, blastdb_path
+from .cut import tabbed_string_from_list, savelinestofile
 from .zhang import zhangscore, format_factors
 try:
     from io import StringIO        # python3
@@ -28,8 +30,13 @@ def is_valid_pam(pam):
 
 
 def load_genome_dict(fastafilepath):
-    # genomedict = a dict made from a FASTA file identical to the one used to make the BLAST DB.
-    # dict keys should be BLAST db hit_def.
+    """
+    utility omly used by score function with option load_genome=True
+    deprecated
+    :param fastafilepath:
+    :return: a dictionary made from a FASTA file identical to the one used to make the BLAST DB,
+    the keys are BLAST db hit_def, the values are
+    """
     genomeseq = seqio.parse(open(fastafilepath, 'rb'), "fasta", alphabet=IUPACAmbiguousDNA())
     genomedict = {}
     for seq in genomeseq:
@@ -37,18 +44,161 @@ def load_genome_dict(fastafilepath):
     return genomedict
 
 
+# GUIDES UTILITIES
+##################
+
+"""
+    >>>import Bio
+    >>>guide1 = Bio.SeqRecord.SeqRecord(seq=Bio.Seq.Seq('ccatcccgtcaaagtcagcc', Bio.Alphabet.SingleLetterAlphabet()),
+                    id='chr6:136640082-136640102(+)',
+                    name='chr6:136640082-136640102(+)',
+                    description='chr6:136640082-136640102(+) blastindex=20 score=100',
+                    dbxrefs=[])
+    >>>guide1.annotations["blastindex"]=20,
+    >>>guide1.annotations["score"]=100,
+
+    >>>is_forward(guide1)
+    True
+    >>>get_substrate(guide1)
+    chr6
+    >>>get_position(guide1)
+    136640082
+    >>>get_score(guide1)
+    100 %
+"""
+
+def is_forward(guide):
+    return guide.id.split('(')[1][0:1] == '+'
+
+def get_substrate(guide):
+    return guide.id.split(':')[0]
+
+def get_score(guide):
+    return guide.annotations['score']
+
+def get_position(guide):
+    return int(guide.name.split(':')[1].split('-')[0])
+
+def get_score_s(guides):
+    return [get_score(guide) for guide in guides]
+
+def get_substrate_position_score_tuples(guides):
+    return [(get_substrate(guide), get_position(guide), get_score(guide)) for guide in guides]
+
+
+# GUIDES BED UTILITIES
+######################
+
+def scorebedline(guide, low, high):
+    """
+    output a guide as a one line bed format string, colored per low and high score thresholds
+    :param guide:
+    :param low:
+    :param high:
+    :return: a bed-format one line output string for given 'guide', with coloring based on 'low' and 'high' thresholds
+    >>>import Bio
+    >>>guide1 = SeqRecord(seq=Seq('ccatcccgtcaaagtcagcc', SingleLetterAlphabet()),
+                    id='chr6:136640082-136640102(+)',
+                    name='chr6:136640082-136640102(+)',
+                    description='chr6:136640082-136640102(+) blastindex=20 score=100',
+                    dbxrefs=[])
+    >>>guide1.annotations["blastindex"]=20,
+    >>>guide1.annotations["score"]=100,
+    >>>scorebedline(guide1, 75, 75)
+
+    """
+    substrate_id = guide.id.split(':')[0]
+    bedstart = guide.id.split(':')[1].split('-')[0]
+    # rename scaffold field and make coord 'absolute' (ie based on higher level)
+    # if reref_substrate_id:
+    #     substrate_id = reref_substrate_id
+    #     bedstart = str(int(bedstart) + int(guide.id.split(':')[1].split('-')[0]))
+    bedend = str(int(bedstart) + 20)
+    sense = guide.id[-2]
+    try:
+        score = str(guide.annotations['score'])
+    except:
+        score ='0'
+    # TODO use gradual shades reflecting scores
+    # suddenly got this error invalid literal for int() with base 10:0.0 Now changed int() to float() But why ?
+    if float(score) < low:
+        color = '255,0,0'       # red
+    elif int(score) >= high:
+        color = '0,255,0'       # green
+    else:
+        color = '0,0,255'       # blue
+    cutinfo = [substrate_id, bedstart, bedend, 'crRNA', score, sense, bedstart, bedend, color]
+    # cutinfo = [substrate_id, bedstart, bedend, 'crspr_guide', 'score', sense]
+    bedline = tabbed_string_from_list(cutinfo)
+    return bedline
+
+
+def scorebedlines(guides, low, high):
+    return [scorebedline(guide, low, high) for guide in guides]
+
+
+# GUIDES IO
+###########
+
+def save_guides(guides, filename, directory, low, high):
+    """
+    save guides
+    :param guides:
+    :param filename:
+    :param directory:
+    :return:
+    """
+    with  open(directory + filename + ".guides.pkl", "w") as output_pkl:
+        pickle.dump(guides, output_pkl)
+
+    with  open(directory + filename + ".guides.fasta", "w") as output_fasta:
+        seqio.write(guides, output_fasta, "fasta")
+
+    savelinestofile(directory + filename + '.guides.bed',
+                    scorebedlines(guides, low, high)
+                    )
+
+    return guides
+
+
+def load_guides(filename, directory):
+    """
+    load guides
+    :param filename:
+    :param directory:
+    :return:
+    """
+    with  open(directory + filename + ".guides.pkl", "r") as input_pkl:
+        guides = pickle.load(input_pkl)
+    # not necessary ?
+    # sort by increasing position within region
+    guides_sorted = sorted(guides, reverse=False, key=get_position)
+    return guides_sorted
+
 
 ###################
 # MAIN API FUNCTION
 ###################
 
-def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
+def score(nbrofchunks, filename, genome, directory, chunk_size, load_genome=False, low=75, high=94,):
+    """
 
-    filename = filename + '.prsp'
-    blastdb = genome + '/' + genome
+    :param nbrofchunks:
+    :param filename:
+    :param genome:
+    :param directory:
+    :param chunk_size:
+    :param load_genome:
+    :return: guides a list of ...
+    """
+
+    # filename = filename + '.prsp'
+    # blastdb = genome + '/' + genome
+    blastdb = blastdb_path(genome)
 
     if load_genome:
-        fastafilepath = direct +'dict.fasta'
+        # TODO deprecate
+        fastafilepath = directory +'dict.fasta'
         print('\nLOAD REFERENCE GENOME from', end=' ')
         genomedict =load_genome_dict(fastafilepath)
         print('...done')
@@ -57,15 +207,15 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
         scorelog('pam look up via blastdbcmd')
 
     scorelog('load unscored guides', end='')
-    with open(direct + filename + '.fasta') as guidesfn:
+    with open(directory + filename + '.prsp.fasta') as guidesfn:
         guides = list(seqio.parse(guidesfn, "fasta"))
         scorelog(' ...done')
 
     print('\nPARSE BLAST-RESULTS IN CHUNKS')
     blastrecords = []
     for chunknbr in range(1, nbrofchunks + 1):
-        fn_withext = filename + '.' + str(chunk_size) + 'seqs.' + str(chunknbr) + '.blast'
-        blastfn = direct + fn_withext
+        fn_withext = filename + '.prsp.fasta.' + str(chunk_size) + 'seqs.' + str(chunknbr) + '.blast'
+        blastfn = directory + fn_withext
         try:
             with open(blastfn) as blasthndl:
                 print('> parse chunk ', str(chunknbr).zfill(3), fn_withext, end='')
@@ -187,7 +337,7 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
         guides[blastindex].annotations['score'] = finalscore
         guides[blastindex].annotations['blastindex'] = blastindex
 
-        guides[blastindex].description += ' blastindex %s prsp_score %s %%' % (blastindex, finalscore)
+        guides[blastindex].description += ' blastindex=%s score=%s' % (blastindex, finalscore)
         # print(guides[blastindex].format('fasta'))
 
         # print(guides[blastindex],
@@ -218,20 +368,12 @@ def score(nbrofchunks, filename, genome, direct, chunk_size, load_genome=False):
     # print("HERE ARE THE GUIDES: ")
     # print([(guide.id, guide.seq, guide.annotations.get('score')) for guide in guides])
 
-    print('\nSORTING SCORED GUIDES')
+    print('\nSORT SCORED GUIDES BY POSITION')
     # sort guides by position, using the seqrecord id
     # guides.sort(key=lambda x: int(x.id.split(':')[2].split('-')[0]))
+    # guides.sort(key=get_position)
 
-    guides.sort(key=lambda x: int( x.id.split(':')[1].split('-')[0]))
-
-    with  open(direct + filename + ".scored.fasta", "w") as output_handle:
-        seqio.write(guides, output_handle, "fasta")
-
-    # print(guides.format('fasta'))
-
-    # for guide in guides:
-    #     print()
-    #     # print(guide.format('gb'))   # TODO why this? Locus identifier 'chr:101153-101173(+)' is too long
-    #     print(guide.format('fasta'))
+    print('\nSAVE SORTED SCORED GUIDES')
+    save_guides(guides, filename, directory, low, high)
 
     return guides

@@ -35,6 +35,12 @@ def tabbed_string_from_list(list):
     return '\t'.join(map(str, list)) + '\n'
 
 
+def savelinestofile(path, lines):
+    with open(path, 'w') as handle:
+       for line in lines:
+          handle.write(line)
+
+
 # TODO somehow retain the info about enzyme name (goes in seqrecord.description)
 # TODO store a serial id number for each cut, concatenated with with _F or _R (goes in seqrecord.id)
 # TODO store cutpos (goes in seqrecords.name)
