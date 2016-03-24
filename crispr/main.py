@@ -115,8 +115,8 @@ def digest_blast_score_cluster_prime(coord, genome, directory, max_hsps, chunk_s
                                      low=75, high=94, load_genome=False, howmany=0,
                                      restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
 
-    bedtfilename = digest_coord(coord, genome, directory, restriction_enzymes)
-    print("bedtfilename : " , bedtfilename)
+    filename = digest_coord(coord, genome, directory, restriction_enzymes)
+    print("filename : " , filename)
     # nbr =
     nbr = blast_coord(coord, genome, directory, max_hsps, chunk_size)
     # guides =

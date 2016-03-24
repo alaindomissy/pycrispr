@@ -32,7 +32,7 @@ setup(name='crispr',
 
             'six==1.10.0',
 
-            'basespaceapp'
+            'basespaceapp',
 
             'primer3-py'       # needed for travis CI
 

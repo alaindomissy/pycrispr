@@ -240,7 +240,7 @@ def run(filename, directory, threshold=94):
 
     print('\nPRINT GUIDES')
     for idx, guide in enumerate(guides):
-        print(idx, guide.id, get_score(guide), get_score(guide) >= threshold)
+        print(idx, guide.id, get_score(guide), "GOOD" if get_score(guide) >= threshold else "BAD")
 
     print('\nPRINT RUNS')
     print(runs)
