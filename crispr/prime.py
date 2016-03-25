@@ -239,7 +239,7 @@ def prime(filename, directory, genome, threshold, method = "dumb", tm=40):
 
     # if ouputfilename == "datetime":
     #     ouputfilename = str("primerlist_" + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".tsv")
-    ouputfilename = filename + '.amplificationprimers.tsv'
+    ouputfilename = filename + '.amplificationprimers.csv'
 
     print('\nPRINT PRIMERS')
     # result = "\n".join([ "Amplicon %s :\n%s" % (index, ampl) for index, ampl in enumerate(amplicons_list)])
