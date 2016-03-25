@@ -33,7 +33,7 @@ def payload(params_value, output_dir):
     restore_genome(genome)
 
     digest_blast_score_cluster_prime(coord, genome, SCRATCH, max_hsps=max_hsps, chunk_size=chunk_size,
-                                     low=75, high=75, load_genome=False, howmany=None,
+                                     low=75, high=94, load_genome=False, howmany=None,
                                      restriction_enzymes=restriction_enzymes)
 
     datetimenow = datetime.now().isoformat('_')

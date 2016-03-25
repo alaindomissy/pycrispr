@@ -238,9 +238,9 @@ def run(filename, directory, threshold=94):
     # TODO why this criteria of at least 3 good guides ?
     runs = [(start, end) for (start, end) in zip(starts, ends) if end - start > 3]
 
-    print('\nPRINT GUIDES')
-    for idx, guide in enumerate(guides):
-        print(idx, guide.id, get_score(guide), "GOOD" if get_score(guide) >= threshold else "BAD")
+    # print('\nPRINT GUIDES')
+    # for idx, guide in enumerate(guides):
+    #     print(idx, guide.id, get_score(guide), "GOOD" if get_score(guide) >= threshold else "BAD")
 
     print('\nPRINT RUNS')
     print(runs)

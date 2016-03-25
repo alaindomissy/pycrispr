@@ -59,7 +59,7 @@ def initialize_primers_list_file(filename):
             handle.write(headers_string)
 
 
-def primer_search(ampl, filename, method="dumb", tm=40, primer3_global_args=PRIMER3_GLOBAL_ARGS):
+def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_global_args=PRIMER3_GLOBAL_ARGS):
     '''
     Returns a dict of candidate primers and their parameters, calculated against an Amplicon instance.
 
@@ -74,9 +74,10 @@ def primer_search(ampl, filename, method="dumb", tm=40, primer3_global_args=PRIM
 
     Primer parameters can be supplied with the primer3_global_args argument, or left as defaults.
     '''
+    outputfilepath = directory + filename + '.amplificationprimers.csv'
     #
     print("INITIALIZE AMPLIFICATIONPRINMERS.TSV FILE")
-    initialize_primers_list_file(filename)
+    initialize_primers_list_file(outputfilepath)
 
     # Work on a "masked" version of the sequence where lowercase letters are converted to Ns
     sequence_string = str(mask_sequence(ampl.permissible_region).seq)
@@ -162,7 +163,7 @@ def primer_search(ampl, filename, method="dumb", tm=40, primer3_global_args=PRIM
                     # None
                     print("iteration" + str(i) + "right primer" + rightprimer + "is bad")
                 if is_bad and i == primerdict["PRIMER_PAIR_NUM_RETURNED"]:
-                    with open(filename, "a") as handle:
+                    with open(outputfilepath, "a") as handle:
                         #############################################################
                         handle.write("All the primers were bad for this amplicon!\n")
                         #############################################################
@@ -180,10 +181,10 @@ def primer_search(ampl, filename, method="dumb", tm=40, primer3_global_args=PRIM
             primerdict["PRIMER_PAIR_NUM_RETURNED"] = 0
         else:
             # good primer pair(no off-target amplification) is found, add it to the output tsv
-            print("\nampl.permissible_region", ampl.permissible_region)
-            print("leftprimer_start", leftprimer_start)
-            print("rightprimer_start", rightprimer_start)
-            print("rightprimer_length", rightprimer_length)
+            # print("\nampl.permissible_region", ampl.permissible_region)
+            # print("leftprimer_start", leftprimer_start)
+            # print("rightprimer_start", rightprimer_start)
+            # print("rightprimer_length", rightprimer_length)
             target = ampl.permissible_region.seq[int(leftprimer_start):int(rightprimer_start)+int(rightprimer_length)]
 
             product_nonoverlapping_guidecount = nonoverlapping_guidecount(target)
@@ -195,7 +196,7 @@ def primer_search(ampl, filename, method="dumb", tm=40, primer3_global_args=PRIM
                         str(ampl.guides_count),
                         str(primerdict["expandedpriming"]),
                         str(product_nonoverlapping_guidecount)]
-            with open(filename, "a") as handle:
+            with open(outputfilepath, "a") as handle:
                 #################################
                 print("tsv_list", tsv_list)
                 handle.write("\t".join(tsv_list)  + "\n")
@@ -239,7 +240,7 @@ def prime(filename, directory, genome, threshold, method = "dumb", tm=40):
 
     # if ouputfilename == "datetime":
     #     ouputfilename = str("primerlist_" + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".tsv")
-    ouputfilename = filename + '.amplificationprimers.csv'
+    # ouputfilename = filename + '.amplificationprimers.csv'
 
     print('\nPRINT PRIMERS')
     # result = "\n".join([ "Amplicon %s :\n%s" % (index, ampl) for index, ampl in enumerate(amplicons_list)])
@@ -248,6 +249,6 @@ def prime(filename, directory, genome, threshold, method = "dumb", tm=40):
 
     for i, ampl in enumerate(amplicons_list):
         print("\nAmplicon %s :" % i)
-        primer_search(ampl, ouputfilename, method, tm)
+        primer_search(ampl, filename, directory, method, tm)
 
     # return result
