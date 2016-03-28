@@ -16,8 +16,9 @@ ARGUMENTS_WITH_CONTENT = [
                             # 'input.blast_chunk_size',
                             # 'input.blast_max_hsps',
                             'input.refgenome_id',
-                            'input.genomic_coord'
-
+                            'input.genomic_coord',
+                            'input.low_threshold',
+                            'input.high_threshold'
                          ]
 
 ARGUMENTS_WITH_ITEMS = ['input.restr_enzymes', 'input.checkbox-logging']

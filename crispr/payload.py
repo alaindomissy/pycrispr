@@ -21,22 +21,20 @@ from .main import digest_blast_score_cluster_prime
 def payload(params_value, output_dir):
 
     coord = str(params_value.get('input.genomic_coord'))
-    assert(coord)
-
     genome = str(params_value['input.refgenome_id'])
-    restriction_enzymes =  params_value['input.restr_enzymes']
 
+    restriction_enzymes =  params_value['input.restr_enzymes']
 
     chunk_size = 10                  #int(params_value['input.blast_chunk_size'])
     max_hsps = 10                    # int(params_value['input.blast_max_hsps'])
+
+    # interference_gap = str(params_value['input.interference_gap'])
 
     low_threshold = params_value['input.low_threshold']     #75
     high_threshold = params_value['input.high_threshold']   #94
 
     checkbox_logging = params_value[' input.checkbox-logging']
     print('checkbox_logging', checkbox_logging)
-
-    # interference_gap = str(params_value['input.interference_gap'])
 
     restore_genome(genome)
 
