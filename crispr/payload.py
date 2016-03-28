@@ -25,15 +25,23 @@ def payload(params_value, output_dir):
 
     genome = str(params_value['input.refgenome_id'])
     restriction_enzymes =  params_value['input.restr_enzymes']
-    chunk_size = int(params_value['input.blast_chunk_size'])
-    max_hsps = int(params_value['input.blast_max_hsps'])
-    # interference_gap = str(params_value['input.interference_gap'])
 
+
+    chunk_size = 10                  #int(params_value['input.blast_chunk_size'])
+    max_hsps = 10                    # int(params_value['input.blast_max_hsps'])
+
+    low_threshold = params_value['input.low_threshold']     #75
+    high_threshold = params_value['input.high_threshold']   #94
+
+    checkbox_logging = params_value[' input.checkbox-logging']
+    print('checkbox_logging', checkbox_logging)
+
+    # interference_gap = str(params_value['input.interference_gap'])
 
     restore_genome(genome)
 
     digest_blast_score_cluster_prime(coord, genome, SCRATCH, max_hsps=max_hsps, chunk_size=chunk_size,
-                                     low=75, high=94, load_genome=False, howmany=None,
+                                     low=low_threshold, high=high_threshold, load_genome=False, howmany=None,
                                      restriction_enzymes=restriction_enzymes)
 
     datetimenow = datetime.now().isoformat('_')
