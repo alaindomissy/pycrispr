@@ -24,6 +24,7 @@ ARGUMENTS_WITH_CONTENT = [
 ARGUMENTS_WITH_ITEMS = ['input.restr_enzymes', 'input.checkbox-logging']
 
 RESTRICTION_ENZYMES_LIST = ['BfaI', 'HpaII', 'ScrFI']
+
 DIGEST_LOG_ON = True
 BLAST_LOG_ON = True
 SCORE_LOG_ON = True

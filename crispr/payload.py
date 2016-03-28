@@ -34,7 +34,11 @@ def payload(params_value, output_dir):
     high_threshold = params_value['input.high_threshold']   #94
 
     checkbox_logging = params_value[' input.checkbox-logging']
-    print('checkbox_logging', checkbox_logging)
+    DIGEST_LOG_ON = 'digest_log_on' in checkbox_logging
+    BLAST_LOG_ON = 'blast_log_on' in checkbox_logging
+    SCORE_LOG_ON = 'score_log_on' in checkbox_logging
+    STRETCH_LOG_ON = 'stretch_log_on' in checkbox_logging
+    PRIME_LOG_ON = 'prime_log_on' in checkbox_logging
 
     restore_genome(genome)
 
