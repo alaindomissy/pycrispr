@@ -32,7 +32,7 @@ class Bedtuple(namedtuple('Bedtuple', 'scaffold beg end')):
     @classmethod
     def from_coord(cls, coord):
         """
-        :param coord: scaffold:start-end or scaffold:start_length
+        :param coord: scaffold:start-end or scaffold:start_length (any commmas may be present and will be removed)
         :return: a tuple of: a list of 1 3cols-bed-tuple, and a filename
         works with start and end:
         >>> coord_to_bedtuple_and_filename('chr6:136640001-136680000')
@@ -41,6 +41,7 @@ class Bedtuple(namedtuple('Bedtuple', 'scaffold beg end')):
         >>> coord_to_bedtuple_and_filename('chr6:136640001_40000')
         ([('chr6', '136640000', '136680000')], 'chr6+136640001-136680000_40000.bed')
         """
+        coord = coord.replace(",", "")
         has_dash = '-' in coord
         has_under = '_' in coord
         assert(has_dash ^ has_under)
