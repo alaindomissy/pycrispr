@@ -21,7 +21,7 @@ ARGUMENTS_WITH_CONTENT = [
                             'input.high_threshold'
                          ]
 
-ARGUMENTS_WITH_ITEMS = ['input.restr_enzymes', 'input.checkbox-logging']
+ARGUMENTS_WITH_ITEMS = ['input.restr_enzymes', 'input.checkbox_logging']
 
 RESTRICTION_ENZYMES_LIST = ['BfaI', 'HpaII', 'ScrFI']
 
