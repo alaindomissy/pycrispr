@@ -18,7 +18,8 @@ ARGUMENTS_WITH_CONTENT = [
                             'input.refgenome_id',
                             'input.genomic_coord',
                             'input.low_threshold',
-                            'input.high_threshold'
+                            'input.high_threshold',
+                            'input.primer_screening'
                          ]
 
 ARGUMENTS_WITH_ITEMS = ['input.restr_enzymes', 'input.checkbox_logging']

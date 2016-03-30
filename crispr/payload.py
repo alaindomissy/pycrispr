@@ -33,6 +33,8 @@ def payload(params_value, output_dir):
     low_threshold = params_value['input.low_threshold']     #75
     high_threshold = params_value['input.high_threshold']   #94
 
+    primer_screening = params_value['input.primer_screening']
+
     checkbox_logging = params_value['input.checkbox_logging']
     DIGEST_LOG_ON = 'digest_log_on' in checkbox_logging
     BLAST_LOG_ON = 'blast_log_on' in checkbox_logging
