@@ -76,7 +76,7 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
     '''
     outputfilepath = directory + filename + '.amplificationprimers.csv'
     #
-    print("INITIALIZE AMPLIFICATIONPRINMERS.TSV FILE")
+    print("INITIALIZE AMPLIFICATIONPRINMERS.CSV FILE")
     initialize_primers_list_file(outputfilepath)
 
     # Work on a "masked" version of the sequence where lowercase letters are converted to Ns

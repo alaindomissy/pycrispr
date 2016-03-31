@@ -67,7 +67,7 @@ def run_coord(coord, directory, high):
     """
     return run(filename_from_coord(coord), directory, high)
 
-def amplicon_coord(coord, directory, genome, substrate, threshold):
+def amplicon_coord(coord, directory, genome, threshold):
     """
     Prerequisite is to have digested coord, therby created the corresponding file
     :param guides:
@@ -76,7 +76,7 @@ def amplicon_coord(coord, directory, genome, substrate, threshold):
     :param high:
     :return:
     """
-    return amplicon(filename_from_coord(coord), directory, genome, substrate, threshold)
+    return amplicon(filename_from_coord(coord), directory, genome, threshold)
 
 def prime_coord(coord, directory, genome, high):
     """
@@ -125,7 +125,9 @@ def digest_blast_score_cluster_prime(coord, genome, directory, max_hsps, chunk_s
     guides, stretches = stretch_coord(coord, directory, low, high, howmany)
 
     # guides, runs = run_coord(coord, directory, high)
+    #
     # amplicons = amplicon_coord(coord, directory, genome, high)      # TODO de-hardcode substrate
+    #
     prime_coord(coord, directory, genome, high)
 
     return guides, stretches  #, amplicons
