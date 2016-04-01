@@ -22,9 +22,9 @@ from .score import get_score, get_score_s, get_substrate_position_score_tuples, 
 ##############
 
 def print_scores_info(guides):
-    print()
-    print('distribution of scores among all', len(guides), 'guides (score, nb of guides with that score)')
-    print(sorted(collections.Counter(get_score_s(guides)).items()))
+    stretchlog()
+    stretchlog('distribution of scores among all', len(guides), 'guides (score, nb of guides with that score)')
+    stretchlog(sorted(collections.Counter(get_score_s(guides)).items()))
     return guides
 
 def print_scores_histo(direct, guides, fn_noext):
@@ -46,7 +46,7 @@ def regroup(guides, high):
     end = 0
     substr = 'none'
     for tuple in substrate_position_score_tuples:
-        #print(tuple)
+        #stretchlog(tuple)
         # if this is a good guide
         if tuple[2] >= high:
             # only consider a good guide if it starts after the tryfrom poition
@@ -139,27 +139,27 @@ def load_stretches(filename, directory):
 def print_stretches_yield_info(stretches, howmanythreshold=None):
     if not howmanythreshold:
         howmanythreshold = len(stretches) // 2
-    print('')
-    print('%s stretches totaling %s bps yielding a total of %s guides'
+    stretchlog('')
+    stretchlog('%s stretches totaling %s bps yielding a total of %s guides'
             % (len(stretches), sum([t[3] for t in stretches]), sum([t[4] for t in stretches]))
             )
-    print('with average group of %s bps yielding %s guides'
+    stretchlog('with average group of %s bps yielding %s guides'
             % (mean([t[3] for t in stretches])//1, mean([t[4] for t in stretches])//1)
             )
-    print('')
-    print('top %s stretches totaling %s bps yielding a total of %s guides'
+    stretchlog('')
+    stretchlog('top %s stretches totaling %s bps yielding a total of %s guides'
             % (howmanythreshold, sum([t[3] for t in stretches[0:howmanythreshold]]), sum([t[4] for t in stretches[0:howmanythreshold]]))
             )
-    print('with average group of %s bps yielding %s guides'
+    stretchlog('with average group of %s bps yielding %s guides'
             % (mean([t[3] for t in stretches[0:howmanythreshold]])//1, mean([t[4] for t in stretches[0:howmanythreshold]])//1)
             )
-    print('')
+    stretchlog('')
     for stretch in stretches[0:howmanythreshold]:
-        print("%s:%s-%s (%s bps) yields %s guides (%s guides per 1000bps )" % stretch)
-    print('')
+        stretchlog("%s:%s-%s (%s bps) yields %s guides (%s guides per 1000bps )" % stretch)
+    stretchlog('')
     for stretch in stretches[howmanythreshold:]:
-        print("%s:%s-%s (%s bps) yields %s guides (%s guides per 1000bps )" % stretch)
-    print('')
+        stretchlog("%s:%s-%s (%s bps) yields %s guides (%s guides per 1000bps )" % stretch)
+    stretchlog('')
     return stretches
 
 
@@ -182,20 +182,25 @@ def stretch(filename, directory, low=75, high=94, howmanythreshold=0):
     :return:
     """
     guides = load_guides(filename, directory)
-    print('\nPLOT SCORES INFO AND HISTOGRAM')
+
+    stretchlog('\n*******************************************************************')
+    stretchlog('STRETCHES:  SCORES INFO AND HISTOGRAM')
+    stretchlog('*******************************************************************')
     print_scores_info(guides)
     print_scores_histo(directory, guides, filename)
 
-    print('\nFIND GOOD GUIDES STRETCHES')
+    stretchlog('\n*******************************************************************')
+    stretchlog('FIND GOOD GUIDES STRETCHES')
+    stretchlog('*******************************************************************')
     stretches = regroup(guides, high)
-    print(("substrate, start, end, length, good guides, good guides per thousand nucl."))
+    stretchlog(("substrate, start, end, length, good guides, good guides per thousand nucl."))
     for idx, stretch in enumerate(stretches):
-        print(idx, stretch)
+        stretchlog(idx, stretch)
 
-    print('\nSAVE STRETCHES')
+    stretchlog('\nSAVE STRETCHES')
     save_stretches(stretches, filename, directory, howmanythreshold)
 
-    print('\nRANK STRETCHES BY GUIDES YIELD')
+    stretchlog('\nRANK STRETCHES BY GUIDES YIELD')
     print_stretches_yield_info(stretches, howmanythreshold)
     return guides, stretches
 
@@ -238,12 +243,12 @@ def run(filename, directory, threshold=94):
     # TODO why this criteria of at least 3 good guides ?
     runs = [(start, end) for (start, end) in zip(starts, ends) if end - start > 3]
 
-    # print('\nPRINT GUIDES')
+    # stretchlog('\nPRINT GUIDES')
     # for idx, guide in enumerate(guides):
-    #     print(idx, guide.id, get_score(guide), "GOOD" if get_score(guide) >= threshold else "BAD")
+    #     stretchlog(idx, guide.id, get_score(guide), "GOOD" if get_score(guide) >= threshold else "BAD")
 
-    print('\nPRINT RUNS')
-    print(runs)
+    stretchlog('\nPRINT RUNS')
+    stretchlog(runs)
 
     return guides, runs
 

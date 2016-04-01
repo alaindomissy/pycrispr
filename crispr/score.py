@@ -199,9 +199,9 @@ def score(nbrofchunks, filename, genome, directory, chunk_size, load_genome=Fals
     if load_genome:
         # TODO deprecate
         fastafilepath = directory +'dict.fasta'
-        print('\nLOAD REFERENCE GENOME from', end=' ')
+        scorelog('\nLOAD REFERENCE GENOME from', end=' ')
         genomedict =load_genome_dict(fastafilepath)
-        print('...done')
+        scorelog('...done')
         scorelog('pam look up via genomedict')
     else:
         scorelog('pam look up via blastdbcmd')
@@ -211,20 +211,22 @@ def score(nbrofchunks, filename, genome, directory, chunk_size, load_genome=Fals
         guides = list(seqio.parse(guidesfn, "fasta"))
         scorelog(' ...done')
 
-    print('\nPARSE BLAST-RESULTS IN CHUNKS')
+    scorelog('\n*******************************************************************')
+    scorelog('SCORE BLAST CHUNKS')
+    scorelog('*******************************************************************')
     blastrecords = []
     for chunknbr in range(1, nbrofchunks + 1):
         fn_withext = filename + '.prsp.fasta.' + str(chunk_size) + 'seqs.' + str(chunknbr) + '.blast'
         blastfn = directory + fn_withext
         try:
             with open(blastfn) as blasthndl:
-                print('> parse chunk ', str(chunknbr).zfill(3), fn_withext, end='')
+                scorelog('> parse chunk ', str(chunknbr).zfill(3), fn_withext, end='')
                 blastrecords.extend(list(NCBIXML.parse(blasthndl)))
-                print(' done')
+                scorelog(' done')
         except IOError as ioe:
-            print('> miss chunk', chunknbr,  fn_withext, 'skip')
+            scorelog('> miss chunk', chunknbr,  fn_withext, 'skip')
 
-    # print(blastrecords)
+    # scorelog(blastrecords)
 
     for blastindex, blastrecord in enumerate(blastrecords):
 
@@ -273,7 +275,7 @@ def score(nbrofchunks, filename, genome, directory, chunk_size, load_genome=Fals
                         out, _ = context_lookup_process.communicate()
                         fstring = StringIO(out.decode())
                     except ApplicationError as err:
-                        print(str(err).split('message ')[1].strip('\''))
+                        scorelog(str(err).split('message ')[1].strip('\''))
                     pam = seqio.read(fstring, "fasta") # if len(fstring)>0 else None
                 if pam and not (hsp.frame[1] > 0):
                     pam = pam.reverse_complement()
@@ -338,9 +340,9 @@ def score(nbrofchunks, filename, genome, directory, chunk_size, load_genome=Fals
         guides[blastindex].annotations['blastindex'] = blastindex
 
         guides[blastindex].description += ' blastindex=%s score=%s' % (blastindex, finalscore)
-        # print(guides[blastindex].format('fasta'))
+        # scorelog(guides[blastindex].format('fasta'))
 
-        # print(guides[blastindex],
+        # scorelog(guides[blastindex],
         #       blastindex,guides[blastindex].
         #       annotations["blastindex"] ,
         #       guides[blastindex].annotations['score']
@@ -355,7 +357,7 @@ def score(nbrofchunks, filename, genome, directory, chunk_size, load_genome=Fals
         # scorelog(pam.seq)
 
 
-    print('\nCHECK ZERO-SCORED GUIDES')
+    scorelog('\nCHECK ZERO-SCORED GUIDES')
     # TODO guides not getting a score, how does this happen ? fix it better
     # kind of fix guides without a score
     for guide in guides:
@@ -365,15 +367,15 @@ def score(nbrofchunks, filename, genome, directory, chunk_size, load_genome=Fals
             # scorelog('guide %s does not have a score' % guide)
             guide.annotations['score'] = 0.0
 
-    # print("HERE ARE THE GUIDES: ")
-    # print([(guide.id, guide.seq, guide.annotations.get('score')) for guide in guides])
+    # scorelog("HERE ARE THE GUIDES: ")
+    # scorelog([(guide.id, guide.seq, guide.annotations.get('score')) for guide in guides])
 
-    print('\nSORT SCORED GUIDES BY POSITION')
+    scorelog('\nSORT SCORED GUIDES BY POSITION')
     # sort guides by position, using the seqrecord id
     # guides.sort(key=lambda x: int(x.id.split(':')[2].split('-')[0]))
     # guides.sort(key=get_position)
 
-    print('\nSAVE SORTED SCORED GUIDES')
+    scorelog('\nSAVE SORTED SCORED GUIDES')
     save_guides(guides, filename, directory, low, high)
 
     return guides

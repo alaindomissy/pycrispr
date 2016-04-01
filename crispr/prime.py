@@ -76,12 +76,12 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
     '''
     outputfilepath = directory + filename + '.amplificationprimers.csv'
     #
-    print("INITIALIZE AMPLIFICATIONPRINMERS.CSV FILE")
+    primelog("INITIALIZE AMPLIFICATIONPRINMERS.CSV FILE")
     initialize_primers_list_file(outputfilepath)
 
     # Work on a "masked" version of the sequence where lowercase letters are converted to Ns
     sequence_string = str(mask_sequence(ampl.permissible_region).seq)
-    # print("sequence_string:" , sequence_string)
+    # primelog("sequence_string:" , sequence_string)
 
     increment_bases = 4 # number of nucleotides by which priming window is expanded at each round
     expand = 0 # Number of nucleotides current attempt shifts priming window by
@@ -98,7 +98,7 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
     while is_bad and expand < expansion_limit:
         while primerdict["PRIMER_PAIR_NUM_RETURNED"] == 0 and expand < expansion_limit:
             expand = increment_bases * loopround
-            # print("expand:" , expand)
+            # primelog("expand:" , expand)
             primeableregionleft_start = 0 + expand
             primeableregionleft_length = ampl.required_start_relative # + expand  # TODO remove the expand ?
             primeableregionright_start = ampl.required_end_relative - expand
@@ -110,14 +110,14 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
                                                          primeableregionright_start,primeableregionright_length]],
                 }
             primer3_global_args["PRIMER_PRODUCT_OPT_SIZE"] = int(ampl.max_length)
-            # print("SEQUENCE_PRIMER_PAIR_OK_REGION_LIST:" , primer3_seq_args["SEQUENCE_PRIMER_PAIR_OK_REGION_LIST"])
+            # primelog("SEQUENCE_PRIMER_PAIR_OK_REGION_LIST:" , primer3_seq_args["SEQUENCE_PRIMER_PAIR_OK_REGION_LIST"])
             # Don't try priming if it's all Ns in the primeable region:
             # leftNs = sequence_string[primeableregionleft_start:primeableregionleft_start+primeableregionleft_length].
             # if
 
             ########################################################################
             primerdict = primer3.bindings.designPrimers(primer3_seq_args, primer3_global_args)
-            print("\nPRIMER DICT:", primerdict)
+            primelog("\nPRIMER DICT:", primerdict)
             # prirmerdict = {}
             ########################################################################
 
@@ -158,10 +158,10 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
 
                 if is_left_bad:
                     # None
-                    print("iteration" + str(i) + "left primer" + leftprimer + "is bad")
+                    primelog("iteration" + str(i) + "left primer" + leftprimer + "is bad")
                 if is_right_bad:
                     # None
-                    print("iteration" + str(i) + "right primer" + rightprimer + "is bad")
+                    primelog("iteration" + str(i) + "right primer" + rightprimer + "is bad")
                 if is_bad and i == primerdict["PRIMER_PAIR_NUM_RETURNED"]:
                     with open(outputfilepath, "a") as handle:
                         #############################################################
@@ -169,10 +169,10 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
                         #############################################################
 
             if method == "epcr":
-                #print(leftprimer, rightprimer)
+                #primelog(leftprimer, rightprimer)
                 ###########################################################################################
                 (is_bad, viableproducts) = epcr_screen_primers((leftprimer, rightprimer), genome, tm=tm)
-                # print(viableproducts)
+                # primelog(viableproducts)
                 ###########################################################################################
 
             j += 1
@@ -181,10 +181,10 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
             primerdict["PRIMER_PAIR_NUM_RETURNED"] = 0
         else:
             # good primer pair(no off-target amplification) is found, add it to the output tsv
-            # print("\nampl.permissible_region", ampl.permissible_region)
-            # print("leftprimer_start", leftprimer_start)
-            # print("rightprimer_start", rightprimer_start)
-            # print("rightprimer_length", rightprimer_length)
+            # primelog("\nampl.permissible_region", ampl.permissible_region)
+            # primelog("leftprimer_start", leftprimer_start)
+            # primelog("rightprimer_start", rightprimer_start)
+            # primelog("rightprimer_length", rightprimer_length)
             target = ampl.permissible_region.seq[int(leftprimer_start):int(rightprimer_start)+int(rightprimer_length)]
 
             product_nonoverlapping_guidecount = nonoverlapping_guidecount(target)
@@ -198,7 +198,7 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
                         str(product_nonoverlapping_guidecount)]
             with open(outputfilepath, "a") as handle:
                 #################################
-                print("tsv_list", tsv_list)
+                primelog("tsv_list", tsv_list)
                 handle.write("\t".join(tsv_list)  + "\n")
                 #################################
 
@@ -242,13 +242,15 @@ def prime(filename, directory, genome, threshold, method = "dumb", tm=40):
     #     ouputfilename = str("primerlist_" + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".tsv")
     # ouputfilename = filename + '.amplificationprimers.csv'
 
-    print('\nPRINT PRIMERS')
+    primelog('\n*******************************************************************')
+    primelog('PRIMERS')
+    primelog('*******************************************************************')
     # result = "\n".join([ "Amplicon %s :\n%s" % (index, ampl) for index, ampl in enumerate(amplicons_list)])
-    # print(result)
+    # primelog(result)
     # primer_search(amplicons_list[0], ouputfilename, method, tm)
 
     for i, ampl in enumerate(amplicons_list):
-        print("\nAmplicon %s :" % i)
+        primelog("\nAmplicon %s :" % i)
         primer_search(ampl, filename, directory, method, tm)
 
     # return result

@@ -115,8 +115,11 @@ def blast(filename, genome, directory, max_hsps, chunk_size):
     """
     filename = filename + '.prsp'
 
-    blastlog("\nBLAST PROTOSPACERS\n")
-    blastlog("\nload protospacers from", filename, end=' ')
+
+    blastlog('\n*******************************************************************')
+    blastlog("BLAST PROTOSPACERS")
+    blastlog('*******************************************************************')
+    blastlog("load protospacers from", filename, end=' ')
     seqs = list(seqio.parse(directory + filename + '.fasta', 'fasta'))
     blastlog('done')
     nbr_of_prsps = len(seqs)

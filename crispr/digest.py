@@ -140,7 +140,9 @@ def digest_coord(coord, genome='mm8', directory='./', restriction_enzymes=(u'Bfa
     bedt = Bedtuple.from_coord(coord)
     bedfile = directory + bedt.filename + '.bed'
 
-    digestlog('\nDIGEST GENOMIC INTERVAL', bedt.filename, '\n')
+    digestlog('\n*******************************************************************')
+    digestlog('DIGEST GENOMIC INTERVAL', bedt.filename)
+    digestlog('*******************************************************************')
 
     BedTool(bedt.bedlist).moveto(bedfile)
     digestlog("> save target as", bedfile)
