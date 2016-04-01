@@ -30,6 +30,7 @@ DIGEST_LOG_ON = False
 BLAST_LOG_ON = False
 SCORE_LOG_ON = False
 STRETCH_LOG_ON = False
+AMPLICON_LOG_ON = True
 PRIME_LOG_ON = True
 
 
@@ -47,6 +48,10 @@ def scorelog(*args, **kwargs):
 
 def stretchlog(*args, **kwargs):
     if STRETCH_LOG_ON:
+        print(*args, **kwargs)
+
+def ampliconlog(*args, **kwargs):
+    if AMPLICON_LOG_ON:
         print(*args, **kwargs)
 
 def primelog(*args, **kwargs):

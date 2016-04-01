@@ -55,7 +55,7 @@ def initialize_primers_list_file(outputfilepath):
     headers_string = headers_string + "\n"
 
     if not isfile(outputfilepath):
-        primelog("INITIALIZE AMPLIFICATIONPRINMERS.CSV FILE", outputfilepath)
+        primelog("\n> INITIALIZE AMPLIFICATIONPRINMERS.CSV FILE", outputfilepath)
         with open(outputfilepath, "w") as handle:
             handle.write(headers_string)
 
@@ -116,7 +116,7 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
 
             ########################################################################
             primerdict = primer3.bindings.designPrimers(primer3_seq_args, primer3_global_args)
-            primelog("\nPRIMER DICT:", primerdict)
+            # primelog("\nPRIMER DICT:", primerdict)
             # prirmerdict = {}
             ########################################################################
 
@@ -164,7 +164,7 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
                 if is_bad and i == primerdict["PRIMER_PAIR_NUM_RETURNED"]:
                     with open(outputfilepath, "a") as handle:
                         #############################################################
-                        primelog("APPENDING 'NO PRIMERS FOR YHIS AMPLICON' TO AMPLIFICATIONPRINMERS.CSV FILE", outputfilepath)
+                        primelog("\n> APPENDING 'NO PRIMERS FOR THIS AMPLICON' TO AMPLIFICATIONPRINMERS.CSV FILE", outputfilepath)
                         handle.write("All the primers were bad for this amplicon!\n")
                         #############################################################
 
@@ -199,7 +199,7 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
             with open(outputfilepath, "a") as handle:
                 #################################
                 primelog("tsv_list", tsv_list)
-                primelog("APPENDING GOOD PRIMERS TO AMPLIFICATIONPRINMERS.CSV FILE", outputfilepath)
+                primelog("\n> APPENDING GOOD PRIMERS TO AMPLIFICATIONPRINMERS.CSV FILE", outputfilepath)
                 handle.write("\t".join(tsv_list)  + "\n")
                 #################################
 
@@ -221,7 +221,7 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
                             "product_nonoverlapping_guidecount": product_nonoverlapping_guidecount
                             }
             ########################################
-            primelog("Primer added to output file.")
+            primelog("\n> Primer added to output file.")
             ########################################
 
 ###################

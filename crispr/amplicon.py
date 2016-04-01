@@ -12,6 +12,7 @@ from Bio import SeqIO as seqio
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from .score import get_position, is_forward
 from .stretch import run
+from .config import ampliconlog
 
 
 
@@ -155,12 +156,16 @@ def amplicon(filename, directory, genome, threshold=94):
     amplicons = [Amplicon(start_end[0],  start_end[1], guides_sorted, genome, substr_seqrec, substr_offset) for start_end in runs]
     # sorts by decreasing number of guides
     sorted_amplicons = sorted(amplicons, reverse=True, key=operator.attrgetter("guides_count"))
-    print('\nPRINT SORTED AMPLICONS\n')
-    for idx, ampl in enumerate(sorted_amplicons):
-        print("Amplicon", idx, ":")
-        print(ampl)
 
-    print('\nSAVE SORTED AMPLICONS')
+    ampliconlog('\n*******************************************************************')
+    ampliconlog('AMPLICONS')
+    ampliconlog('*******************************************************************')
+    
+    for idx, ampl in enumerate(sorted_amplicons):
+        ampliconlog("Amplicon", idx, ":")
+        ampliconlog(ampl)
+
+    ampliconlog('\nSAVE SORTED AMPLICONS')
     save_amplicons(amplicons, filename, directory)
 
     return sorted_amplicons
