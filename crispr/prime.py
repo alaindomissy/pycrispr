@@ -38,7 +38,7 @@ def mask_sequence(item):
     return masked_sequence
 
 
-def initialize_primers_list_file(filename):
+def initialize_primers_list_file(outputfilepath):
     """
     Initialize a file with headers if it doesn't exist
     """
@@ -54,8 +54,9 @@ def initialize_primers_list_file(filename):
 
     headers_string = headers_string + "\n"
 
-    if not isfile(filename):
-        with open(filename, "w") as handle:
+    if not isfile(outputfilepath):
+        primelog("INITIALIZE AMPLIFICATIONPRINMERS.CSV FILE", outputfilepath)
+        with open(outputfilepath, "w") as handle:
             handle.write(headers_string)
 
 
@@ -75,8 +76,6 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
     Primer parameters can be supplied with the primer3_global_args argument, or left as defaults.
     '''
     outputfilepath = directory + filename + '.amplificationprimers.csv'
-    #
-    primelog("INITIALIZE AMPLIFICATIONPRINMERS.CSV FILE")
     initialize_primers_list_file(outputfilepath)
 
     # Work on a "masked" version of the sequence where lowercase letters are converted to Ns
@@ -165,6 +164,7 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
                 if is_bad and i == primerdict["PRIMER_PAIR_NUM_RETURNED"]:
                     with open(outputfilepath, "a") as handle:
                         #############################################################
+                        primelog("APPENDING 'NO PRIMERS FOR YHIS AMPLICON' TO AMPLIFICATIONPRINMERS.CSV FILE", outputfilepath)
                         handle.write("All the primers were bad for this amplicon!\n")
                         #############################################################
 
@@ -199,6 +199,7 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
             with open(outputfilepath, "a") as handle:
                 #################################
                 primelog("tsv_list", tsv_list)
+                primelog("APPENDING GOOD PRIMERS TO AMPLIFICATIONPRINMERS.CSV FILE", outputfilepath)
                 handle.write("\t".join(tsv_list)  + "\n")
                 #################################
 
