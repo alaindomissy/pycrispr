@@ -155,7 +155,7 @@ def genomes_path(genome):
     :return:
     """
     # print("> load reference genome at", GENOMESPATHS[genome] + '.fasta')
-    print("> load reference genome at", GENOMESPATHS[genome])
+    # print("> load reference genome at", GENOMESPATHS[genome])
     # return GENOMES + genome + '/' + genome + '.fasta'
     return GENOMESPATHS[genome]
 

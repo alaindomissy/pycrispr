@@ -160,7 +160,7 @@ def amplicon(filename, directory, genome, threshold=94):
     ampliconlog('\n*******************************************************************')
     ampliconlog('AMPLICONS')
     ampliconlog('*******************************************************************')
-    
+
     for idx, ampl in enumerate(sorted_amplicons):
         ampliconlog("Amplicon", idx, ":")
         ampliconlog(ampl)

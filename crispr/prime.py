@@ -244,11 +244,15 @@ def prime(filename, directory, genome, threshold, method = "dumb", tm=40):
     # ouputfilename = filename + '.amplificationprimers.csv'
 
     primelog('\n*******************************************************************')
-    primelog('PRIMERS')
+    primelog('PRIMERS HI THERE')
     primelog('*******************************************************************')
     # result = "\n".join([ "Amplicon %s :\n%s" % (index, ampl) for index, ampl in enumerate(amplicons_list)])
     # primelog(result)
     # primer_search(amplicons_list[0], ouputfilename, method, tm)
+
+
+    primelog('amplicons_list')
+    primelog('amplicons_list', amplicons_list)
 
     for i, ampl in enumerate(amplicons_list):
         primelog("\nAmplicon %s :" % i)
