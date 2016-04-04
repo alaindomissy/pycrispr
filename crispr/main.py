@@ -78,7 +78,7 @@ def amplicon_coord(coord, directory, genome, threshold):
     """
     return amplicon(filename_from_coord(coord), directory, genome, threshold)
 
-def prime_coord(coord, directory, genome, high):
+def prime_coord(coord, directory, genome, high, method, tm):
     """
     Prerequisite is to have digested coord, therby created the corresponding file
     :param guides:
@@ -87,7 +87,7 @@ def prime_coord(coord, directory, genome, high):
     :param high:
     :return:
     """
-    return prime(filename_from_coord(coord), directory, genome, high)
+    return prime(filename_from_coord(coord), directory, genome, high, method, tm)
 
 
 # def digest_blast_score_cluster_prime_coord(coord, genome, directory, max_hsps, chunk_size, high):
@@ -111,9 +111,11 @@ def prime_coord(coord, directory, genome, high):
 # genome    same, used when (correctly) blasting agaist whole geome
 #
 
-def digest_blast_score_cluster_prime(coord, genome, directory, max_hsps, chunk_size,
-                                     low=75, high=94, load_genome=False, howmany=0,
-                                     restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII')):
+def digest_blast_score_cluster_prime(coord, genome, directory,
+                                     max_hsps, chunk_size, low=75, high=94,
+                                     load_genome=False, howmany=0,
+                                     restriction_enzymes=(u'BfaI', u'ScrFI', u'HpaII'),
+                                     method = "dumb", tm=40):
 
     filename = digest_coord(coord, genome, directory, restriction_enzymes)
     print("filename : " , filename)
@@ -128,6 +130,6 @@ def digest_blast_score_cluster_prime(coord, genome, directory, max_hsps, chunk_s
     #
     # amplicons = amplicon_coord(coord, directory, genome, high)      # TODO de-hardcode substrate
     #
-    prime_coord(coord, directory, genome, high)
+    prime_coord(coord, directory, genome, high, method, tm)
 
     return guides, stretches  #, amplicons

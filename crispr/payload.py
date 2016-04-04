@@ -34,20 +34,20 @@ ARGUMENTS_WITH_ITEMS = ['input.restr_enzymes', 'input.checkbox_logging']
 
 def payload(params_value, output_dir):
 
-    params_value = params_value or dict(
-        {'input.samples': [],
-          u'input.primer_screening': u'dumb',
-          'input.projects': [{'href': u'v1pre3/projects/29085057', 'id': u'29085057', 'name': u'crispr-ecoli'}],
-          u'input.restr_enzymes': [u'BfaI', u'ScrFI', u'HpaII'],
-          u'input.checkbox_logging': [u'stretch_log_on', u'prime_log_on'],
-          'output.projects': [{'href': u'v1pre3/projects/29085057', 'id': u'29085057', 'name': u'crispr-ecoli'}],
-          u'input.refgenome_id': u'ecoli',
-          u'input.genomic_coord': u'chr:102000-106999',
-          u'input.high_threshold': u'99',
-          u'input.low_threshold': u'75'
-        })
-
-    output_dir = output_dir or '/data/'
+    # params_value = params_value or dict(
+    #     {'input.samples': [],
+    #       u'input.primer_screening': u'dumb',
+    #       'input.projects': [{'href': u'v1pre3/projects/29085057', 'id': u'29085057', 'name': u'crispr-ecoli'}],
+    #       u'input.restr_enzymes': [u'BfaI', u'ScrFI', u'HpaII'],
+    #       u'input.checkbox_logging': [u'stretch_log_on', u'prime_log_on'],
+    #       'output.projects': [{'href': u'v1pre3/projects/29085057', 'id': u'29085057', 'name': u'crispr-ecoli'}],
+    #       u'input.refgenome_id': u'ecoli',
+    #       u'input.genomic_coord': u'chr:102000-106999',
+    #       u'input.high_threshold': u'99',
+    #       u'input.low_threshold': u'75'
+    #     })
+    #
+    # output_dir = output_dir or '/data/'
 
     print('params_value', params_value)
     print('output_dir', output_dir)
@@ -62,6 +62,8 @@ def payload(params_value, output_dir):
     # interference_gap = str(params_value['input.interference_gap'])
     # primer_screening = params_value['input.primer_screening']
 
+    method = "dumb"
+    tm = 40
 
     restriction_enzymes =  params_value['input.restr_enzymes']
 
@@ -78,7 +80,8 @@ def payload(params_value, output_dir):
     digest_blast_score_cluster_prime(coord, genome, SCRATCH,
                                      max_hsps, chunk_size, low_threshold, high_threshold,
                                      load_genome=False, howmany=None,
-                                     restriction_enzymes=restriction_enzymes)
+                                     restriction_enzymes=restriction_enzymes,
+                                     method=method, tm=tm)
     datetimenow = datetime.now().isoformat('_')
     # sessiondetails_dir = output_dir + '../sessiondetails/'
     sessiondetails_dir = output_dir + '../sessiondetails_' + datetimenow + '/'
