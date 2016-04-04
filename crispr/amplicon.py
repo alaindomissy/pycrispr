@@ -131,7 +131,7 @@ class Amplicon:
 # MAIN API FUNCTION
 ###################
 
-def amplicon(filename, directory, genome, threshold=94):
+def amplicon(filename, directory, genome, threshold):
     """
     Takes a directory and filename
     from which to pickle load a list of potential guides complete with scores
@@ -146,7 +146,6 @@ def amplicon(filename, directory, genome, threshold=94):
     :return:a list of Amplicon instances, sorted by decreasing number of guides
     """
     guides_sorted, runs  = run(filename, directory, threshold)
-
 
     with open(directory + filename + '.fasta') as fasta_input:
         substr_seqrec = list(seqio.parse(fasta_input, 'fasta'))[0]
@@ -166,6 +165,6 @@ def amplicon(filename, directory, genome, threshold=94):
         ampliconlog(ampl)
 
     ampliconlog('\nSAVE SORTED AMPLICONS')
-    save_amplicons(amplicons, filename, directory)
+    save_amplicons(sorted_amplicons, filename, directory)
 
     return sorted_amplicons
