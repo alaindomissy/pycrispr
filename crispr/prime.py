@@ -237,7 +237,7 @@ def prime(filename, directory, genome, threshold, method="dumb", tm=40):
     :param tm:
     :return:
     """
-    amplicons_list = amplicon(filename + '.again', directory, genome, threshold)
+    amplicons_list = amplicon(filename, directory, genome, threshold)
 
     # if ouputfilename == "datetime":
     #     ouputfilename = str("primerlist_" + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".tsv")
