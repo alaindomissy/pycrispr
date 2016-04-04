@@ -146,6 +146,10 @@ def amplicon(filename, directory, genome, threshold):
     :return:a list of Amplicon instances, sorted by decreasing number of guides
     """
     guides_sorted, runs  = run(filename, directory, threshold)
+    print("len(guides_sorted)", len(guides_sorted))
+    print("guides_sorted", guides_sorted)
+    print("len(runs)", len(runs))
+    print("runs", runs)
 
     with open(directory + filename + '.fasta') as fasta_input:
         substr_seqrec = list(seqio.parse(fasta_input, 'fasta'))[0]
@@ -153,13 +157,17 @@ def amplicon(filename, directory, genome, threshold):
     substr_offset =  int(filename.split('_')[1].split('-')[0])
 
     amplicons = [Amplicon(start_end[0],  start_end[1], guides_sorted, genome, substr_seqrec, substr_offset) for start_end in runs]
+    print("len(amplicons)", len(amplicons))
+    print("amplicons", amplicons)
+
     # sorts by decreasing number of guides
     sorted_amplicons = sorted(amplicons, reverse=True, key=operator.attrgetter("guides_count"))
+    print("len(sorted_amplicons)", len(sorted_amplicons))
+    print("sorted_amplicons", sorted_amplicons)
 
     ampliconlog('\n*******************************************************************')
     ampliconlog('AMPLICONS')
     ampliconlog('*******************************************************************')
-
     for idx, ampl in enumerate(sorted_amplicons):
         ampliconlog("Amplicon", idx, ":")
         ampliconlog(ampl)
