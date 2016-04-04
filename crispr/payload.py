@@ -22,7 +22,8 @@ ARGUMENTS_WITH_CONTENT = [
                             'input.genomic_coord',
                             'input.low_threshold',
                             'input.high_threshold',
-                            'input.primer_screening'
+                            'input.primer_screening_method',
+                            'input.tm'
                          ]
 
 ARGUMENTS_WITH_ITEMS = ['input.restr_enzymes', 'input.checkbox_logging']
@@ -62,8 +63,10 @@ def payload(params_value, output_dir):
     # interference_gap = str(params_value['input.interference_gap'])
     # primer_screening = params_value['input.primer_screening']
 
-    method = "dumb"
+    primer_screening_method = "dumb"
+    # primer_screening_method =
     tm = 40
+    tm = params_value['input.tm']   #40
 
     restriction_enzymes =  params_value['input.restr_enzymes']
 
@@ -81,7 +84,7 @@ def payload(params_value, output_dir):
                                      max_hsps, chunk_size, low_threshold, high_threshold,
                                      load_genome=False, howmany=None,
                                      restriction_enzymes=restriction_enzymes,
-                                     method=method, tm=tm)
+                                     method=primer_screening_method, tm=tm)
     datetimenow = datetime.now().isoformat('_')
     # sessiondetails_dir = output_dir + '../sessiondetails/'
     sessiondetails_dir = output_dir + '../sessiondetails_' + datetimenow + '/'
