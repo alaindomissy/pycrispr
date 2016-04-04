@@ -224,11 +224,17 @@ def run(filename, directory, threshold=94):
     which if PCR-amplified as sub-regions,will generate a set of highly-specific sgRNAs.
     """
     guides = load_guides(filename, directory)
+    print("len(guides)", len(guides))
+    print("guides", guides)
+
     starts=[]
     ends=[]
     prev_item_good = False
     for index, guide in enumerate(guides):
+
         this_item_good = guide.annotations["score"] >= threshold and len(guide) > 19
+        print("index", index, "guide", guide, "this_item_good", this_item_good)
+
         # starting a new good guides strech
         if not prev_item_good and this_item_good:
             # store as a run start the index of the first good guide in the stretch
@@ -239,8 +245,11 @@ def run(filename, directory, threshold=94):
             # store as a run end the index of the first bad guide after the stretch
             ends.append(index)
             prev_item_good = False
+
     # only retain stretches that include at least 3 good guides
     # TODO why this criteria of at least 3 good guides ?
+
+    print("zip(starts, ends)", zip(starts, ends))
     runs = [(start, end) for (start, end) in zip(starts, ends) if end - start > 3]
 
     # stretchlog('\nPRINT GUIDES')
@@ -249,6 +258,8 @@ def run(filename, directory, threshold=94):
 
     stretchlog('\nPRINT RUNS')
     stretchlog(runs)
+    print("len(runs)", len(runs))
+    print("runs", runs)
 
     return guides, runs
 
