@@ -252,7 +252,7 @@ def run(filename, directory, threshold=94):
     # only retain stretches that include at least 3 good guides
     # TODO why this criteria of at least 3 good guides ?
 
-    print("zip(starts, ends)", zip(starts, ends))
+    stretchlog("zip(starts, ends)", zip(starts, ends))
     runs = [(start, end) for (start, end) in zip(starts, ends) if end - start > 3]
 
     # stretchlog('\nPRINT GUIDES')

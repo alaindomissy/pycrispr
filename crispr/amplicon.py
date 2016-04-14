@@ -27,7 +27,7 @@ def save_amplicons(amplicons, filename, directory):
     :param directory:
     :return:
     """
-    with  open(directory + filename + ".amplicons.pkl", "w") as output_pkl:
+    with open(directory + filename + ".amplicons.pkl", "w") as output_pkl:
         pickle.dump(amplicons, output_pkl)
     return amplicons
 
@@ -166,8 +166,8 @@ def amplicon1(filename, directory, genome, threshold):
 
     # sorts by decreasing number of guides
     sorted_amplicons = sorted(amplicons, reverse=True, key=operator.attrgetter("guides_count"))
-    # print("len(sorted_amplicons)", len(sorted_amplicons))
-    # print("sorted_amplicons", sorted_amplicons)
+    ampliconlog("len(sorted_amplicons)", len(sorted_amplicons))
+    ampliconlog("sorted_amplicons", sorted_amplicons)
 
     ampliconlog('\n*******************************************************************')
     ampliconlog('AMPLICONS')
