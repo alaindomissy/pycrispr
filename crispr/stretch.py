@@ -205,7 +205,7 @@ def stretch(filename, directory, low=75, high=94, howmanythreshold=0):
     return guides, stretches
 
 
-def run(filename, directory, threshold=94):
+def run(theguides, filename, directory, threshold=94):
     """
     given a directory and filename, pickle-loads a list of guides in a region.
     This list must be: SeqRecord objects with :
@@ -224,7 +224,9 @@ def run(filename, directory, threshold=94):
     which if PCR-amplified as sub-regions,will generate a set of highly-specific sgRNAs.
     """
 
-    guides = load_guides(filename, directory)
+    # guides = load_guides(filename, directory)
+    guides = theguides
+
     stretchlog('\nPRINT GUIDES from stretch')
     stretchlog("============")
     stretchlog("len(guides)", len(guides))

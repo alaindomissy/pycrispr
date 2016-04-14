@@ -131,7 +131,7 @@ class Amplicon:
 # MAIN API FUNCTION
 ###################
 
-def amplicon1(filename, directory, genome, threshold):
+def amplicon1(theguides, filename, directory, genome, threshold):
     """
     Takes a directory and filename
     from which to pickle load a list of potential guides complete with scores
@@ -146,7 +146,7 @@ def amplicon1(filename, directory, genome, threshold):
     :return:a list of Amplicon instances, sorted by decreasing number of guides
     """
 
-    guides_sorted, runs  = run(filename, directory, threshold)
+    guides_sorted, runs  = run(theguides, filename, directory, threshold)
 
 
     ampliconlog('\nPRINT GUIDES SORTED AND RUNS from amplicon')
