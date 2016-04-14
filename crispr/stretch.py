@@ -230,7 +230,7 @@ def run(theguides, filename, directory, threshold=94):
     stretchlog('\nPRINT GUIDES from stretch')
     stretchlog("============")
     stretchlog("len(guides)", len(guides))
-    stretchlog("guides", guides)
+    # stretchlog("guides", guides)
 
     starts=[]
     ends=[]
