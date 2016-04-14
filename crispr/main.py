@@ -78,7 +78,7 @@ def amplicon_coord(coord, directory, genome, threshold):
     """
     return amplicon1(filename_from_coord(coord), directory, genome, threshold)
 
-def prime_coord(coord, directory, genome, high, method, tm, theguides):
+def prime_coord(theguides, coord, directory, genome, high, method, tm):
     """
     Prerequisite is to have digested coord, therby created the corresponding file
     :param guides:
@@ -87,7 +87,7 @@ def prime_coord(coord, directory, genome, high, method, tm, theguides):
     :param high:
     :return:
     """
-    return prime(filename_from_coord(coord), directory, genome, high, method, tm, theguides)
+    return prime(theguides, filename_from_coord(coord), directory, genome, high, method, tm)
 
 
 # def digest_blast_score_cluster_prime_coord(coord, genome, directory, max_hsps, chunk_size, high):
