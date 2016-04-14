@@ -237,7 +237,8 @@ def run(theguides, filename, directory, threshold=94):
     prev_item_good = False
     for index, guide in enumerate(guides):
 
-        this_item_good = guide.annotations["score"] >= threshold and len(guide) > 19
+        # this_item_good = guide.annotations["score"] >= threshold and len(guide) > 19
+        this_item_good =  len(guide) > 19
         # this_item_good = True
         stretchlog("index", index,
                    # "\nguide\n", guide,
