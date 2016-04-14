@@ -12,7 +12,7 @@ from os.path import isfile
 from Bio.Seq import Seq
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
 from .config import PRIMER3_GLOBAL_ARGS
-from .amplicon import amplicon
+from .amplicon import amplicon1
 from .pcr import epcr_screen_primers, dumb_screen_primer
 from .digest import nonoverlapping_guidecount
 from .score import get_position
@@ -242,7 +242,7 @@ def prime(filename, directory, genome, high, method="dumb", tm=40):
     primelog('PRIMERS A')
     primelog('*******************************************************************')
 
-    amplicons_list = amplicon(filename, directory, genome, high)
+    amplicons_list = amplicon1(filename, directory, genome, high)
 
     # if ouputfilename == "datetime":
     #     ouputfilename = str("primerlist_" + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".tsv")
