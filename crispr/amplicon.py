@@ -149,7 +149,7 @@ def amplicon1(filename, directory, genome, threshold):
     guides_sorted, runs  = run(filename, directory, threshold)
 
 
-    ampliconlog('\nPRINT RUIDES SORTED AND RUNS from amplicon')
+    ampliconlog('\nPRINT GUIDES SORTED AND RUNS from amplicon')
     ampliconlog("=============================================")
     ampliconlog("len(guides_sorted)", len(guides_sorted))
     ampliconlog("guides_sorted", guides_sorted)
@@ -162,11 +162,17 @@ def amplicon1(filename, directory, genome, threshold):
     substr_offset =  int(filename.split('_')[1].split('-')[0])
 
     amplicons = [Amplicon(start_end[0],  start_end[1], guides_sorted, genome, substr_seqrec, substr_offset) for start_end in runs]
-    # print("len(amplicons)", len(amplicons))
-    # print("amplicons", amplicons)
+
+    ampliconlog('\nPRINT AMPLICONS from amplicon')
+    ampliconlog("=================================")
+    ampliconlog("len(amplicons)", len(amplicons))
+    ampliconlog("amplicons", amplicons)
 
     # sorts by decreasing number of guides
     sorted_amplicons = sorted(amplicons, reverse=True, key=operator.attrgetter("guides_count"))
+
+    ampliconlog('\nPRINT SORTED AMPLICONS from amplicon')
+    ampliconlog("=================================")
     ampliconlog("len(sorted_amplicons)", len(sorted_amplicons))
     ampliconlog("sorted_amplicons", sorted_amplicons)
 
