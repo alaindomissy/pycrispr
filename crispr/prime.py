@@ -244,7 +244,7 @@ def prime(filename, directory, genome, high, method="dumb", tm=40):
     # ouputfilename = filename + '.amplificationprimers.csv'
 
     primelog('\n*******************************************************************')
-    primelog('PRIMERS')
+    primelog('PRIMERS B')
     primelog('*******************************************************************')
     # result = "\n".join([ "Amplicon %s :\n%s" % (index, ampl) for index, ampl in enumerate(amplicons_list)])
     # primelog(result)
