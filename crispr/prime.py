@@ -229,7 +229,7 @@ def primer_search(ampl, filename, directory, method="dumb", tm=40, primer3_globa
 ###################
 # def prime(amplicon_list, ouputfilename = "datetime", method = "dumb", tm=40):
 
-def prime(filename, directory, genome, threshold, method="dumb", tm=40):
+def prime(filename, directory, genome, high, method="dumb", tm=40):
     """
     Design good (specific) primer pairs to pcr ampify a given list of amplicons
     :param ouputfilename:
@@ -237,7 +237,7 @@ def prime(filename, directory, genome, threshold, method="dumb", tm=40):
     :param tm:
     :return:
     """
-    amplicons_list = amplicon(filename, directory, genome, threshold)
+    amplicons_list = amplicon(filename, directory, genome, high)
 
     # if ouputfilename == "datetime":
     #     ouputfilename = str("primerlist_" + time.strftime("%Y%m%d-%H%M%S", time.localtime()) + ".tsv")

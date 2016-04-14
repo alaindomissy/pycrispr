@@ -172,8 +172,8 @@ def amplicon(filename, directory, genome, threshold):
         ampliconlog("Amplicon", idx, ":")
         ampliconlog(ampl)
 
-    ampliconlog('\nSAVE SORTED AMPLICONS')
-    ampliconlog('\n======================')
+    ampliconlog('SAVE SORTED AMPLICONS')
+    ampliconlog('---------------------')
     save_amplicons(sorted_amplicons, filename, directory)
 
     return sorted_amplicons
