@@ -223,9 +223,12 @@ def run(filename, directory, threshold=94):
     runs: list of (start, end) indexes within guides_sorted list, of high-scoring guides
     which if PCR-amplified as sub-regions,will generate a set of highly-specific sgRNAs.
     """
+
     guides = load_guides(filename, directory)
-    print("len(guides)", len(guides))
-    print("guides", guides)
+    stretchlog('\nPRINT GUIDES from stretch')
+    stretchlog("============")
+    stretchlog("len(guides)", len(guides))
+    stretchlog("guides", guides)
 
     starts=[]
     ends=[]
@@ -233,7 +236,7 @@ def run(filename, directory, threshold=94):
     for index, guide in enumerate(guides):
 
         this_item_good = guide.annotations["score"] >= threshold and len(guide) > 19
-        print("\n\n===\nindex", index, "guide", guide, "this_item_good", this_item_good)
+        stretchlog("\n\n===\nindex", index, "\nguide\n", guide, "\nthis_item_good", this_item_good)
 
         # starting a new good guides strech
         if not prev_item_good and this_item_good:
@@ -256,10 +259,10 @@ def run(filename, directory, threshold=94):
     # for idx, guide in enumerate(guides):
     #     stretchlog(idx, guide.id, get_score(guide), "GOOD" if get_score(guide) >= threshold else "BAD")
 
-    stretchlog('\nPRINT RUNS')
-    stretchlog(runs)
-    print("len(runs)", len(runs))
-    print("runs", runs)
+    stretchlog('\nPRINT RUNS from stretch')
+    stretchlog("============")
+    stretchlog("len(runs)", len(runs))
+    stretchlog("runs", runs)
 
     return guides, runs
 

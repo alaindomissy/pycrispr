@@ -149,8 +149,11 @@ def amplicon1(filename, directory, genome, threshold):
     guides_sorted, runs  = run(filename, directory, threshold)
     # print("len(guides_sorted)", len(guides_sorted))
     # print("guides_sorted", guides_sorted)
-    print("len(runs)", len(runs))
-    print("runs", runs)
+
+    ampliconlog('\nPRINT RUNS from amplicon')
+    ampliconlog("============")
+    ampliconlog("len(runs)", len(runs))
+    ampliconlog("runs", runs)
 
     with open(directory + filename + '.fasta') as fasta_input:
         substr_seqrec = list(seqio.parse(fasta_input, 'fasta'))[0]
