@@ -250,8 +250,7 @@ def prime(filename, directory, genome, high, method="dumb", tm=40):
     # primelog(result)
     # primer_search(amplicons_list[0], ouputfilename, method, tm)
 
-    primelog('amplicons_list')
-    primelog('amplicons_list', amplicons_list)
+    primelog('amplicons_list : ', amplicons_list)
 
     for i, ampl in enumerate(amplicons_list):
         primelog("\nAmplicon %s :" % i)

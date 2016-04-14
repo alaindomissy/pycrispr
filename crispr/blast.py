@@ -84,7 +84,7 @@ def blast1(prspfilename, genome, directory, max_hsps):
         print('*********')
         #print(err.args)
         return True
-    print("...done")
+    blastlog("...done")
     return False
 
 
