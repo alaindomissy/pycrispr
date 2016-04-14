@@ -233,7 +233,7 @@ def run(filename, directory, threshold=94):
     for index, guide in enumerate(guides):
 
         this_item_good = guide.annotations["score"] >= threshold and len(guide) > 19
-        print("index", index, "guide", guide, "this_item_good", this_item_good)
+        print("\n\n===\nindex", index, "guide", guide, "this_item_good", this_item_good)
 
         # starting a new good guides strech
         if not prev_item_good and this_item_good:

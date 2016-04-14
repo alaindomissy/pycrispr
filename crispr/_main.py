@@ -57,4 +57,7 @@ digest_blast_score_cluster_prime(args.coord, args.genome, './', args.max_hsps, a
 
 """
 $ python -m crispr._main chr:101001-109000 ecoli 10 10 75 94
+
+$ python -m crispr._main chr:102000-106999 ecoli 10 10 75 94
+
 """
