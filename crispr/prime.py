@@ -258,3 +258,4 @@ def prime(filename, directory, genome, high, method="dumb", tm=40):
         primer_search(ampl, filename, directory, method, tm)
 
     # return result
+    return amplicons_list
