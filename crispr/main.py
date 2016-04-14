@@ -13,7 +13,7 @@ from .digest import digest_coord
 from .blast import blast
 from .score import score
 from .stretch import stretch, run
-from .amplicon import amplicon
+from .amplicon import amplicon1
 from .prime import prime
 
 
@@ -76,7 +76,7 @@ def amplicon_coord(coord, directory, genome, threshold):
     :param high:
     :return:
     """
-    return amplicon(filename_from_coord(coord), directory, genome, threshold)
+    return amplicon1(filename_from_coord(coord), directory, genome, threshold)
 
 def prime_coord(coord, directory, genome, high, method, tm):
     """
