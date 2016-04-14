@@ -237,6 +237,11 @@ def prime(filename, directory, genome, high, method="dumb", tm=40):
     :param tm:
     :return:
     """
+
+    primelog('\n*******************************************************************')
+    primelog('PRIMERS A')
+    primelog('*******************************************************************')
+
     amplicons_list = amplicon(filename, directory, genome, high)
 
     # if ouputfilename == "datetime":
