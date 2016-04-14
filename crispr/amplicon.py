@@ -147,11 +147,12 @@ def amplicon1(filename, directory, genome, threshold):
     """
 
     guides_sorted, runs  = run(filename, directory, threshold)
-    # print("len(guides_sorted)", len(guides_sorted))
-    # print("guides_sorted", guides_sorted)
 
-    ampliconlog('\nPRINT RUNS from amplicon')
-    ampliconlog("============")
+
+    ampliconlog('\nPRINT RUIDES SORTED AND RUNS from amplicon')
+    ampliconlog("=============================================")
+    ampliconlog("len(guides_sorted)", len(guides_sorted))
+    ampliconlog("guides_sorted", guides_sorted)
     ampliconlog("len(runs)", len(runs))
     ampliconlog("runs", runs)
 
